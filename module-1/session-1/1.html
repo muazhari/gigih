@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+</head>
+
+<body>
+    <form id="form">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" oninput="validateEmail()">
+        <br>
+        <span id="emailError"></span>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" oninput="validatePassword()">
+        <br>
+        <span id="passwordError"></span>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+<script>
+    const form = document.getElementById("form");
+    form.addEventListener("submit", handleOnSubmit);
+
+    function handleOnSubmit(event) {
+        if (!validateEmail()) {
+            alert("Please enter a valid email address.");
+        } else if (!validatePassword()) {
+            alert("Please enter a valid password.");
+        } else {
+            alert("Ok.");
+        }
+
+        event.preventDefault()
+    }
+
+    function validateEmail() {
+        const email = document.getElementById("email").value;
+
+        const regex = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+/;
+        const validation = regex.test(email)
+
+        if (!validation) {
+            document.getElementById("emailError").innerHTML = "Please enter a valid email address.";
+            document.getElementById("emailError").style.color = "red";
+        } else {
+            document.getElementById("emailError").innerHTML = "";
+        }
+
+        return validation;
+    }
+
+    function validatePassword() {
+        const password = document.getElementById("password").value;
+        const validation = password.length >= 6;
+
+        if (!validation) {
+            document.getElementById("passwordError").innerHTML = "Password must be at least 6 characters long.";
+            document.getElementById("passwordError").style.color = "red";
+        } else {
+            document.getElementById("passwordError").innerHTML = "";
+        }
+
+        return validation;
+    }
+</script>
+
+
+</html>
