@@ -26,9 +26,26 @@ const data = [
     new Song("title2", [new Artist("name3"), new Artist("name4")], 2),
 ];
 
+function randomTrue() {
+    // generate a random number between 0 and 1
+    let randomNumber = Math.random();
+    console.log(randomNumber);
+    // if the random number is less than 0.2, return true
+    if (randomNumber < 0.2) {
+        return true;
+    }
+    // otherwise, return false
+    else {
+        return false;
+    }
+}
+
+
+// simulate i/o task
 const dataPromise = new Promise((resolve, reject) => {
     try {
-        setTimeout(() => resolve(data), 2000)
+        if (randomTrue()) reject("20% chance will failed.");
+        else setTimeout(() => resolve(data), 2000);
     } catch (error) {
         reject(error)
     }
@@ -37,8 +54,8 @@ const dataPromise = new Promise((resolve, reject) => {
 async function runner() {
     // async
     dataPromise
-        .then((response) => {
-            console.log(response);
+        .then((result) => {
+            console.log(result);
         })
         .catch((error) => {
             console.log(error);
@@ -46,14 +63,13 @@ async function runner() {
 
 
     // sync
-    console.log(await dataPromise);
+    try {
+        console.log(await dataPromise);
+    }
+    catch (error) {
+        console.log(error)
+    }
 }
 
 
 runner();
-
-const f2 = (...x) => {
-    console.log(x);
-}
-
-f2(1,2,3,4)
