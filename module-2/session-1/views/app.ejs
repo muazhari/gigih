@@ -1,0 +1,47 @@
+<!-- create calculator html interface -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+
+<body>
+    <form id="form" method="post">
+        <input id="input" type="text" name="numbers" placeholder="Enter numbers splitted by a comma">
+        <select id="select" name="operator">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+        </select>
+        <button type="submit" value="submit">Calculate</button>
+    </form>
+</body>
+<script>
+    document.getElementById('form').addEventListener('submit', handleSubmit);
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        const data = {
+            numbers: document.getElementById('input').value.split(',').map(Number),
+            operator: document.getElementById('select').value
+        }
+
+        fetch('/calculate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => alert("Result: " + data))
+            .catch((error) => console.error('Error:', error));
+    }
+</script>
+
+</html>
