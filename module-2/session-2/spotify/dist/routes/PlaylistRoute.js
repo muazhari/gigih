@@ -9,11 +9,12 @@ const router = express_1.default.Router();
 const playlistController = new PlaylistController_1.default();
 // Add song to playlist
 router.post("/:playlistId/songs", (req, res) => {
+    // console.log(req.body)
     const playlistId = req.params.playlistId;
     const songIds = req.body.songIds;
     const playlist = playlistController.addSongsToPlaylist(playlistId, songIds);
     if (playlist) {
-        res.status(200).json(playlist);
+        res.status(200).end();
     }
     else {
         res.status(404).json({ message: `Playlist with playlistId ${playlistId} not found.` });
@@ -28,7 +29,7 @@ router.get("/:playlistId/songs/:songId", (req, res) => {
         res.status(200).json(song);
     }
     else {
-        res.status(404).json({ message: `Playlist with playlistId ${playlistId} not found.` });
+        res.status(404).json({ message: `Playlist with playlistId ${playlistId} or songId ${songId} not found.` });
     }
 });
 // Get list of songs from playlist

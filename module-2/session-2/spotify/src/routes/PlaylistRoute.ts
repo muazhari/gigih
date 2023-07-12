@@ -11,13 +11,14 @@ const playlistController: PlaylistController = new PlaylistController();
 
 // Add song to playlist
 router.post("/:playlistId/songs", (req, res) => {
+    // console.log(req.body)
     const playlistId: string = req.params.playlistId;
     const songIds: string[] = req.body.songIds;
 
     const playlist: Playlist | undefined = playlistController.addSongsToPlaylist(playlistId, songIds);
 
     if (playlist) {
-        res.status(200).json(playlist);
+        res.status(200).end();
     } else {
         res.status(404).json({ message: `Playlist with playlistId ${playlistId} not found.` });
     }
@@ -34,7 +35,7 @@ router.get("/:playlistId/songs/:songId", (req, res) => {
     if (song) {
         res.status(200).json(song);
     } else {
-        res.status(404).json({ message: `Playlist with playlistId ${playlistId} not found.` });
+        res.status(404).json({ message: `Playlist with playlistId ${playlistId} or songId ${songId} not found.` });
     }
 });
 
