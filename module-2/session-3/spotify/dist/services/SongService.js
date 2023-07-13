@@ -46,7 +46,7 @@ class SongService {
                 const playCount = foundPlaylistSongs === null || foundPlaylistSongs === void 0 ? void 0 : foundPlaylistSongs.filter(playlistSong => playlistSong.songId === song.id).reduce((acc, curr) => { var _a; return acc + ((_a = curr.playCount) !== null && _a !== void 0 ? _a : 0); }, 0);
                 return Object.assign(Object.assign({}, song), { playCount });
             }).sort((a, b) => b.playCount - a.playCount).map(song => new Song_1.default(song.id, song.title, song.artistIds, song.url));
-            return new Result_1.default(200, 'Song read all sorted by play count succeed.', songsSortedDescendingByPlayCount);
+            return new Result_1.default(200, 'Song read all sorted descend by play count succeed.', songsSortedDescendingByPlayCount);
         };
     }
 }

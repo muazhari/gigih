@@ -94,7 +94,7 @@ export default class SongService {
 
     return new Result<Song[] | undefined>(
       200,
-      'Song read all sorted by play count succeed.',
+      'Song read all sorted descend by play count succeed.',
       songsSortedDescendingByPlayCount
     )
   }
