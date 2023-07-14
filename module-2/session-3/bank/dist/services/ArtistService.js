@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ArtistRepository_1 = __importDefault(require("../repositories/ArtistRepository"));
+const CustomerRepository_1 = __importDefault(require("../repositories/CustomerRepository"));
 const Result_1 = __importDefault(require("../models/Result"));
 class ArtistService {
     constructor() {
-        this.artistRepository = new ArtistRepository_1.default();
+        this.artistRepository = new CustomerRepository_1.default();
         this.readAll = () => {
             const foundArtists = this.artistRepository.readAll();
             return new Result_1.default(200, 'Customer read all succeed.', foundArtists);

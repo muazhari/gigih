@@ -9,7 +9,7 @@ export default class ArtistService {
     const foundArtists: Artist[] = this.artistRepository.readAll()
     return new Result<Artist[]>(
       200,
-      'Artist read all succeed.',
+      'Customer read all succeed.',
       foundArtists
     )
   }
@@ -27,7 +27,7 @@ export default class ArtistService {
 
     return new Result<Artist | undefined>(
       200,
-      'Artist read one by id succeed.',
+      'Customer read one by id succeed.',
       foundArtist
     )
   }
@@ -35,7 +35,7 @@ export default class ArtistService {
   createOne = (item: any): Result<Artist> => {
     return new Result<Artist>(
       201,
-      'Artist create one succeed.',
+      'Customer create one succeed.',
       this.artistRepository.createOne(item)
     )
   }
@@ -53,7 +53,7 @@ export default class ArtistService {
 
     return new Result<Artist | undefined>(
       200,
-      'Artist patch one by id succeed.',
+      'Customer patch one by id succeed.',
       patchedArtist
     )
   }
@@ -71,7 +71,7 @@ export default class ArtistService {
 
     return new Result<Artist | undefined>(
       200,
-      'Artist delete one by id succeed.',
+      'Customer delete one by id succeed.',
       deletedArtist
     )
   }
