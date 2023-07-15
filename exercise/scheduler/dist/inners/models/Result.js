@@ -13,3 +13,4 @@ class Result extends BaseModel_1.default {
     }
 }
 exports.default = Result;
+//# sourceMappingURL=Result.js.map

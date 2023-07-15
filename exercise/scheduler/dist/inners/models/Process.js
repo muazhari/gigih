@@ -19,3 +19,4 @@ class Process extends BaseModel_1.default {
     }
 }
 exports.default = Process;
+//# sourceMappingURL=Process.js.map

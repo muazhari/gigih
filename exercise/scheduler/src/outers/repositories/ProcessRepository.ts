@@ -1,4 +1,4 @@
-import Process from '../../inners/models/Process'
+import type Process from '../../inners/models/Process'
 
 export default class ProcessRepository {
   data: Process[] = [
@@ -27,12 +27,10 @@ export default class ProcessRepository {
   ]
 
   readAll = (): Process[] => {
-    setTimeout(() => {}, 500)
-    return this.data.map((item) => item)
+    return this.data
   }
 
   readOneById = (id: string): Process => {
-    setTimeout(() => {}, 500)
     const foundItem: Process | undefined = this.data.find((item) => item.id === id)
 
     if (foundItem === undefined) {
@@ -43,20 +41,17 @@ export default class ProcessRepository {
   }
 
   createOne = (item: Process): Process => {
-    setTimeout(() => {}, 500)
     this.data.push(item)
     return item
   }
 
   patchOneById = (id: string, item: Process): Process => {
-    setTimeout(() => {}, 500)
     const foundItem: Process = this.readOneById(id)
     foundItem.patchFrom(item)
     return foundItem
   }
 
   deleteOneById = (id: string): Process => {
-    setTimeout(() => {}, 500)
     const foundItem: Process = this.readOneById(id)
     this.data = this.data.filter((item) => item.id !== id)
     return foundItem

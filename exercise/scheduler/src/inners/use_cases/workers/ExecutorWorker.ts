@@ -2,11 +2,11 @@ import ProcessExecutor from '../executor/ProcessExecutor'
 import Process from '../../models/Process'
 import type Message from '../../models/Message'
 
+const executorWorker: ProcessExecutor = new ProcessExecutor()
+
 process.on('message', (message: Message<any>): void => {
   const { event, payload } = message
   let intervalId: NodeJS.Timer | undefined
-
-  const executorWorker: ProcessExecutor = new ProcessExecutor()
 
   if (event === 'start') {
     intervalId = setInterval(() => {

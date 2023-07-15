@@ -27,11 +27,9 @@ class ProcessRepository {
         // )
         ];
         this.readAll = () => {
-            setTimeout(() => { }, 500);
-            return this.data.map((item) => item);
+            return this.data;
         };
         this.readOneById = (id) => {
-            setTimeout(() => { }, 500);
             const foundItem = this.data.find((item) => item.id === id);
             if (foundItem === undefined) {
                 throw new Error('Process id not found.');
@@ -39,18 +37,15 @@ class ProcessRepository {
             return foundItem;
         };
         this.createOne = (item) => {
-            setTimeout(() => { }, 500);
             this.data.push(item);
             return item;
         };
         this.patchOneById = (id, item) => {
-            setTimeout(() => { }, 500);
             const foundItem = this.readOneById(id);
             foundItem.patchFrom(item);
             return foundItem;
         };
         this.deleteOneById = (id) => {
-            setTimeout(() => { }, 500);
             const foundItem = this.readOneById(id);
             this.data = this.data.filter((item) => item.id !== id);
             return foundItem;
@@ -58,3 +53,4 @@ class ProcessRepository {
     }
 }
 exports.default = ProcessRepository;
+//# sourceMappingURL=ProcessRepository.js.map

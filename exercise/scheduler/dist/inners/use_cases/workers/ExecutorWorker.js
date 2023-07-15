@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProcessExecutor_1 = __importDefault(require("../executor/ProcessExecutor"));
 const Process_1 = __importDefault(require("../../models/Process"));
+const executorWorker = new ProcessExecutor_1.default();
 process.on('message', (message) => {
     const { event, payload } = message;
     let intervalId;
-    const executorWorker = new ProcessExecutor_1.default();
     if (event === 'start') {
         intervalId = setInterval(() => {
             executorWorker
@@ -26,3 +26,4 @@ process.on('message', (message) => {
         console.log('Pushed: ', process);
     }
 });
+//# sourceMappingURL=ExecutorWorker.js.map

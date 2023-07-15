@@ -6,6 +6,7 @@ export default class ProcessExecutor {
   processRepository: ProcessRepository = new ProcessRepository()
 
   push = (process: Process): void => {
+    console.log(process)
     if (process.id === undefined) {
       throw new Error('Process id is undefined.')
     }
@@ -26,8 +27,8 @@ export default class ProcessExecutor {
   }
 
   execute = async (): Promise<Process> => {
-    const data: Process[] = this.processRepository.readAll()
     return await new Promise((resolve, reject) => {
+      const data: Process[] = this.processRepository.readAll()
       data.forEach((item, index) => {
         console.log('Checking: ', item)
         if (item.executeAt === undefined) {

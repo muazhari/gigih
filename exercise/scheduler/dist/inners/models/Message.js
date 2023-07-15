@@ -12,3 +12,4 @@ class Message extends BaseModel_1.default {
     }
 }
 exports.default = Message;
+//# sourceMappingURL=Message.js.map

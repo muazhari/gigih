@@ -18,6 +18,7 @@ class ProcessExecutor {
     constructor() {
         this.processRepository = new ProcessRepository_1.default();
         this.push = (process) => {
+            console.log(process);
             if (process.id === undefined) {
                 throw new Error('Process id is undefined.');
             }
@@ -37,8 +38,8 @@ class ProcessExecutor {
             }
         };
         this.execute = () => __awaiter(this, void 0, void 0, function* () {
-            const data = this.processRepository.readAll();
             return yield new Promise((resolve, reject) => {
+                const data = this.processRepository.readAll();
                 data.forEach((item, index) => {
                     console.log('Checking: ', item);
                     if (item.executeAt === undefined) {
@@ -116,3 +117,4 @@ class ProcessExecutor {
     }
 }
 exports.default = ProcessExecutor;
+//# sourceMappingURL=ProcessExecutor.js.map
