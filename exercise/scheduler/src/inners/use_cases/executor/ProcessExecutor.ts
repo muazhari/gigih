@@ -36,7 +36,7 @@ export default class ProcessExecutor {
         }
         const executeAt = item.executeAt
         const currentDate = new Date()
-        if (executeAt.getMilliseconds() <= currentDate.getMilliseconds()) {
+        if (executeAt <= currentDate) {
           console.log('Executing: ', item)
 
           const httpClient = this.prepareHttpClient(item.method, item.url, item.query, item.body)
@@ -57,8 +57,12 @@ export default class ProcessExecutor {
                   throw new Error('Process repeatCount is undefined.')
                 }
 
+                if (item.executeAt === undefined) {
+                  throw new Error('Process repeatCount is undefined.')
+                }
+
                 if (item.isRepeated === true) {
-                  item.executeAt = new Date(new Date().getMilliseconds() + item.repeatDelay)
+                  item.executeAt = new Date(item.executeAt.getTime() + item.repeatDelay)
                   item.repeatCount = item.repeatCount - 1
                   this.processRepository.patchOneById(item.id, item)
                   if (item.repeatCount === 0) {
