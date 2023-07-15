@@ -22,8 +22,10 @@ process.on('message', (message) => {
     }
     else if (event === 'push') {
         const process = new Process_1.default(payload.id, payload.method, payload.url, payload.query, payload.body, new Date(payload.executeAt), payload.isRepeated, payload.repeatDelay, payload.repeatCount);
-        executorWorker.push(process);
-        console.log('Pushed: ', process);
+        executorWorker
+            .push(process)
+            .then((result) => { console.log('Result pushed item: ', result); })
+            .catch((error) => { console.log('Result pushed error: ', error); });
     }
 });
 //# sourceMappingURL=ExecutorWorker.js.map

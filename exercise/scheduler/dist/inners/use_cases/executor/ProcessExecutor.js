@@ -17,78 +17,68 @@ const ProcessRepository_1 = __importDefault(require("../../../outers/repositorie
 class ProcessExecutor {
     constructor() {
         this.processRepository = new ProcessRepository_1.default();
-        this.push = (process) => {
+        this.push = (process) => __awaiter(this, void 0, void 0, function* () {
             console.log(process);
             if (process.id === undefined) {
                 throw new Error('Process id is undefined.');
             }
             let isProcessFound;
             try {
-                this.processRepository.readOneById(process.id);
+                yield this.processRepository.readOneById(process.id);
                 isProcessFound = true;
             }
             catch (error) {
                 isProcessFound = false;
             }
             if (isProcessFound) {
-                this.processRepository.patchOneById(process.id, process);
+                yield this.processRepository.patchOneById(process.id, process);
             }
             else {
-                this.processRepository.createOne(process);
+                yield this.processRepository.createOne(process);
             }
-        };
-        this.execute = () => __awaiter(this, void 0, void 0, function* () {
-            return yield new Promise((resolve, reject) => {
-                const data = this.processRepository.readAll();
-                data.forEach((item, index) => {
-                    console.log('Checking: ', item);
-                    if (item.executeAt === undefined) {
-                        throw new Error('Process executeAt is undefined.');
-                    }
-                    const executeAt = item.executeAt;
-                    const currentDate = new Date();
-                    if (executeAt <= currentDate) {
-                        console.log('Executing: ', item);
-                        const httpClient = this.prepareHttpClient(item.method, item.url, item.query, item.body);
-                        httpClient
-                            .then((result) => { console.log('Result response: ', result.status, result.data); })
-                            .catch((error) => { console.log('Result response error: ', error); })
-                            .finally(() => {
-                            try {
-                                if (item.id === undefined) {
-                                    throw new Error('Process id is undefined.');
-                                }
-                                if (item.repeatDelay === undefined) {
-                                    throw new Error('Process repeatDelay is undefined.');
-                                }
-                                if (item.repeatCount === undefined) {
-                                    throw new Error('Process repeatCount is undefined.');
-                                }
-                                if (item.executeAt === undefined) {
-                                    throw new Error('Process repeatCount is undefined.');
-                                }
-                                if (item.isRepeated === true) {
-                                    item.executeAt = new Date(item.executeAt.getTime() + item.repeatDelay);
-                                    item.repeatCount = item.repeatCount - 1;
-                                    this.processRepository.patchOneById(item.id, item);
-                                    if (item.repeatCount === 0) {
-                                        this.processRepository.deleteOneById(item.id);
-                                    }
-                                }
-                                else {
-                                    this.processRepository.deleteOneById(item.id);
-                                }
-                                resolve(item);
-                            }
-                            catch (error) {
-                                reject(error);
-                            }
-                        });
-                    }
-                });
-            });
         });
-        this.prepareHttpClient = (method, url, query, body) => __awaiter(this, void 0, void 0, function* () {
+        this.execute = () => __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.processRepository.readAll();
+            for (const item of data) {
+                console.log('Checking: ', item);
+                if (item.executeAt === undefined) {
+                    throw new Error('Process executeAt is undefined.');
+                }
+                const executeAt = item.executeAt;
+                const currentDate = new Date();
+                if (executeAt <= currentDate) {
+                    console.log('Executing: ', item);
+                    try {
+                        const result = yield this.executeHttpClient(item.method, item.url, item.query, item.body);
+                        console.log('Result execute response: ', result);
+                    }
+                    catch (error) {
+                        console.log('Result execute error: ', error);
+                    }
+                    if (item.id === undefined) {
+                        throw new Error('Process id is undefined.');
+                    }
+                    if (item.repeatDelay === undefined) {
+                        throw new Error('Process repeatDelay is undefined.');
+                    }
+                    if (item.repeatCount === undefined) {
+                        throw new Error('Process repeatCount is undefined.');
+                    }
+                    if (item.isRepeated === true) {
+                        item.executeAt = new Date(item.executeAt.getTime() + item.repeatDelay);
+                        item.repeatCount = item.repeatCount - 1;
+                        yield this.processRepository.patchOneById(item.id, item);
+                        if (item.repeatCount === 0) {
+                            yield this.processRepository.deleteOneById(item.id);
+                        }
+                    }
+                    else {
+                        yield this.processRepository.deleteOneById(item.id);
+                    }
+                }
+            }
+        });
+        this.executeHttpClient = (method, url, query, body) => __awaiter(this, void 0, void 0, function* () {
             if (url === undefined) {
                 throw new Error('Process url is undefined.');
             }

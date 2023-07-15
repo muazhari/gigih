@@ -1,37 +1,49 @@
-import type Process from '../../inners/models/Process'
+import Process from '../../inners/models/Process'
+import { datastoreOne } from '../../App'
 
 export default class ProcessRepository {
-  data: Process[] = [
-    // new Process(
-    //   '0',
-    //   'GET',
-    //   'url1',
-    //   undefined,
-    //   undefined,
-    //   new Date(),
-    //   true,
-    //   1000,
-    //   10
-    // ),
-    // new Process(
-    //   '1',
-    //   'GET',
-    //   'url2',
-    //   undefined,
-    //   undefined,
-    //   new Date(),
-    //   true,
-    //   1000,
-    //   10
-    // )
-  ]
+  readAll = async (): Promise<Process[]> => {
+    const result = await datastoreOne.db?.collection('processes').find().toArray()
 
-  readAll = (): Process[] => {
-    return this.data
+    if (result === undefined) {
+      throw new Error('Result is undefined.')
+    }
+
+    return result.map((item) => new Process(
+      item.id,
+      item.method,
+      item.url,
+      item.query,
+      item.body,
+      new Date(item.executeAt),
+      item.isRepeated,
+      item.repeatDelay,
+      item.repeatCount
+    ))
   }
 
-  readOneById = (id: string): Process => {
-    const foundItem: Process | undefined = this.data.find((item) => item.id === id)
+  readOneById = async (id: string): Promise<Process> => {
+    const result = await datastoreOne.db?.collection('processes').findOne({ id })
+
+    if (result === undefined) {
+      throw new Error('Result is undefined.')
+    }
+
+    if (result === null) {
+      throw new Error('Result is null.')
+    }
+
+    const foundItem: Process | undefined = new Process(
+      result.id,
+      result.method,
+      result.url,
+      result.query,
+      result.body,
+      new Date(result.executeAt),
+      result.isRepeated,
+      result.repeatDelay,
+      result.repeatCount
+    )
 
     if (foundItem === undefined) {
       throw new Error('Process id not found.')
@@ -40,20 +52,35 @@ export default class ProcessRepository {
     return foundItem
   }
 
-  createOne = (item: Process): Process => {
-    this.data.push(item)
+  createOne = async (item: Process): Promise<Process> => {
+    const result = await datastoreOne.db?.collection('processes').insertOne(item)
+
+    if (result === undefined) {
+      throw new Error('Result is undefined.')
+    }
+
     return item
   }
 
-  patchOneById = (id: string, item: Process): Process => {
-    const foundItem: Process = this.readOneById(id)
-    foundItem.patchFrom(item)
+  patchOneById = async (id: string, item: Process): Promise<Process> => {
+    const foundItem: Process = await this.readOneById(id)
+    const result = await datastoreOne.db?.collection('processes').updateOne({ id }, { $set: item })
+
+    if (result === undefined) {
+      throw new Error('Result is undefined.')
+    }
+
     return foundItem
   }
 
-  deleteOneById = (id: string): Process => {
-    const foundItem: Process = this.readOneById(id)
-    this.data = this.data.filter((item) => item.id !== id)
+  deleteOneById = async (id: string): Promise<Process> => {
+    const foundItem: Process = await this.readOneById(id)
+    const result = await datastoreOne.db?.collection('processes').deleteOne({ id })
+
+    if (result === undefined) {
+      throw new Error('Result is undefined.')
+    }
+
     return foundItem
   }
 }

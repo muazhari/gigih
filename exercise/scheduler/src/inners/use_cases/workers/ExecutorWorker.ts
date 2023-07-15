@@ -30,7 +30,9 @@ process.on('message', (message: Message<any>): void => {
       payload.repeatCount
     )
 
-    executorWorker.push(process)
-    console.log('Pushed: ', process)
+    executorWorker
+      .push(process)
+      .then((result) => { console.log('Result pushed item: ', result) })
+      .catch((error) => { console.log('Result pushed error: ', error) })
   }
 })

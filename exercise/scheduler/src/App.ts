@@ -1,13 +1,27 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 import Process from './inners/models/Process'
 import { fork } from 'child_process'
 import Message from './inners/models/Message'
+import DatastoreOne from './outers/persistences/DatastoreOne'
+import dotenv from 'dotenv'
+
+dotenv.config(
+  {
+    path: './.env'
+  }
+)
+
+const datastoreOne: DatastoreOne = new DatastoreOne()
+datastoreOne.connect()
 
 const app = express()
-app.use(bodyParser.json())
+app.use(express.json({ type: '*/*' }))
 
-const port = 3000
+const port = process.env.APP_PORT
+
+if (port === undefined) {
+  throw new Error('Port is undefined.')
+}
 
 const executorChildProcess = fork('./dist/inners/use_cases/workers/ExecutorWorker.js')
 
@@ -30,9 +44,11 @@ app.post('/', (req, res) => {
   )
 
   executorChildProcess.send(new Message('push', process))
-  res.send('A new process has inserted to queue')
+  res.send('A new process has tried to be insert to queue.')
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Scheduler app listening on port ${port}`)
 })
+
+export { datastoreOne }
