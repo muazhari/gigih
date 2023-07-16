@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Process_1 = __importDefault(require("../../inners/models/Process"));
 const Message_1 = __importDefault(require("../../inners/models/Message"));
 class ExecutorController {
-    constructor(router, executorProcess) {
+    constructor(router, executorWorker) {
         this.registerRoutes = () => {
             this.router.post('/', this.execute);
         };
@@ -17,7 +17,7 @@ class ExecutorController {
             res.send('A new process has tried to be insert to queue.');
         };
         this.router = router;
-        this.executorWorker = executorProcess;
+        this.executorWorker = executorWorker;
     }
 }
 exports.default = ExecutorController;

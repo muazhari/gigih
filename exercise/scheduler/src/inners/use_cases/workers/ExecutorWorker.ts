@@ -1,43 +1,44 @@
-import type Message from '../../models/Message'
 import type ProcessExecutor from '../executor/ProcessExecutor'
 import { type ChildProcess } from 'child_process'
+import type Message from '../../models/Message'
 
 export default class ExecutorWorker {
-  executorProcess: ChildProcess
   processExecutor: ProcessExecutor
+  executorProcess: ChildProcess
 
-  constructor (executorProcess: ChildProcess, processExecutor: ProcessExecutor) {
-    this.executorProcess = executorProcess
+  intervalId: NodeJS.Timeout | undefined
+
+  constructor (processExecutor: ProcessExecutor, executorProcess: ChildProcess) {
     this.processExecutor = processExecutor
-    this.registerListeners()
+    this.executorProcess = executorProcess
   }
 
   registerListeners = (): void => {
-    this.executorProcess.on('message', this.handleMessage)
-  }
+    this.executorProcess.on('message', ({ event, payload }: Message<any>): void => {
+      console.log('Executor worker received message: ', event, payload)
 
-  handleMessage = (message: Message<any>): void => {
-    const { event, payload } = message
-    let intervalId: NodeJS.Timer | undefined
-
-    if (event === 'start') {
-      intervalId = setInterval(() => {
+      if (event === 'start') {
+        this.intervalId = setInterval(() => {
+          this.processExecutor
+            .execute()
+            .then((result: any) => { console.log('Executor worker execute succeed') })
+            .catch((error: any) => { console.log('Executor worker execute failed: ', error) })
+        }, 1000)
+      } else if (event === 'stop') {
+        if (this.intervalId === undefined) {
+          throw new Error('Interval id is undefined.')
+        }
+        clearInterval(this.intervalId)
+      } else if (event === 'push') {
         this.processExecutor
-          .execute()
-          .then((result: any) => { console.log('Executor worker execute succeed') })
-          .catch((error: any) => { console.log('Executor worker execute failed: ', error) })
-      }, 1000)
-    } else if (event === 'stop') {
-      clearInterval(intervalId)
-    } else if (event === 'push') {
-      this.processExecutor
-        .push(payload)
-        .then((result) => {
-          console.log('Result pushed item: ', result)
-        })
-        .catch((error) => {
-          console.log('Result pushed error: ', error)
-        })
-    }
+          .push(payload)
+          .then((result) => {
+            console.log('Result pushed item: ', result)
+          })
+          .catch((error) => {
+            console.log('Result pushed error: ', error)
+          })
+      }
+    })
   }
 }

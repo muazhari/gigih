@@ -1,17 +1,16 @@
 import { type Request, type Response, type Router } from 'express'
 
 import Process from '../../inners/models/Process'
-import Message from '../../inners/models/Message'
-import { type ChildProcess } from 'child_process'
 import type ExecutorWorker from '../../inners/use_cases/workers/ExecutorWorker'
+import Message from '../../inners/models/Message'
 
 export default class ExecutorController {
   router: Router
 
   executorWorker: ExecutorWorker
-  constructor (router: Router, executorProcess: ExecutorWorker) {
+  constructor (router: Router, executorWorker: ExecutorWorker) {
     this.router = router
-    this.executorWorker = executorProcess
+    this.executorWorker = executorWorker
   }
 
   registerRoutes = (): void => {

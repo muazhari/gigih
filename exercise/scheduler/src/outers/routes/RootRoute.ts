@@ -1,10 +1,10 @@
-import express, { type Application, Router } from 'express'
+import { type Application, Router } from 'express'
 import ExecutorController from '../controllers/ExecutorController'
-import executorProcess from '../../inners/use_cases/process/ExecutorProcess'
 import ExecutorWorker from '../../inners/use_cases/workers/ExecutorWorker'
 import ProcessExecutor from '../../inners/use_cases/executor/ProcessExecutor'
 import DatastoreOne from '../persistences/DatastoreOne'
 import ProcessRepository from '../repositories/ProcessRepository'
+import { type ChildProcess, fork } from 'child_process'
 import Message from '../../inners/models/Message'
 
 export default class RootRoute {
@@ -14,26 +14,29 @@ export default class RootRoute {
     this.app = app
   }
 
-  getExecutorRouter = (): Router => {
+  getExecutorRouter = async (): Promise<Router> => {
     // datastores
     const datastoreOne: DatastoreOne = new DatastoreOne()
-    datastoreOne.connect()
-      .then(() => {
-        console.log('Connected to datastore one.')
 
-        // executorChildProcess.send(new Message('fetch', undefined))
-        executorProcess.send(new Message('start', undefined))
-      })
-      .catch((error) => {
-        console.log('Error connecting to datastore one: ', error)
-      })
+    try {
+      await datastoreOne.connect()
+      console.log('Datastore one connected.')
+    } catch (error) {
+      console.log('Error connecting to datastore one: ', error)
+    }
 
     // repositories
     const processRepository: ProcessRepository = new ProcessRepository(datastoreOne)
 
+    // process
+    const executorProcess: ChildProcess = fork('./dist/inners/use_cases/tasks/ExecutorTask.js')
+
     // use cases
     const processExecutor: ProcessExecutor = new ProcessExecutor(processRepository)
-    const executorWorker: ExecutorWorker = new ExecutorWorker(executorProcess, processExecutor)
+    const executorWorker: ExecutorWorker = new ExecutorWorker(processExecutor, executorProcess)
+    executorWorker.registerListeners()
+
+    executorWorker.executorProcess.send(new Message('start', undefined))
 
     // controllers
     const router = Router()
@@ -43,9 +46,9 @@ export default class RootRoute {
     return router
   }
 
-  registerRoutes (): void {
+  registerRoutes = async (): Promise<void> => {
     const router = Router()
-    router.use('/executors', this.getExecutorRouter())
+    router.use('/executors', await this.getExecutorRouter())
 
     this.app.use('/api/v1/', router)
   }

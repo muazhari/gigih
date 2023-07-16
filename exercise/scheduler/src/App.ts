@@ -8,7 +8,7 @@ const main = async (): Promise<void> => {
   app.use(express.json({ type: '*/*' }))
 
   const rootRoute = new RootRoute(app)
-  rootRoute.registerRoutes()
+  await rootRoute.registerRoutes()
 
   const port = process.env.APP_PORT
 

@@ -20,7 +20,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, express_1.default)();
     app.use(express_1.default.json({ type: '*/*' }));
     const rootRoute = new RootRoute_1.default(app);
-    rootRoute.registerRoutes();
+    yield rootRoute.registerRoutes();
     const port = process.env.APP_PORT;
     if (port === undefined) {
         throw new Error('Port is undefined.');
