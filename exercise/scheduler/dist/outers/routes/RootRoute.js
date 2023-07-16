@@ -22,7 +22,7 @@ const child_process_1 = require("child_process");
 const Message_1 = __importDefault(require("../../inners/models/Message"));
 class RootRoute {
     constructor(app) {
-        this.getExecutorRouter = () => __awaiter(this, void 0, void 0, function* () {
+        this.registerRoutes = () => __awaiter(this, void 0, void 0, function* () {
             // datastores
             const datastoreOne = new DatastoreOne_1.default();
             try {
@@ -41,15 +41,10 @@ class RootRoute {
             const executorWorker = new ExecutorWorker_1.default(processExecutor, executorProcess);
             executorWorker.registerListeners();
             executorWorker.executorProcess.send(new Message_1.default('start', undefined));
-            // controllers
-            const router = (0, express_1.Router)();
-            const executorController = new ExecutorController_1.default(router, executorWorker);
+            const executorController = new ExecutorController_1.default((0, express_1.Router)(), executorWorker);
             executorController.registerRoutes();
-            return router;
-        });
-        this.registerRoutes = () => __awaiter(this, void 0, void 0, function* () {
             const router = (0, express_1.Router)();
-            router.use('/executors', yield this.getExecutorRouter());
+            router.use('/executors', executorController.router);
             this.app.use('/api/v1/', router);
         });
         this.app = app;

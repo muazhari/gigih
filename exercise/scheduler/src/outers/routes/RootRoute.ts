@@ -14,7 +14,7 @@ export default class RootRoute {
     this.app = app
   }
 
-  getExecutorRouter = async (): Promise<Router> => {
+  registerRoutes = async (): Promise<void> => {
     // datastores
     const datastoreOne: DatastoreOne = new DatastoreOne()
 
@@ -38,17 +38,11 @@ export default class RootRoute {
 
     executorWorker.executorProcess.send(new Message('start', undefined))
 
-    // controllers
-    const router = Router()
-    const executorController: ExecutorController = new ExecutorController(router, executorWorker)
+    const executorController: ExecutorController = new ExecutorController(Router(), executorWorker)
     executorController.registerRoutes()
 
-    return router
-  }
-
-  registerRoutes = async (): Promise<void> => {
     const router = Router()
-    router.use('/executors', await this.getExecutorRouter())
+    router.use('/executors', executorController.router)
 
     this.app.use('/api/v1/', router)
   }
