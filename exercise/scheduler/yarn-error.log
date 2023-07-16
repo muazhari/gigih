@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add dotenv
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add mongoose
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.0\libnvvp;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft VS Code\bin;C:\ProgramData\Anaconda3\Library\bin;C:\ProgramData\Anaconda3\Scripts;C:\ProgramData\Anaconda3;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\GitHub CLI\;C:\Program Files\NVIDIA Corporation\Nsight Compute 2022.4.1\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Java\jdk-19\bin;C:\Program Files\Go\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Users\M Kharisma Azhari\AppData\Local\Microsoft\WindowsApps;C:\Users\M Kharisma Azhari\AppData\Local\gitkraken\bin;C:\Users\M Kharisma Azhari\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\M Kharisma Azhari\AppData\Roaming\npm;C:\Users\M Kharisma Azhari\AppData\Local\Yarn\bin;C:\Users\M Kharisma Azhari\go\bin;C:\Program Files\Tesseract-OCR;;C:\Users\M Kharisma Azhari\.fly\bin
@@ -25,8 +25,8 @@ npm manifest:
     },
     "dependencies": {
       "axios": "^1.4.0",
-      "express": "^4.18.2",
-      "mongodb": "^5.7.0"
+      "dotenv": "^16.3.1",
+      "express": "^4.18.2"
     },
     "devDependencies": {
       "@types/express": "^4.17.17",
@@ -672,6 +672,11 @@ Lockfile:
     integrity sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==
     dependencies:
       esutils "^2.0.2"
+  
+  dotenv@^16.3.1:
+    version "16.3.1"
+    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
+    integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
   
   ee-first@1.1.1:
     version "1.1.1"

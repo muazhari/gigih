@@ -8,63 +8,59 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Process_1 = __importDefault(require("../../inners/models/Process"));
-const App_1 = require("../../App");
 class ProcessRepository {
-    constructor() {
+    constructor(datastoreOne) {
         this.readAll = () => __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            const result = yield ((_a = App_1.datastoreOne.db) === null || _a === void 0 ? void 0 : _a.collection('processes').find().toArray());
+            if (this.datastoreOne.db === undefined) {
+                throw new Error('Datastore db is undefined.');
+            }
+            const result = yield this.datastoreOne.db.model('process').find();
             if (result === undefined) {
                 throw new Error('Result is undefined.');
             }
-            return result.map((item) => new Process_1.default(item.id, item.method, item.url, item.query, item.body, new Date(item.executeAt), item.isRepeated, item.repeatDelay, item.repeatCount));
+            return result;
         });
         this.readOneById = (id) => __awaiter(this, void 0, void 0, function* () {
-            var _b;
-            const result = yield ((_b = App_1.datastoreOne.db) === null || _b === void 0 ? void 0 : _b.collection('processes').findOne({ id }));
-            if (result === undefined) {
-                throw new Error('Result is undefined.');
+            if (this.datastoreOne.db === undefined) {
+                throw new Error('Datastore db is undefined.');
             }
+            const result = yield this.datastoreOne.db.model('process').findOne({ id });
             if (result === null) {
                 throw new Error('Result is null.');
             }
-            const foundItem = new Process_1.default(result.id, result.method, result.url, result.query, result.body, new Date(result.executeAt), result.isRepeated, result.repeatDelay, result.repeatCount);
-            if (foundItem === undefined) {
-                throw new Error('Process id not found.');
-            }
-            return foundItem;
+            return result;
         });
         this.createOne = (item) => __awaiter(this, void 0, void 0, function* () {
-            var _c;
-            const result = yield ((_c = App_1.datastoreOne.db) === null || _c === void 0 ? void 0 : _c.collection('processes').insertOne(item));
+            var _a;
+            if (this.datastoreOne.db === undefined) {
+                throw new Error('Datastore db is undefined.');
+            }
+            const result = yield ((_a = this.datastoreOne.db) === null || _a === void 0 ? void 0 : _a.model('process').create(item));
             if (result === undefined) {
                 throw new Error('Result is undefined.');
             }
             return item;
         });
         this.patchOneById = (id, item) => __awaiter(this, void 0, void 0, function* () {
-            var _d;
-            const foundItem = yield this.readOneById(id);
-            const result = yield ((_d = App_1.datastoreOne.db) === null || _d === void 0 ? void 0 : _d.collection('processes').updateOne({ id }, { $set: item }));
-            if (result === undefined) {
-                throw new Error('Result is undefined.');
+            var _b;
+            if (this.datastoreOne.db === undefined) {
+                throw new Error('Datastore db is undefined.');
             }
+            const foundItem = yield this.readOneById(id);
+            yield ((_b = this.datastoreOne.db) === null || _b === void 0 ? void 0 : _b.model('process').updateOne({ id }, { $set: item }));
             return foundItem;
         });
         this.deleteOneById = (id) => __awaiter(this, void 0, void 0, function* () {
-            var _e;
-            const foundItem = yield this.readOneById(id);
-            const result = yield ((_e = App_1.datastoreOne.db) === null || _e === void 0 ? void 0 : _e.collection('processes').deleteOne({ id }));
-            if (result === undefined) {
-                throw new Error('Result is undefined.');
+            var _c;
+            if (this.datastoreOne.db === undefined) {
+                throw new Error('Datastore db is undefined.');
             }
+            const foundItem = yield this.readOneById(id);
+            yield ((_c = this.datastoreOne.db) === null || _c === void 0 ? void 0 : _c.model('process').deleteOne({ id }));
             return foundItem;
         });
+        this.datastoreOne = datastoreOne;
     }
 }
 exports.default = ProcessRepository;

@@ -13,12 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const ProcessRepository_1 = __importDefault(require("../../../outers/repositories/ProcessRepository"));
 class ProcessExecutor {
-    constructor() {
-        this.processRepository = new ProcessRepository_1.default();
+    constructor(processRepository) {
         this.push = (process) => __awaiter(this, void 0, void 0, function* () {
-            console.log(process);
             if (process.id === undefined) {
                 throw new Error('Process id is undefined.');
             }
@@ -50,7 +47,7 @@ class ProcessExecutor {
                     console.log('Executing: ', item);
                     try {
                         const result = yield this.executeHttpClient(item.method, item.url, item.query, item.body);
-                        console.log('Result execute response: ', result);
+                        console.log('Result execute response: ', result.status, result.data);
                     }
                     catch (error) {
                         console.log('Result execute error: ', error);
@@ -107,6 +104,7 @@ class ProcessExecutor {
                     throw Error('Method is not supported.');
             }
         });
+        this.processRepository = processRepository;
     }
 }
 exports.default = ProcessExecutor;

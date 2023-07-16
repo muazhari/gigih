@@ -1,12 +1,15 @@
 import axios, { type AxiosResponse } from 'axios'
 import type Process from '../../models/Process'
-import ProcessRepository from '../../../outers/repositories/ProcessRepository'
+import type ProcessRepository from '../../../outers/repositories/ProcessRepository'
 
 export default class ProcessExecutor {
-  processRepository: ProcessRepository = new ProcessRepository()
+  processRepository: ProcessRepository
+
+  constructor (processRepository: ProcessRepository) {
+    this.processRepository = processRepository
+  }
 
   push = async (process: Process): Promise<void> => {
-    console.log(process)
     if (process.id === undefined) {
       throw new Error('Process id is undefined.')
     }
@@ -41,7 +44,7 @@ export default class ProcessExecutor {
 
         try {
           const result = await this.executeHttpClient(item.method, item.url, item.query, item.body)
-          console.log('Result execute response: ', result)
+          console.log('Result execute response: ', result.status, result.data)
         } catch (error) {
           console.log('Result execute error: ', error)
         }

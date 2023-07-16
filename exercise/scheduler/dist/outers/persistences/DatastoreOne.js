@@ -22,41 +22,62 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongodb_1 = require("mongodb");
 const os = __importStar(require("os"));
+const mongoose_1 = __importDefault(require("mongoose"));
 class DatastoreOne {
     constructor() {
-        this.connect = () => {
-            const host = process.env.DS_1_HOST;
-            if (host === undefined) {
-                throw new Error('Host is undefined.');
-            }
-            const port = process.env.DS_1_PORT;
-            if (port === undefined) {
-                throw new Error('Port is undefined.');
-            }
-            const database = process.env.DS_1_DATABASE;
-            if (database === undefined) {
-                throw new Error('Database is undefined.');
-            }
-            const username = process.env.DS_1_ROOT_USERNAME;
-            if (username === undefined) {
-                throw new Error('Username is undefined.');
-            }
-            const password = process.env.DS_1_ROOT_PASSWORD;
-            if (password === undefined) {
-                throw new Error('Password is undefined.');
-            }
-            const url = `mongodb://${username}:${password}@${host}:${port}/${database}/?authSource=admin`;
-            mongodb_1.MongoClient.connect(url, {
-                maxPoolSize: os.cpus().length
-            }).then((client) => {
-                this.client = client;
-                this.db = this.client.db('scheduler');
-                console.log('Connected to datastore one.');
+        this.connect = () => __awaiter(this, void 0, void 0, function* () {
+            yield new Promise((resolve, reject) => {
+                const host = process.env.DS_1_HOST;
+                if (host === undefined) {
+                    throw new Error('Host is undefined.');
+                }
+                const port = process.env.DS_1_PORT;
+                if (port === undefined) {
+                    throw new Error('Port is undefined.');
+                }
+                const username = process.env.DS_1_ROOT_USERNAME;
+                if (username === undefined) {
+                    throw new Error('Username is undefined.');
+                }
+                const password = process.env.DS_1_ROOT_PASSWORD;
+                if (password === undefined) {
+                    throw new Error('Password is undefined.');
+                }
+                const database = process.env.DS_1_DATABASE;
+                if (database === undefined) {
+                    throw new Error('Database is undefined.');
+                }
+                const url = `mongodb://${username}:${password}@${host}:${port}/${database}?authSource=admin`;
+                mongoose_1.default.connect(url, {
+                    maxPoolSize: os.cpus().length
+                }).then((client) => {
+                    this.db = mongoose_1.default;
+                    resolve(undefined);
+                }).catch((error) => {
+                    reject(error);
+                });
+            });
+        });
+        this.disconnect = () => {
+            var _a;
+            (_a = this.db) === null || _a === void 0 ? void 0 : _a.disconnect().then(() => {
+                console.log('Disconnected from datastore one.');
             }).catch((error) => {
-                console.log('Error connecting to datastore one: ', error);
+                console.log('Error disconnecting from datastore one: ', error);
             });
         };
     }
