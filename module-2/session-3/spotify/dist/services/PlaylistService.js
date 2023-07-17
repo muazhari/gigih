@@ -10,7 +10,7 @@ class PlaylistService {
     constructor(playlistRepository, songRepository, playlistSongRepository) {
         this.readAll = () => {
             const foundPlaylists = this.playlistRepository.readAll();
-            return new Result_1.default(200, 'Transaction read all succeed.', foundPlaylists);
+            return new Result_1.default(200, 'Playlist read all succeed.', foundPlaylists);
         };
         this.readOneById = (id) => {
             try {
@@ -56,7 +56,7 @@ class PlaylistService {
                 songIds.forEach((songId) => {
                     this.playlistSongRepository.createOne(new PlaylistSong_1.default((0, crypto_1.randomUUID)(), playlistId, songId, 0));
                 });
-                return new Result_1.default(200, 'Transaction add many song to playlist succeed.', playlist);
+                return new Result_1.default(200, 'Playlist add many song to playlist succeed.', playlist);
             }
             catch (error) {
                 return new Result_1.default(400, `Playlist add many song to playlist failed: playlist with playlistId ${playlistId} is undefined.`, undefined);
@@ -71,12 +71,12 @@ class PlaylistService {
                 // eslint-disable-next-line no-unreachable-loop
                 for (const playlistSong of playlistSongs) {
                     if (playlistSong.songId === undefined) {
-                        return new Result_1.default(400, 'Transaction read all song from playlist failed: songId from playlistSong is undefined.', undefined);
+                        return new Result_1.default(400, 'Playlist read all song from playlist failed: songId from playlistSong is undefined.', undefined);
                     }
                     try {
                         const song = this.songRepository.readOneById(playlistSong.songId);
                         songs.push(song);
-                        return new Result_1.default(200, 'Transaction read all song from playlist succeed.', songs);
+                        return new Result_1.default(200, 'Playlist read all song from playlist succeed.', songs);
                     }
                     catch (error) {
                         return new Result_1.default(400, `Playlist read all song from playlist failed: song with songId ${playlistSong.songId} is undefined.`, undefined);
@@ -84,7 +84,7 @@ class PlaylistService {
                 }
             }
             catch (error) {
-                return new Result_1.default(400, 'Transaction read all song from playlist failed: playlist undefined.', undefined);
+                return new Result_1.default(400, 'Playlist read all song from playlist failed: playlist undefined.', undefined);
             }
         };
         this.playOneSongFromPlaylist = (playlistId, songId) => {
@@ -95,7 +95,7 @@ class PlaylistService {
                     const playlistSongs = this.playlistSongRepository.readAllByPlaylistId(playlistId);
                     const playlistSong = playlistSongs.filter((playlistSong) => {
                         if (playlistSong.songId === undefined) {
-                            return new Result_1.default(400, 'Transaction play one song from playlist failed: songId from playlistSong is undefined.', undefined);
+                            return new Result_1.default(400, 'Playlist play one song from playlist failed: songId from playlistSong is undefined.', undefined);
                         }
                         return playlistSong.songId === songId;
                     })[0];
@@ -103,7 +103,7 @@ class PlaylistService {
                         return new Result_1.default(400, `Playlist play one song from playlist failed: playlistSong with songId ${songId} is undefined.`, undefined);
                     }
                     if (playlistSong.id === undefined) {
-                        return new Result_1.default(400, 'Transaction play one song from playlist failed: id from playlistSong is undefined.', undefined);
+                        return new Result_1.default(400, 'Playlist play one song from playlist failed: id from playlistSong is undefined.', undefined);
                     }
                     if (playlistSong.playCount === undefined) {
                         playlistSong.playCount = 0;
@@ -112,7 +112,7 @@ class PlaylistService {
                         playlistSong.playCount += 1;
                         this.playlistSongRepository.patchOneById(playlistSong.id, playlistSong);
                     }
-                    return new Result_1.default(200, 'Transaction play one song from playlist succeed.', song);
+                    return new Result_1.default(200, 'Playlist play one song from playlist succeed.', song);
                 }
                 catch (error) {
                     return new Result_1.default(400, `Playlist play one song from playlist failed: song with songId ${songId} is undefined.`, undefined);

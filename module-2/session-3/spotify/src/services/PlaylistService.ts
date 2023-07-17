@@ -29,7 +29,7 @@ export default class PlaylistService {
     const foundPlaylists: Playlist[] = this.playlistRepository.readAll()
     return new Result<Playlist[]>(
       200,
-      'Transaction read all succeed.',
+      'Playlist read all succeed.',
       foundPlaylists
     )
   }
@@ -122,7 +122,7 @@ export default class PlaylistService {
 
       return new Result<Playlist>(
         200,
-        'Transaction add many song to playlist succeed.',
+        'Playlist add many song to playlist succeed.',
         playlist
       )
     } catch (error) {
@@ -147,7 +147,7 @@ export default class PlaylistService {
         if (playlistSong.songId === undefined) {
           return new Result<undefined>(
             400,
-            'Transaction read all song from playlist failed: songId from playlistSong is undefined.',
+            'Playlist read all song from playlist failed: songId from playlistSong is undefined.',
             undefined
           )
         }
@@ -157,7 +157,7 @@ export default class PlaylistService {
           songs.push(song)
           return new Result<Song[]>(
             200,
-            'Transaction read all song from playlist succeed.',
+            'Playlist read all song from playlist succeed.',
             songs
           )
         } catch (error) {
@@ -171,7 +171,7 @@ export default class PlaylistService {
     } catch (error) {
       return new Result<undefined>(
         400,
-        'Transaction read all song from playlist failed: playlist undefined.',
+        'Playlist read all song from playlist failed: playlist undefined.',
         undefined
       )
     }
@@ -189,7 +189,7 @@ export default class PlaylistService {
           if (playlistSong.songId === undefined) {
             return new Result<undefined>(
               400,
-              'Transaction play one song from playlist failed: songId from playlistSong is undefined.',
+              'Playlist play one song from playlist failed: songId from playlistSong is undefined.',
               undefined
             )
           }
@@ -208,7 +208,7 @@ export default class PlaylistService {
         if (playlistSong.id === undefined) {
           return new Result<undefined>(
             400,
-            'Transaction play one song from playlist failed: id from playlistSong is undefined.',
+            'Playlist play one song from playlist failed: id from playlistSong is undefined.',
             undefined
           )
         }
@@ -224,7 +224,7 @@ export default class PlaylistService {
 
         return new Result<Song>(
           200,
-          'Transaction play one song from playlist succeed.',
+          'Playlist play one song from playlist succeed.',
           song
         )
       } catch (error) {
