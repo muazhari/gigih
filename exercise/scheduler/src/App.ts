@@ -1,6 +1,6 @@
 import express from 'express'
 import './outers/configurations'
-import './outers/persistences/DatastoreOne'
+import './outers/datastores/DatastoreOne'
 import RootRoute from './outers/routes/RootRoute'
 
 const main = async (): Promise<void> => {

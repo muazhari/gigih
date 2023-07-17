@@ -1,5 +1,5 @@
 import type Process from '../../inners/models/Process'
-import type DatastoreOne from '../persistences/DatastoreOne'
+import type DatastoreOne from '../datastores/DatastoreOne'
 
 export default class ProcessRepository {
   datastoreOne: DatastoreOne

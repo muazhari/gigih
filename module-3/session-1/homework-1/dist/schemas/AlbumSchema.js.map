@@ -1,0 +1,1 @@
+{"version":3,"file":"AlbumSchema.js","sourceRoot":"","sources":["../../src/schemas/AlbumSchema.ts"],"names":[],"mappings":";;AAAA,uCAAiD;AAGjD,MAAM,WAAW,GAAG,IAAI,iBAAM,CAAQ;IAClC,IAAI,EAAE;QACF,IAAI,EAAE,iBAAM,CAAC,KAAK,CAAC,MAAM;KAC5B;CACJ,CAAC,CAAA;AAEF,kBAAe,IAAA,gBAAK,EAAQ,OAAO,EAAE,WAAW,CAAC,CAAA"}

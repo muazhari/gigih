@@ -1,0 +1,1 @@
+{"version":3,"file":"PopularSong.js","sourceRoot":"","sources":["../../src/models/PopularSong.ts"],"names":[],"mappings":";;AACA,MAAqB,WAAW;IAM5B,YAAY,MAAc,EAAE,SAAiB,EAAE,YAAoB;QAC/D,IAAI,CAAC,MAAM,GAAG,MAAM,CAAA;QACpB,IAAI,CAAC,SAAS,GAAG,SAAS,CAAA;QAC1B,IAAI,CAAC,YAAY,GAAG,YAAY,CAAA;IACpC,CAAC;CACJ;AAXD,8BAWC"}

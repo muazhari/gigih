@@ -37,7 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const os = __importStar(require("os"));
 const mongoose_1 = __importDefault(require("mongoose"));
-class DatastoreOne {
+class OneDatastore {
     constructor() {
         this.connect = () => __awaiter(this, void 0, void 0, function* () {
             yield new Promise((resolve, reject) => {
@@ -82,5 +82,5 @@ class DatastoreOne {
         };
     }
 }
-exports.default = DatastoreOne;
+exports.default = OneDatastore;
 //# sourceMappingURL=OneDatastore.js.map
