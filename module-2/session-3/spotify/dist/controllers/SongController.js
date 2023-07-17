@@ -1,14 +1,15 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const SongService_1 = __importDefault(require("../services/SongService"));
 class SongController {
-    constructor() {
-        this.songService = new SongService_1.default();
-        this.router = express_1.default.Router();
+    constructor(router, songService) {
+        this.registerRoutes = () => {
+            this.router.get('/', this.readAll);
+            this.router.get('/:songId', this.readOneById);
+            this.router.post('/', this.createOne);
+            this.router.patch('/:songId', this.patchOneById);
+            this.router.delete('/:songId', this.deleteOneById);
+            this.router.get('/sorted/descend/play-count', this.readAllSortedDescendByPlayCount);
+        };
         this.readAll = (request, response) => {
             const result = this.songService.readAll();
             response.status(result.status).json(result);
@@ -36,12 +37,8 @@ class SongController {
             const result = this.songService.readAllSortedDescendByPlayCount();
             response.status(result.status).json(result);
         };
-        this.router.get('/', this.readAll);
-        this.router.get('/:songId', this.readOneById);
-        this.router.post('/', this.createOne);
-        this.router.patch('/:songId', this.patchOneById);
-        this.router.delete('/:songId', this.deleteOneById);
-        this.router.get('/sorted/descend/play-count', this.readAllSortedDescendByPlayCount);
+        this.router = router;
+        this.songService = songService;
     }
 }
 exports.default = SongController;

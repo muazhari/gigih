@@ -1,40 +1,39 @@
-import { randomUUID } from 'crypto'
-import Song from '../models/Song'
+import type Song from '../models/Song'
+import type DatastoreOne from '../datastores/DatastoreOne'
 
 export default class SongRepository {
-  data: Song[] = [
-    new Song('0', 'title0', ['0'], 'url0'),
-    new Song('1', 'title1', ['0', '1'], 'url1')
-  ]
+  datastoreOne: DatastoreOne
 
-  readAll = (): Song[] => {
-    return this.data
+  constructor (datastoreOne: DatastoreOne) {
+    this.datastoreOne = datastoreOne
   }
 
-  readOneById = (id: string): Song | undefined => {
-    return this.data.find((item) => item.id === id)
+  readAll = (): Song[] => {
+    return this.datastoreOne.songs
+  }
+
+  readOneById = (id: string): Song => {
+    const foundItem: Song | undefined = this.datastoreOne.songs.find((item) => item.id === id)
+    if (foundItem === undefined) {
+      throw new Error(`Song with id ${id} is not found.`)
+    }
+    return foundItem
   }
 
   createOne = (item: Song): Song => {
-    this.data.push(item)
+    this.datastoreOne.songs.push(item)
     return item
   }
 
-  patchOneById = (id: string, item: Song): Song | undefined => {
-    const foundItem: Song | undefined = this.readOneById(id)
-    if (foundItem === undefined) {
-      return undefined
-    }
+  patchOneById = (id: string, item: Song): Song => {
+    const foundItem: Song = this.readOneById(id)
     foundItem.patchFrom(item)
     return foundItem
   }
 
-  deleteOneById = (id: string): Song | undefined => {
-    const foundItem: Song | undefined = this.readOneById(id)
-    if (foundItem === undefined) {
-      return undefined
-    }
-    this.data = this.data.filter((item) => item.id !== id)
+  deleteOneById = (id: string): Song => {
+    const foundItem: Song = this.readOneById(id)
+    this.datastoreOne.songs = this.datastoreOne.songs.filter((item) => item.id !== id)
     return foundItem
   }
 }

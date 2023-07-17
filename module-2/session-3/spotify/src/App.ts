@@ -1,13 +1,23 @@
-import express from 'express'
-import indexRoute from './routes/Index'
+import express, { Router } from 'express'
+import RootRoute from './routes/RootRoute'
 
-const app = express()
-app.use(express.json({ type: '*/*' }))
+const main = async () => {
+  const app = express()
+  app.use(express.json({ type: '*/*' }))
 
-const PORT = 3000
+  const PORT = 3000
 
-app.use('/api/v1', indexRoute)
+  const rootRoute = new RootRoute(app, Router())
+  rootRoute.registerRoutes()
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`)
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`)
+  })
+}
+
+main().then(() => {
+  console.log('Application started.')
+}).catch((error) => {
+  console.log('Application failed to start.')
+  console.error(error)
 })

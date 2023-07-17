@@ -1,11 +1,19 @@
-import SongRepository from '../repositories/SongRepository'
+import type SongRepository from '../repositories/SongRepository'
 import Song from '../models/Song'
 import Result from '../models/Result'
-import PlaylistSongRepository from '../repositories/PlaylistSongRepository'
+import type PlaylistSongRepository from '../repositories/PlaylistSongRepository'
 
 export default class SongService {
-  songRepository: SongRepository = new SongRepository()
-  playlistSongRepository: PlaylistSongRepository = new PlaylistSongRepository()
+  songRepository: SongRepository
+  playlistSongRepository: PlaylistSongRepository
+
+  constructor (
+    songRepository: SongRepository,
+    playlistSongRepository: PlaylistSongRepository
+  ) {
+    this.songRepository = songRepository
+    this.playlistSongRepository = playlistSongRepository
+  }
 
   readAll = (): Result<Song[]> => {
     const foundSongs: Song[] = this.songRepository.readAll()
@@ -17,21 +25,20 @@ export default class SongService {
   }
 
   readOneById = (id: string): Result<Song | undefined> => {
-    const foundSong: Song | undefined = this.songRepository.readOneById(id)
-
-    if (foundSong === undefined) {
-      return new Result<Song | undefined>(
+    try {
+      const foundSong: Song = this.songRepository.readOneById(id)
+      return new Result<Song >(
+        200,
+        'Song read one by id succeed.',
+        foundSong
+      )
+    } catch (error) {
+      return new Result<undefined>(
         400,
-          `Song read one by id failed: song with id ${id} is undefined.`,
-          undefined
+            `Song read one by id failed: song with id ${id} is undefined.`,
+            undefined
       )
     }
-
-    return new Result<Song | undefined>(
-      200,
-      'Song read one by id succeed.',
-      foundSong
-    )
   }
 
   createOne = (item: any): Result<Song> => {
@@ -43,39 +50,37 @@ export default class SongService {
   }
 
   patchOneById = (id: string, item: any): Result<Song | undefined> => {
-    const patchedSong: Song | undefined = this.songRepository.patchOneById(id, item)
-
-    if (patchedSong === undefined) {
-      return new Result<Song | undefined>(
+    try {
+      const patchedSong: Song = this.songRepository.patchOneById(id, item)
+      return new Result<Song >(
+        200,
+        'Song patch one by id succeed.',
+        patchedSong
+      )
+    } catch (error) {
+      return new Result< undefined>(
         400,
           `Song patch one by id failed: song with id ${id} is undefined.`,
           undefined
       )
     }
-
-    return new Result<Song | undefined>(
-      200,
-      'Song patch one by id succeed.',
-      patchedSong
-    )
   }
 
   deleteOneById = (id: string): Result<Song | undefined> => {
-    const deletedSong: Song | undefined = this.songRepository.deleteOneById(id)
-
-    if (deletedSong === undefined) {
-      return new Result<Song | undefined>(
+    try {
+      const deletedSong: Song = this.songRepository.deleteOneById(id)
+      return new Result<Song >(
+        200,
+        'Song delete one by id succeed.',
+        deletedSong
+      )
+    } catch (error) {
+      return new Result<undefined>(
         400,
           `Song delete one by id failed: song with id ${id} is undefined.`,
           undefined
       )
     }
-
-    return new Result<Song | undefined>(
-      200,
-      'Song delete one by id succeed.',
-      deletedSong
-    )
   }
 
   readAllSortedDescendByPlayCount = (): Result<Song[] | undefined> => {

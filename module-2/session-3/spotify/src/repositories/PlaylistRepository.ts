@@ -1,43 +1,39 @@
-import { randomUUID } from 'crypto'
-import Playlist from '../models/Playlist'
-import SongRepository from './SongRepository'
+import type Playlist from '../models/Playlist'
+import type DatastoreOne from '../datastores/DatastoreOne'
 
 export default class PlaylistRepository {
-  songRepository: SongRepository = new SongRepository()
+  datastoreOne: DatastoreOne
 
-  data: Playlist[] = [
-    new Playlist('0'),
-    new Playlist('1')
-  ]
-
-  readAll = (): Playlist[] => {
-    return this.data
+  constructor (datastoreOne: DatastoreOne) {
+    this.datastoreOne = datastoreOne
   }
 
-  readOneById = (id: string): Playlist | undefined => {
-    return this.data.find((item) => item.id === id)
+  readAll = (): Playlist[] => {
+    return this.datastoreOne.playlists
+  }
+
+  readOneById = (id: string): Playlist => {
+    const foundItem: Playlist | undefined = this.datastoreOne.playlists.find((item) => item.id === id)
+    if (foundItem === undefined) {
+      throw new Error(`Playlist with id ${id} is not found.`)
+    }
+    return foundItem
   }
 
   createOne = (item: Playlist): Playlist => {
-    this.data.push(item)
+    this.datastoreOne.playlists.push(item)
     return item
   }
 
-  patchOneById = (id: string, item: Playlist): Playlist | undefined => {
-    const foundItem: Playlist | undefined = this.readOneById(id)
-    if (foundItem === undefined) {
-      return undefined
-    }
+  patchOneById = (id: string, item: Playlist): Playlist => {
+    const foundItem: Playlist = this.readOneById(id)
     foundItem.patchFrom(item)
     return foundItem
   }
 
-  deleteOneById = (id: string): Playlist | undefined => {
-    const foundItem: Playlist | undefined = this.readOneById(id)
-    if (foundItem === undefined) {
-      return undefined
-    }
-    this.data = this.data.filter((item) => item.id !== id)
+  deleteOneById = (id: string): Playlist => {
+    const foundItem: Playlist = this.readOneById(id)
+    this.datastoreOne.playlists = this.datastoreOne.playlists.filter((item) => item.id !== id)
     return foundItem
   }
 }

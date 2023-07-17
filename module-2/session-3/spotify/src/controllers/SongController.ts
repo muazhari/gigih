@@ -1,14 +1,19 @@
 import express, { type Request, type Response, type Router } from 'express'
-import SongService from '../services/SongService'
+import type SongService from '../services/SongService'
 import type Song from '../models/Song'
 import type Result from '../models/Result'
 import Artist from '../models/Artist'
 
 export default class SongController {
-  songService: SongService = new SongService()
-  router: Router = express.Router()
+  songService: SongService
+  router: Router
 
-  constructor () {
+  constructor (router: Router, songService: SongService) {
+    this.router = router
+    this.songService = songService
+  }
+
+  registerRoutes = (): void => {
     this.router.get('/', this.readAll)
     this.router.get('/:songId', this.readOneById)
     this.router.post('/', this.createOne)

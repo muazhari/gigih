@@ -1,43 +1,32 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Playlist_1 = __importDefault(require("../models/Playlist"));
-const SongRepository_1 = __importDefault(require("./SongRepository"));
 class PlaylistRepository {
-    constructor() {
-        this.songRepository = new SongRepository_1.default();
-        this.data = [
-            new Playlist_1.default('0'),
-            new Playlist_1.default('1')
-        ];
+    constructor(datastoreOne) {
         this.readAll = () => {
-            return this.data;
+            return this.datastoreOne.playlists;
         };
         this.readOneById = (id) => {
-            return this.data.find((item) => item.id === id);
+            const foundItem = this.datastoreOne.playlists.find((item) => item.id === id);
+            if (foundItem === undefined) {
+                throw new Error(`Playlist with id ${id} is not found.`);
+            }
+            return foundItem;
         };
         this.createOne = (item) => {
-            this.data.push(item);
+            this.datastoreOne.playlists.push(item);
             return item;
         };
         this.patchOneById = (id, item) => {
             const foundItem = this.readOneById(id);
-            if (foundItem === undefined) {
-                return undefined;
-            }
             foundItem.patchFrom(item);
             return foundItem;
         };
         this.deleteOneById = (id) => {
             const foundItem = this.readOneById(id);
-            if (foundItem === undefined) {
-                return undefined;
-            }
-            this.data = this.data.filter((item) => item.id !== id);
+            this.datastoreOne.playlists = this.datastoreOne.playlists.filter((item) => item.id !== id);
             return foundItem;
         };
+        this.datastoreOne = datastoreOne;
     }
 }
 exports.default = PlaylistRepository;

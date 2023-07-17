@@ -1,4 +1,4 @@
-import PlaylistService from '../services/PlaylistService'
+import type PlaylistService from '../services/PlaylistService'
 import type Song from '../models/Song'
 import type Playlist from '../models/Playlist'
 import express, { type Request, type Response, type Router } from 'express'
@@ -6,10 +6,15 @@ import type Result from '../models/Result'
 import type Artist from '../models/Artist'
 
 export default class PlaylistController {
-  playlistService: PlaylistService = new PlaylistService()
-  router: Router = express.Router()
+  playlistService: PlaylistService
+  router: Router
 
-  constructor () {
+  constructor (router: Router, playlistService: PlaylistService) {
+    this.playlistService = playlistService
+    this.router = router
+  }
+
+  registerRoutes = (): void => {
     this.router.get('/', this.readAll)
     this.router.get('/:playlistId', this.readOneById)
     this.router.post('/', this.createOne)

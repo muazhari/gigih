@@ -3,41 +3,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const SongRepository_1 = __importDefault(require("../repositories/SongRepository"));
 const Song_1 = __importDefault(require("../models/Song"));
 const Result_1 = __importDefault(require("../models/Result"));
-const PlaylistSongRepository_1 = __importDefault(require("../repositories/PlaylistSongRepository"));
 class SongService {
-    constructor() {
-        this.songRepository = new SongRepository_1.default();
-        this.playlistSongRepository = new PlaylistSongRepository_1.default();
+    constructor(songRepository, playlistSongRepository) {
         this.readAll = () => {
             const foundSongs = this.songRepository.readAll();
             return new Result_1.default(200, 'Song read all succeed.', foundSongs);
         };
         this.readOneById = (id) => {
-            const foundSong = this.songRepository.readOneById(id);
-            if (foundSong === undefined) {
+            try {
+                const foundSong = this.songRepository.readOneById(id);
+                return new Result_1.default(200, 'Song read one by id succeed.', foundSong);
+            }
+            catch (error) {
                 return new Result_1.default(400, `Song read one by id failed: song with id ${id} is undefined.`, undefined);
             }
-            return new Result_1.default(200, 'Song read one by id succeed.', foundSong);
         };
         this.createOne = (item) => {
             return new Result_1.default(201, 'Song create one succeed.', this.songRepository.createOne(item));
         };
         this.patchOneById = (id, item) => {
-            const patchedSong = this.songRepository.patchOneById(id, item);
-            if (patchedSong === undefined) {
+            try {
+                const patchedSong = this.songRepository.patchOneById(id, item);
+                return new Result_1.default(200, 'Song patch one by id succeed.', patchedSong);
+            }
+            catch (error) {
                 return new Result_1.default(400, `Song patch one by id failed: song with id ${id} is undefined.`, undefined);
             }
-            return new Result_1.default(200, 'Song patch one by id succeed.', patchedSong);
         };
         this.deleteOneById = (id) => {
-            const deletedSong = this.songRepository.deleteOneById(id);
-            if (deletedSong === undefined) {
+            try {
+                const deletedSong = this.songRepository.deleteOneById(id);
+                return new Result_1.default(200, 'Song delete one by id succeed.', deletedSong);
+            }
+            catch (error) {
                 return new Result_1.default(400, `Song delete one by id failed: song with id ${id} is undefined.`, undefined);
             }
-            return new Result_1.default(200, 'Song delete one by id succeed.', deletedSong);
         };
         this.readAllSortedDescendByPlayCount = () => {
             const foundSongs = this.songRepository.readAll();
@@ -48,6 +50,8 @@ class SongService {
             }).sort((a, b) => b.playCount - a.playCount).map(song => new Song_1.default(song.id, song.title, song.artistIds, song.url));
             return new Result_1.default(200, 'Song read all sorted descend by play count succeed.', songsSortedDescendingByPlayCount);
         };
+        this.songRepository = songRepository;
+        this.playlistSongRepository = playlistSongRepository;
     }
 }
 exports.default = SongService;

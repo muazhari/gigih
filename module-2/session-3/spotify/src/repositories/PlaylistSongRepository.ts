@@ -1,48 +1,44 @@
-import { randomUUID } from 'crypto'
-import PlaylistSong from '../models/PlaylistSong'
-import SongRepository from './SongRepository'
+import type PlaylistSong from '../models/PlaylistSong'
+import type DatastoreOne from '../datastores/DatastoreOne'
+import Playlist from '../models/Playlist'
 
 export default class PlaylistSongRepository {
-  songRepository: SongRepository = new SongRepository()
+  datastoreOne: DatastoreOne
 
-  data: PlaylistSong[] = [
-    new PlaylistSong('0', '0', '0', 0),
-    new PlaylistSong('1', '0', '1', 1),
-    new PlaylistSong('2', '1', '0', 2)
-  ]
+  constructor (datastoreOne: DatastoreOne) {
+    this.datastoreOne = datastoreOne
+  }
 
   readAll = (): PlaylistSong[] => {
-    return this.data
+    return this.datastoreOne.playlistSongs
   }
 
   readAllByPlaylistId = (playlistId: string): PlaylistSong[] => {
-    return this.data.filter((item) => item.playlistId === playlistId)
+    return this.datastoreOne.playlistSongs.filter((item) => item.playlistId === playlistId)
   }
 
-  readOneById = (id: string): PlaylistSong | undefined => {
-    return this.data.find((item) => item.id === id)
+  readOneById = (id: string): PlaylistSong => {
+    const foundItem: PlaylistSong | undefined = this.datastoreOne.playlistSongs.find((item) => item.id === id)
+    if (foundItem === undefined) {
+      throw new Error(`PlaylistSong with id ${id} is not found.`)
+    }
+    return foundItem
   }
 
   createOne = (item: PlaylistSong): PlaylistSong => {
-    this.data.push(item)
+    this.datastoreOne.playlistSongs.push(item)
     return item
   }
 
-  patchOneById = (id: string, item: PlaylistSong): PlaylistSong | undefined => {
-    const foundItem: PlaylistSong | undefined = this.readOneById(id)
-    if (foundItem === undefined) {
-      return undefined
-    }
+  patchOneById = (id: string, item: PlaylistSong): PlaylistSong => {
+    const foundItem: PlaylistSong = this.readOneById(id)
     foundItem.patchFrom(item)
     return foundItem
   }
 
-  deleteOneById = (id: string): PlaylistSong | undefined => {
-    const foundItem: PlaylistSong | undefined = this.readOneById(id)
-    if (foundItem === undefined) {
-      return undefined
-    }
-    this.data = this.data.filter((item) => item.id !== id)
+  deleteOneById = (id: string): PlaylistSong => {
+    const foundItem: PlaylistSong = this.readOneById(id)
+    this.datastoreOne.playlistSongs = this.datastoreOne.playlistSongs.filter((item) => item.id !== id)
     return foundItem
   }
 }
