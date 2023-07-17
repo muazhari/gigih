@@ -134,7 +134,6 @@ export default class PlaylistService {
     }
   }
 
-  // @ts-expect-error/Too nested return statements
   readAllSongFromPlaylist = (playlistId: string): Result<Song[] | undefined> => {
     try {
       this.playlistRepository.readOneById(playlistId)
@@ -142,7 +141,6 @@ export default class PlaylistService {
 
       const songs: Song[] = []
 
-      // eslint-disable-next-line no-unreachable-loop
       for (const playlistSong of playlistSongs) {
         if (playlistSong.songId === undefined) {
           return new Result<undefined>(
@@ -155,11 +153,6 @@ export default class PlaylistService {
         try {
           const song = this.songRepository.readOneById(playlistSong.songId)
           songs.push(song)
-          return new Result<Song[]>(
-            200,
-            'Playlist read all song from playlist succeed.',
-            songs
-          )
         } catch (error) {
           return new Result<undefined>(
             400,
@@ -168,6 +161,12 @@ export default class PlaylistService {
           )
         }
       }
+
+      return new Result<Song[]>(
+        200,
+        'Playlist read all song from playlist succeed.',
+        songs
+      )
     } catch (error) {
       return new Result<undefined>(
         400,

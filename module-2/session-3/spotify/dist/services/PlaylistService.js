@@ -62,13 +62,11 @@ class PlaylistService {
                 return new Result_1.default(400, `Playlist add many song to playlist failed: playlist with playlistId ${playlistId} is undefined.`, undefined);
             }
         };
-        // @ts-expect-error/Too nested return statements
         this.readAllSongFromPlaylist = (playlistId) => {
             try {
                 this.playlistRepository.readOneById(playlistId);
                 const playlistSongs = this.playlistSongRepository.readAllByPlaylistId(playlistId);
                 const songs = [];
-                // eslint-disable-next-line no-unreachable-loop
                 for (const playlistSong of playlistSongs) {
                     if (playlistSong.songId === undefined) {
                         return new Result_1.default(400, 'Playlist read all song from playlist failed: songId from playlistSong is undefined.', undefined);
@@ -76,12 +74,12 @@ class PlaylistService {
                     try {
                         const song = this.songRepository.readOneById(playlistSong.songId);
                         songs.push(song);
-                        return new Result_1.default(200, 'Playlist read all song from playlist succeed.', songs);
                     }
                     catch (error) {
                         return new Result_1.default(400, `Playlist read all song from playlist failed: song with songId ${playlistSong.songId} is undefined.`, undefined);
                     }
                 }
+                return new Result_1.default(200, 'Playlist read all song from playlist succeed.', songs);
             }
             catch (error) {
                 return new Result_1.default(400, 'Playlist read all song from playlist failed: playlist undefined.', undefined);
