@@ -32,16 +32,16 @@ class OneMigration {
     constructor(oneDatastore) {
         this.up = () => __awaiter(this, void 0, void 0, function* () {
             const albums = yield AlbumSchema_1.default.create([
-                new Album_1.default('name0'),
-                new Album_1.default('name1'),
-                new Album_1.default('name2'),
-                new Album_1.default('name3'),
-                new Album_1.default('name4'),
-                new Album_1.default('name5'),
-                new Album_1.default('name6'),
-                new Album_1.default('name7'),
-                new Album_1.default('name8'),
-                new Album_1.default('name9'),
+                new Album_1.default('album0'),
+                new Album_1.default('album1'),
+                new Album_1.default('album2'),
+                new Album_1.default('album3'),
+                new Album_1.default('album4'),
+                new Album_1.default('album5'),
+                new Album_1.default('album6'),
+                new Album_1.default('album7'),
+                new Album_1.default('album8'),
+                new Album_1.default('album9'),
             ]);
             console.log(albums);
             const genres = yield GenreSchema_1.default.create([
@@ -135,6 +135,67 @@ class OneMigration {
                 new SongArtistMap_1.default(songs[9]._id, artists[9]._id),
             ]);
             console.log(songArtistMaps);
+            // collection view of songs with genres, artists, and albums
+            const view1 = yield SongSchema_1.default.aggregate([
+                {
+                    $lookup: {
+                        from: "song_artist_maps",
+                        foreignField: "songId",
+                        localField: "_id",
+                        as: "song_artist_maps"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "artists",
+                        foreignField: "_id",
+                        localField: "song_artist_maps.artistId",
+                        as: "artists"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "song_album_maps",
+                        foreignField: "songId",
+                        localField: "_id",
+                        as: "song_album_maps"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "albums",
+                        foreignField: "_id",
+                        localField: "song_album_maps.albumId",
+                        as: "albums"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "artist_genre_maps",
+                        foreignField: "artistId",
+                        localField: "artists._id",
+                        as: "artist_genre_maps"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "genres",
+                        foreignField: "_id",
+                        localField: "artist_genre_maps.genreId",
+                        as: "genres"
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        title: 1,
+                        artists: 1,
+                        albums: 1,
+                        genres: 1
+                    }
+                }
+            ]);
+            console.log(view1);
             console.log('OneMigration up');
         });
         this.down = () => __awaiter(this, void 0, void 0, function* () {

@@ -26,16 +26,16 @@ export default class OneMigration {
 
     up = async () : Promise<void> => {
         const albums: Album[] = await AlbumSchema.create([
-            new Album('name0'),
-            new Album('name1'),
-            new Album('name2'),
-            new Album('name3'),
-            new Album('name4'),
-            new Album('name5'),
-            new Album('name6'),
-            new Album('name7'),
-            new Album('name8'),
-            new Album('name9'),
+            new Album('album0'),
+            new Album('album1'),
+            new Album('album2'),
+            new Album('album3'),
+            new Album('album4'),
+            new Album('album5'),
+            new Album('album6'),
+            new Album('album7'),
+            new Album('album8'),
+            new Album('album9'),
         ])
         console.log(albums)
 
@@ -136,6 +136,68 @@ export default class OneMigration {
             new SongArtistMap(songs[9]._id!, artists[9]._id!),
         ])
         console.log(songArtistMaps)
+
+        // collection view of songs with genres, artists, and albums
+        const view1: any = await SongSchema.aggregate([
+            {
+                $lookup: {
+                    from: "song_artist_maps",
+                    foreignField: "songId",
+                    localField: "_id",
+                    as: "song_artist_maps"
+                }
+            },
+            {
+                $lookup: {
+                    from: "artists",
+                    foreignField: "_id",
+                    localField: "song_artist_maps.artistId",
+                    as: "artists"
+                }
+            },
+            {
+                $lookup: {
+                    from: "song_album_maps",
+                    foreignField: "songId",
+                    localField: "_id",
+                    as: "song_album_maps"
+                }
+            },
+            {
+                $lookup: {
+                    from: "albums",
+                    foreignField: "_id",
+                    localField: "song_album_maps.albumId",
+                    as: "albums"
+                }
+            },
+            {
+                $lookup: {
+                    from: "artist_genre_maps",
+                    foreignField: "artistId",
+                    localField: "artists._id",
+                    as: "artist_genre_maps"
+                }
+            },
+            {
+                $lookup: {
+                    from: "genres",
+                    foreignField: "_id",
+                    localField: "artist_genre_maps.genreId",
+                    as: "genres"
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    title: 1,
+                    artists: 1,
+                    albums: 1,
+                    genres: 1
+                }
+            }
+        ])
+        console.log(view1)
 
         console.log('OneMigration up');
     }
