@@ -8,7 +8,6 @@ import type Song from '../models/Song'
 import type PlaylistSongRepository from '../repositories/PlaylistSongRepository'
 import { randomUUID } from 'crypto'
 import PlaylistSong from '../models/PlaylistSong'
-import Artist from '../models/Artist'
 
 export default class PlaylistService {
   playlistRepository: PlaylistRepository

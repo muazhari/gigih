@@ -1,5 +1,4 @@
-import mongoose, {model, Schema} from "mongoose";
-import Album from "../models/Album";
+import {model, Schema} from "mongoose";
 import Artist from "../models/Artist";
 
 const artistSchema = new Schema<Artist>({

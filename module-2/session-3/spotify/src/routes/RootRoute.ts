@@ -1,4 +1,4 @@
-import express, { type Application, Router } from 'express'
+import { type Application, Router } from 'express'
 import ArtistController from '../controllers/ArtistController'
 import SongController from '../controllers/SongController'
 import PlaylistController from '../controllers/PlaylistController'

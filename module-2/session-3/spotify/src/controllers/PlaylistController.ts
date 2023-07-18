@@ -1,9 +1,8 @@
 import type PlaylistService from '../services/PlaylistService'
 import type Song from '../models/Song'
 import type Playlist from '../models/Playlist'
-import express, { type Request, type Response, type Router } from 'express'
+import { type Request, type Response, type Router } from 'express'
 import type Result from '../models/Result'
-import type Artist from '../models/Artist'
 
 export default class PlaylistController {
   playlistService: PlaylistService

@@ -1,5 +1,5 @@
 import * as os from 'os'
-import mongoose, { type Mongoose } from 'mongoose'
+import mongoose, {type Mongoose} from 'mongoose'
 
 export default class OneDatastore {
   db: Mongoose | undefined

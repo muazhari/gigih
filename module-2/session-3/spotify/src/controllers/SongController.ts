@@ -1,8 +1,7 @@
-import express, { type Request, type Response, type Router } from 'express'
+import { type Request, type Response, type Router } from 'express'
 import type SongService from '../services/SongService'
 import type Song from '../models/Song'
 import type Result from '../models/Result'
-import Artist from '../models/Artist'
 
 export default class SongController {
   songService: SongService

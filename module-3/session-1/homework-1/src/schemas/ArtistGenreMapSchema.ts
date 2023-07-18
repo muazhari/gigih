@@ -1,6 +1,4 @@
-import mongoose, {model, Schema} from "mongoose";
-import Album from "../models/Album";
-import Artist from "../models/Artist";
+import {model, Schema} from "mongoose";
 import ArtistGenreMap from "../models/ArtistGenreMap";
 
 const artistGenreMapSchema = new Schema<ArtistGenreMap>({

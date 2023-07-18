@@ -1,4 +1,4 @@
-import express, { type Request, type Response, type Router } from 'express'
+import { type Request, type Response, type Router } from 'express'
 import type ArtistService from '../services/ArtistService'
 import type Artist from '../models/Artist'
 import type Result from '../models/Result'

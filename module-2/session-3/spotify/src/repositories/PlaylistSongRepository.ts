@@ -1,6 +1,5 @@
 import type PlaylistSong from '../models/PlaylistSong'
 import type DatastoreOne from '../datastores/DatastoreOne'
-import Playlist from '../models/Playlist'
 
 export default class PlaylistSongRepository {
   datastoreOne: DatastoreOne
