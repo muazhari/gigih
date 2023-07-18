@@ -7,4 +7,4 @@ const genreSchema = new Schema<Genre>({
     }
 })
 
-export default model<Genre>('genre', genreSchema)
+export default model<Genre>('genres', genreSchema)

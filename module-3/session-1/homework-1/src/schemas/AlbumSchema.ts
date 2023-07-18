@@ -7,4 +7,4 @@ const albumSchema = new Schema<Album>({
     }
 })
 
-export default model<Album>('album', albumSchema)
+export default model<Album>('albums', albumSchema)

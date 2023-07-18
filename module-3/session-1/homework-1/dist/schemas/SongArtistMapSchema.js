@@ -9,5 +9,5 @@ const songArtistMapSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
     }
 });
-exports.default = (0, mongoose_1.model)('song_artist_map', songArtistMapSchema);
+exports.default = (0, mongoose_1.model)('song_artist_maps', songArtistMapSchema);
 //# sourceMappingURL=SongArtistMapSchema.js.map

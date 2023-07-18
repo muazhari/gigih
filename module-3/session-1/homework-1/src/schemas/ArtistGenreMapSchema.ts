@@ -10,4 +10,4 @@ const artistGenreMapSchema = new Schema<ArtistGenreMap>({
     }
 })
 
-export default model<ArtistGenreMap>('artist_genre_map', artistGenreMapSchema)
+export default model<ArtistGenreMap>('artist_genre_maps', artistGenreMapSchema)

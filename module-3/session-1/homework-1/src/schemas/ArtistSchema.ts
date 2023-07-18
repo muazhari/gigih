@@ -10,4 +10,4 @@ const artistSchema = new Schema<Artist>({
     },
 })
 
-export default model<Artist>('artist', artistSchema)
+export default model<Artist>('artists', artistSchema)

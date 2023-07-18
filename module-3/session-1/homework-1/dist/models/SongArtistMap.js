@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class SongArtistMap {
-    constructor(artistId, songId) {
-        this.artistId = artistId;
+    constructor(songId, artistId) {
         this.songId = songId;
+        this.artistId = artistId;
     }
 }
 exports.default = SongArtistMap;

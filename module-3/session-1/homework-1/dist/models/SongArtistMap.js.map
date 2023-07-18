@@ -1,1 +1,1 @@
-{"version":3,"file":"SongArtistMap.js","sourceRoot":"","sources":["../../src/models/SongArtistMap.ts"],"names":[],"mappings":";;AAEA,MAAqB,aAAa;IAK9B,YAAY,QAAgB,EAAE,MAAc;QACxC,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAA;QACxB,IAAI,CAAC,MAAM,GAAG,MAAM,CAAA;IACxB,CAAC;CACJ;AATD,gCASC"}
+{"version":3,"file":"SongArtistMap.js","sourceRoot":"","sources":["../../src/models/SongArtistMap.ts"],"names":[],"mappings":";;AAEA,MAAqB,aAAa;IAK9B,YAAY,MAAc,EAAE,QAAgB;QACxC,IAAI,CAAC,MAAM,GAAG,MAAM,CAAA;QACpB,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAA;IAC5B,CAAC;CACJ;AATD,gCASC"}

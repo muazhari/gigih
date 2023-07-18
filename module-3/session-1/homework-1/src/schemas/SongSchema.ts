@@ -7,4 +7,4 @@ const songSchema = new Schema<Song>({
     }
 })
 
-export default model<Song>('song', songSchema)
+export default model<Song>('songs', songSchema)

@@ -13,4 +13,4 @@ const popularSongSchema = new Schema<PopularSong>({
     }
 })
 
-export default model<PopularSong>('popular_song', popularSongSchema)
+export default model<PopularSong>('popular_songs', popularSongSchema)

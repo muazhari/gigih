@@ -2,11 +2,11 @@
 
 export default class SongArtistMap {
     _id: string | undefined
-    artistId: string | undefined
     songId: string | undefined
+    artistId: string | undefined
 
-    constructor(artistId: string, songId: string) {
-        this.artistId = artistId
+    constructor(songId: string, artistId: string) {
         this.songId = songId
+        this.artistId = artistId
     }
 }

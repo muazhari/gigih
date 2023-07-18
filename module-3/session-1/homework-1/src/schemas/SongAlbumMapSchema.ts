@@ -10,4 +10,4 @@ const songAlbumMapSchema = new Schema<SongAlbumMap>({
     }
 })
 
-export default model<SongAlbumMap>('song_album_map', songAlbumMapSchema)
+export default model<SongAlbumMap>('song_album_maps', songAlbumMapSchema)
