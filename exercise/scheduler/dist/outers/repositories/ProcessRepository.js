@@ -64,4 +64,4 @@ class ProcessRepository {
     }
 }
 exports.default = ProcessRepository;
-//# sourceMappingURL=ProcessRepository.js.map
+//# sourceMappingURL=ProductRepository.js.map

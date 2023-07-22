@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 require("./outers/configurations");
-require("./outers/persistences/DatastoreOne");
+require("./outers/datastores/DatastoreOne");
 const RootRoute_1 = __importDefault(require("./outers/routes/RootRoute"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, express_1.default)();
