@@ -118,4 +118,4 @@ chai_1.default.should();
         }));
     });
 });
-//# sourceMappingURL=ProductController.spec.js.map
+//# sourceMappingURL=ProductControllerRest.spec.js.map

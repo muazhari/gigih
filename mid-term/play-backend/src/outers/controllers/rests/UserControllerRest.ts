@@ -1,21 +1,20 @@
 import { type Request, type Response, type Router } from 'express'
 
-import type Product from '../../inners/models/entities/Product'
-import type Result from '../../inners/models/value_objects/Result'
-import type ProductManagement from '../../inners/use_cases/managements/ProductManagement'
+import type User from '../../../inners/models/entities/User'
+import type Result from '../../../inners/models/value_objects/Result'
+import type UserManagement from '../../../inners/use_cases/managements/UserManagement'
 
-export default class ProductController {
+export default class UserControllerRest {
   router: Router
-  productManagement: ProductManagement
+  userManagement: UserManagement
 
-  constructor (router: Router, productManagement: ProductManagement) {
+  constructor (router: Router, userManagement: UserManagement) {
     this.router = router
-    this.productManagement = productManagement
+    this.userManagement = userManagement
   }
 
   registerRoutes = (): void => {
     this.router.get('', this.readAll)
-    this.router.get('/videos/:videoId', this.readAllByVideoId)
     this.router.get('/:id', this.readOneById)
     this.router.post('', this.createOne)
     this.router.patch('/:id', this.patchOneById)
@@ -23,25 +22,9 @@ export default class ProductController {
   }
 
   readAll = (request: Request, response: Response): void => {
-    this.productManagement
+    this.userManagement
       .readAll()
-      .then((result: Result<Product[]>) => {
-        response.status(result.status).json(result)
-      })
-      .catch((error: Error) => {
-        response.status(500).json({
-          status: 500,
-          message: error.message,
-          data: null
-        })
-      })
-  }
-
-  readAllByVideoId = (request: Request, response: Response): void => {
-    const { videoId } = request.params
-    this.productManagement
-      .readAllByVideoId(videoId)
-      .then((result: Result<Product[]>) => {
+      .then((result: Result<User[]>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -55,9 +38,9 @@ export default class ProductController {
 
   readOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.productManagement
+    this.userManagement
       .readOneById(id)
-      .then((result: Result<Product>) => {
+      .then((result: Result<User>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -70,9 +53,9 @@ export default class ProductController {
   }
 
   createOne = (request: Request, response: Response): void => {
-    this.productManagement
+    this.userManagement
       .createOne(request.body)
-      .then((result: Result<Product>) => {
+      .then((result: Result<User>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -86,9 +69,9 @@ export default class ProductController {
 
   patchOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.productManagement
+    this.userManagement
       .patchOneById(id, request.body)
-      .then((result: Result<Product>) => {
+      .then((result: Result<User>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -102,9 +85,9 @@ export default class ProductController {
 
   deleteOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.productManagement
+    this.userManagement
       .deleteOneById(id)
-      .then((result: Result<Product>) => {
+      .then((result: Result<User>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {

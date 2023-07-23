@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+const express_1 = __importDefault(require("expresses"));
 const ArtistRoute_1 = __importDefault(require("./ArtistRoute"));
 const SongRoute_1 = __importDefault(require("./SongRoute"));
 const PlaylistRoute_1 = __importDefault(require("./PlaylistRoute"));

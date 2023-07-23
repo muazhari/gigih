@@ -87,4 +87,4 @@ class VideoController {
     }
 }
 exports.default = VideoController;
-//# sourceMappingURL=VideoController.js.map
+//# sourceMappingURL=VideoControllerRest.js.map

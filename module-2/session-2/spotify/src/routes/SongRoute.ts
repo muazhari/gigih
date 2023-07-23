@@ -1,4 +1,4 @@
-import express from "express";
+import express from "expresses";
 import SongController from "../controllers/SongController";
 
 const router = express.Router();

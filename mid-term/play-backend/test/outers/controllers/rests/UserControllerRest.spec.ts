@@ -1,19 +1,19 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { beforeEach, describe, it } from 'mocha'
-import OneDatastore from '../../../src/outers/datastores/OneDatastore'
-import app from '../../../src/App'
-import UserMock from '../../mocks/UserMock'
-import UserSchema from '../../../src/outers/schemas/UserSchema'
+import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
+import { app } from '../../../../src/App'
+import UserMock from '../../../mocks/UserMock'
+import UserSchema from '../../../../src/outers/schemas/UserSchema'
 import { Types } from 'mongoose'
-import User from '../../../src/inners/models/entities/User'
+import User from '../../../../src/inners/models/entities/User'
 import humps from 'humps'
+import { randomUUID } from 'crypto'
 
 chai.use(chaiHttp)
 chai.should()
 
-// create integration test for user controller
-describe('UserController', () => {
+describe('UserControllerRest', () => {
   const userMock: UserMock = new UserMock()
   const oneDatastore = new OneDatastore()
 
@@ -84,7 +84,7 @@ describe('UserController', () => {
   describe('PATCH /api/v1/users/:id', () => {
     it('should return 200 OK', async () => {
       const selectedUserMock = userMock.data[0]
-      selectedUserMock.username = 'username0 patched'
+      selectedUserMock.username = `username${randomUUID()} patched`
       selectedUserMock.pictureUrl = 'pictureUrl0 patched'
       if (selectedUserMock._id === undefined) {
         throw new Error('Selected user mock id is undefined.')

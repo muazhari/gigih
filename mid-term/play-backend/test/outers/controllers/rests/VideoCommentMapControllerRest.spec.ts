@@ -1,26 +1,23 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { afterEach, beforeEach, describe, it } from 'mocha'
-import OneDatastore from '../../../src/outers/datastores/OneDatastore'
-import app from '../../../src/App'
-import VideoCommentMapMock from '../../mocks/VideoCommentMapMock'
-import VideoCommentMapSchema from '../../../src/outers/schemas/VideoCommentMapSchema'
+import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
+import { app } from '../../../../src/App'
+import VideoCommentMapMock from '../../../mocks/VideoCommentMapMock'
+import VideoCommentMapSchema from '../../../../src/outers/schemas/VideoCommentMapSchema'
 import { Types } from 'mongoose'
-import VideoCommentMap from '../../../src/inners/models/entities/VideoCommentMap'
-import type VideoCommentMapAggregate
-  from '../../../src/inners/models/aggregates/VideoCommentMapAggregate'
-import VideoSchema from '../../../src/outers/schemas/VideoSchema'
-import CommentSchema from '../../../src/outers/schemas/CommentSchema'
-import VideoMock from '../../mocks/VideoMock'
-import type Video from '../../../src/inners/models/entities/Video'
-import type Comment from '../../../src/inners/models/entities/Comment'
+import VideoCommentMap from '../../../../src/inners/models/entities/VideoCommentMap'
+import type VideoCommentMapAggregate from '../../../../src/inners/models/aggregates/VideoCommentMapAggregate'
+import VideoSchema from '../../../../src/outers/schemas/VideoSchema'
+import CommentSchema from '../../../../src/outers/schemas/CommentSchema'
+import type Video from '../../../../src/inners/models/entities/Video'
+import type Comment from '../../../../src/inners/models/entities/Comment'
 import humps from 'humps'
 
 chai.use(chaiHttp)
 chai.should()
 
-// create integration test for videoCommentMap controller
-describe('VideoCommentMapController', () => {
+describe('VideoCommentMapControllerRest', () => {
   const videoCommentMapMock: VideoCommentMapMock = new VideoCommentMapMock()
   const oneDatastore = new OneDatastore()
 

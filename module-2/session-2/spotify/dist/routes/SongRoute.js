@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+const express_1 = __importDefault(require("expresses"));
 const SongController_1 = __importDefault(require("../controllers/SongController"));
 const router = express_1.default.Router();
 const songController = new SongController_1.default();

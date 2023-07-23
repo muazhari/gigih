@@ -1,4 +1,4 @@
-import express from "express";
+import express from "expresses";
 import ArtistController from "../controllers/ArtistController";
 
 const router = express.Router();

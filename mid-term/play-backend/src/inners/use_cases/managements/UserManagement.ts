@@ -27,6 +27,15 @@ export default class UserManagement {
     )
   }
 
+  readOneByUsername = async (username: string): Promise<Result<User >> => {
+    const foundUser: User = await this.userRepository.readOneByUsername(username)
+    return new Result<User >(
+      200,
+      'User read one by username succeed.',
+      foundUser
+    )
+  }
+
   createOne = async (item: any): Promise<Result<User>> => {
     const createdUser: User = await this.userRepository.createOne(item)
     return new Result<User>(

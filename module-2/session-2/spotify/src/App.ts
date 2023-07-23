@@ -1,8 +1,8 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response } from "expresses";
 import Song from "./models/Song";
 import Artist from "./models/Artist";
 import indexRoute from "./routes/index";
-import swaggerUi from "swagger-ui-express";
+import swaggerUi from "swagger-ui-expresses";
 
 const app = express();
 app.use(express.json({ type: "*/*" }));

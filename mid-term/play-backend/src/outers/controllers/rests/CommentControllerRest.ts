@@ -1,12 +1,12 @@
 import { type Request, type Response, type Router } from 'express'
 
-import type Comment from '../../inners/models/entities/Comment'
-import type Result from '../../inners/models/value_objects/Result'
-import type CommentManagement from '../../inners/use_cases/managements/CommentManagement'
-import type CommentAggregate from '../../inners/models/aggregates/CommentAggregate'
-import SubmitCommentRequest from '../../inners/models/value_objects/requests/comments/SubmitCommentRequest'
+import type Comment from '../../../inners/models/entities/Comment'
+import type Result from '../../../inners/models/value_objects/Result'
+import type CommentManagement from '../../../inners/use_cases/managements/CommentManagement'
+import type CommentAggregate from '../../../inners/models/aggregates/CommentAggregate'
+import SubmitCommentRequest from '../../../inners/models/value_objects/requests/comments/SubmitCommentRequest'
 
-export default class CommentController {
+export default class CommentControllerRest {
   router: Router
   commentManagement: CommentManagement
 
@@ -20,7 +20,7 @@ export default class CommentController {
     this.router.get('/videos/:videoId', this.readAllByVideoId)
     this.router.get('/:id', this.readOneById)
     this.router.post('', this.createOne)
-    this.router.post('/submit', this.submit)
+    this.router.post('/submission', this.submit)
     this.router.patch('/:id', this.patchOneById)
     this.router.delete('/:id', this.deleteOneById)
   }
@@ -91,11 +91,12 @@ export default class CommentController {
   }
 
   submit = (request: Request, response: Response): void => {
+    const { isAggregated } = request.query
     const { videoId, username, content } = request.body
     const submitComment: SubmitCommentRequest = new SubmitCommentRequest(videoId, username, content)
     this.commentManagement
-      .submit(submitComment)
-      .then((result: Result<Comment>) => {
+      .submit(submitComment, Boolean(isAggregated))
+      .then((result: Result<Comment | CommentAggregate>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {

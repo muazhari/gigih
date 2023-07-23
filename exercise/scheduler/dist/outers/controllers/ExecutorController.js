@@ -21,4 +21,4 @@ class ExecutorController {
     }
 }
 exports.default = ExecutorController;
-//# sourceMappingURL=ProductController.js.map
+//# sourceMappingURL=ProductControllerRest.js.map

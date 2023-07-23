@@ -117,4 +117,4 @@ chai_1.default.should();
         }));
     });
 });
-//# sourceMappingURL=VideoController.spec.js.map
+//# sourceMappingURL=VideoControllerRest.spec.js.map

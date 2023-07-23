@@ -1,23 +1,22 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { afterEach, beforeEach, describe, it } from 'mocha'
-import OneDatastore from '../../../src/outers/datastores/OneDatastore'
-import app from '../../../src/App'
-import ProductSchema from '../../../src/outers/schemas/ProductSchema'
+import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
+import { app } from '../../../../src/App'
+import ProductSchema from '../../../../src/outers/schemas/ProductSchema'
 import { Types } from 'mongoose'
-import Product from '../../../src/inners/models/entities/Product'
-import VideoProductMapMock from '../../mocks/VideoProductMapMock'
-import VideoSchema from '../../../src/outers/schemas/VideoSchema'
-import VideoProductMapSchema from '../../../src/outers/schemas/VideoProductMapSchema'
-import type VideoProductMap from '../../../src/inners/models/entities/VideoProductMap'
-import type Video from '../../../src/inners/models/entities/Video'
-import humps from "humps";
+import Product from '../../../../src/inners/models/entities/Product'
+import VideoProductMapMock from '../../../mocks/VideoProductMapMock'
+import VideoSchema from '../../../../src/outers/schemas/VideoSchema'
+import VideoProductMapSchema from '../../../../src/outers/schemas/VideoProductMapSchema'
+import type VideoProductMap from '../../../../src/inners/models/entities/VideoProductMap'
+import type Video from '../../../../src/inners/models/entities/Video'
+import humps from 'humps'
 
 chai.use(chaiHttp)
 chai.should()
 
-// create integration test for product controller
-describe('ProductController', () => {
+describe('ProductControllerRest', () => {
   const videoProductMapMock: VideoProductMapMock = new VideoProductMapMock()
   const oneDatastore = new OneDatastore()
 

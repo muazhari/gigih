@@ -1,4 +1,4 @@
-import express from "express";
+import express from "expresses";
 import PlaylistController from "../controllers/PlaylistController";
 import Song from "../models/Song";
 import Playlist from "../models/Playlist";

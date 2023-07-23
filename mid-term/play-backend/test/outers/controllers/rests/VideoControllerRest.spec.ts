@@ -1,19 +1,18 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { beforeEach, describe, it } from 'mocha'
-import OneDatastore from '../../../src/outers/datastores/OneDatastore'
-import app from '../../../src/App'
-import VideoMock from '../../mocks/VideoMock'
-import VideoSchema from '../../../src/outers/schemas/VideoSchema'
+import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
+import { app } from '../../../../src/App'
+import VideoMock from '../../../mocks/VideoMock'
+import VideoSchema from '../../../../src/outers/schemas/VideoSchema'
 import { Types } from 'mongoose'
-import Video from '../../../src/inners/models/entities/Video'
-import humps from "humps";
+import Video from '../../../../src/inners/models/entities/Video'
+import humps from 'humps'
 
 chai.use(chaiHttp)
 chai.should()
 
-// create integration test for video controller
-describe('VideoController', () => {
+describe('VideoControllerRest', () => {
   const videoMock: VideoMock = new VideoMock()
   const oneDatastore = new OneDatastore()
 

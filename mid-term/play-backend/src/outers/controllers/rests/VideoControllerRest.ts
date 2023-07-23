@@ -1,48 +1,30 @@
 import { type Request, type Response, type Router } from 'express'
 
-import type VideoCommentMap from '../../inners/models/entities/VideoCommentMap'
-import type Result from '../../inners/models/value_objects/Result'
-import type VideoCommentMapManagement from '../../inners/use_cases/managements/VideoCommentMapManagement'
-import type VideoCommentMapAggregate from '../../inners/models/aggregates/VideoCommentMapAggregate'
+import type Video from '../../../inners/models/entities/Video'
+import type Result from '../../../inners/models/value_objects/Result'
+import type VideoManagement from '../../../inners/use_cases/managements/VideoManagement'
 
-export default class VideoCommentMapController {
+export default class VideoControllerRest {
   router: Router
-  videoCommentMapManagement: VideoCommentMapManagement
+  videoManagement: VideoManagement
 
-  constructor (router: Router, videoCommentMapManagement: VideoCommentMapManagement) {
+  constructor (router: Router, videoManagement: VideoManagement) {
     this.router = router
-    this.videoCommentMapManagement = videoCommentMapManagement
+    this.videoManagement = videoManagement
   }
 
   registerRoutes = (): void => {
     this.router.get('', this.readAll)
-    this.router.get('/aggregated', this.readAllAggregated)
     this.router.get('/:id', this.readOneById)
-    this.router.get('/:id/aggregated', this.readOneByIdAggregated)
     this.router.post('', this.createOne)
     this.router.patch('/:id', this.patchOneById)
     this.router.delete('/:id', this.deleteOneById)
   }
 
   readAll = (request: Request, response: Response): void => {
-    this.videoCommentMapManagement
+    this.videoManagement
       .readAll()
-      .then((result: Result<VideoCommentMap[]>) => {
-        response.status(result.status).json(result)
-      })
-      .catch((error: Error) => {
-        response.status(500).json({
-          status: 500,
-          message: error.message,
-          data: null
-        })
-      })
-  }
-
-  readAllAggregated = (request: Request, response: Response): void => {
-    this.videoCommentMapManagement
-      .readAllAggregated()
-      .then((result: Result<VideoCommentMapAggregate[]>) => {
+      .then((result: Result<Video[]>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -56,25 +38,9 @@ export default class VideoCommentMapController {
 
   readOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.videoCommentMapManagement
+    this.videoManagement
       .readOneById(id)
-      .then((result: Result<VideoCommentMap>) => {
-        response.status(result.status).json(result)
-      })
-      .catch((error: Error) => {
-        response.status(500).json({
-          status: 500,
-          message: error.message,
-          data: null
-        })
-      })
-  }
-
-  readOneByIdAggregated = (request: Request, response: Response): void => {
-    const { id } = request.params
-    this.videoCommentMapManagement
-      .readOneByIdAggregated(id)
-      .then((result: Result<VideoCommentMapAggregate>) => {
+      .then((result: Result<Video>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -87,9 +53,9 @@ export default class VideoCommentMapController {
   }
 
   createOne = (request: Request, response: Response): void => {
-    this.videoCommentMapManagement
+    this.videoManagement
       .createOne(request.body)
-      .then((result: Result<VideoCommentMap>) => {
+      .then((result: Result<Video>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -103,9 +69,9 @@ export default class VideoCommentMapController {
 
   patchOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.videoCommentMapManagement
+    this.videoManagement
       .patchOneById(id, request.body)
-      .then((result: Result<VideoCommentMap>) => {
+      .then((result: Result<Video>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -119,9 +85,9 @@ export default class VideoCommentMapController {
 
   deleteOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.videoCommentMapManagement
+    this.videoManagement
       .deleteOneById(id)
-      .then((result: Result<VideoCommentMap>) => {
+      .then((result: Result<Video>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {

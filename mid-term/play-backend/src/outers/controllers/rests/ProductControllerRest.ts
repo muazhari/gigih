@@ -1,20 +1,21 @@
 import { type Request, type Response, type Router } from 'express'
 
-import type Video from '../../inners/models/entities/Video'
-import type Result from '../../inners/models/value_objects/Result'
-import type VideoManagement from '../../inners/use_cases/managements/VideoManagement'
+import type Product from '../../../inners/models/entities/Product'
+import type Result from '../../../inners/models/value_objects/Result'
+import type ProductManagement from '../../../inners/use_cases/managements/ProductManagement'
 
-export default class VideoController {
+export default class ProductControllerRest {
   router: Router
-  videoManagement: VideoManagement
+  productManagement: ProductManagement
 
-  constructor (router: Router, videoManagement: VideoManagement) {
+  constructor (router: Router, productManagement: ProductManagement) {
     this.router = router
-    this.videoManagement = videoManagement
+    this.productManagement = productManagement
   }
 
   registerRoutes = (): void => {
     this.router.get('', this.readAll)
+    this.router.get('/videos/:videoId', this.readAllByVideoId)
     this.router.get('/:id', this.readOneById)
     this.router.post('', this.createOne)
     this.router.patch('/:id', this.patchOneById)
@@ -22,9 +23,25 @@ export default class VideoController {
   }
 
   readAll = (request: Request, response: Response): void => {
-    this.videoManagement
+    this.productManagement
       .readAll()
-      .then((result: Result<Video[]>) => {
+      .then((result: Result<Product[]>) => {
+        response.status(result.status).json(result)
+      })
+      .catch((error: Error) => {
+        response.status(500).json({
+          status: 500,
+          message: error.message,
+          data: null
+        })
+      })
+  }
+
+  readAllByVideoId = (request: Request, response: Response): void => {
+    const { videoId } = request.params
+    this.productManagement
+      .readAllByVideoId(videoId)
+      .then((result: Result<Product[]>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -38,9 +55,9 @@ export default class VideoController {
 
   readOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.videoManagement
+    this.productManagement
       .readOneById(id)
-      .then((result: Result<Video>) => {
+      .then((result: Result<Product>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -53,9 +70,9 @@ export default class VideoController {
   }
 
   createOne = (request: Request, response: Response): void => {
-    this.videoManagement
+    this.productManagement
       .createOne(request.body)
-      .then((result: Result<Video>) => {
+      .then((result: Result<Product>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -69,9 +86,9 @@ export default class VideoController {
 
   patchOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.videoManagement
+    this.productManagement
       .patchOneById(id, request.body)
-      .then((result: Result<Video>) => {
+      .then((result: Result<Product>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -85,9 +102,9 @@ export default class VideoController {
 
   deleteOneById = (request: Request, response: Response): void => {
     const { id } = request.params
-    this.videoManagement
+    this.productManagement
       .deleteOneById(id)
-      .then((result: Result<Video>) => {
+      .then((result: Result<Product>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {

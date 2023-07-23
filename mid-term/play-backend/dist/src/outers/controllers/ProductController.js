@@ -103,4 +103,4 @@ class ProductController {
     }
 }
 exports.default = ProductController;
-//# sourceMappingURL=ProductController.js.map
+//# sourceMappingURL=ProductControllerRest.js.map

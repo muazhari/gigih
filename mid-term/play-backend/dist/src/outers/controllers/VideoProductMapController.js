@@ -87,4 +87,4 @@ class VideoProductMapController {
     }
 }
 exports.default = VideoProductMapController;
-//# sourceMappingURL=VideoProductMapController.js.map
+//# sourceMappingURL=VideoProductMapControllerRest.js.map

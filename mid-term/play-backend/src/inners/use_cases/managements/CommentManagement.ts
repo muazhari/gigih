@@ -84,7 +84,7 @@ export default class CommentManagement {
     )
   }
 
-  submit = async (submitComment: SubmitCommentRequest): Promise<Result<Comment>> => {
+  submit = async (submitComment: SubmitCommentRequest, isAggregated?: boolean): Promise<Result<Comment | CommentAggregate>> => {
     if (submitComment.username === undefined) {
       throw new Error('Username is undefined.')
     }
@@ -95,10 +95,19 @@ export default class CommentManagement {
       new Date()
     )
     const createdComment: Comment = await this.commentRepository.createOne(toCreateComment)
-    return new Result<Comment>(
+    let submittedComment: Comment | CommentAggregate
+    if (isAggregated === true) {
+      if (createdComment._id === undefined) {
+        throw new Error('Created comment id is undefined.')
+      }
+      submittedComment = await this.commentRepository.readOneByIdAggregated(createdComment._id)
+    } else {
+      submittedComment = createdComment
+    }
+    return new Result<Comment | CommentAggregate>(
       201,
       'Comment submit succeed.',
-      createdComment
+      submittedComment
     )
   }
 }
