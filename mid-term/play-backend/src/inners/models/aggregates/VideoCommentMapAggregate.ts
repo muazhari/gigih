@@ -1,5 +1,5 @@
-import type Video from '../../../entities/Video'
-import type Comment from '../../../entities/Comment'
+import type Video from '../entities/Video'
+import type Comment from '../entities/Comment'
 
 export default class VideoCommentMapAggregate {
   _id: string | undefined

@@ -1,5 +1,5 @@
-import type Video from '../../../entities/Video'
-import type Product from '../../../entities/Product'
+import type Video from '../entities/Video'
+import type Product from '../entities/Product'
 
 export default class VideoProductMapAggregate {
   _id: string | undefined

@@ -11,6 +11,7 @@ import VideoSchema from '../../../src/outers/schemas/VideoSchema'
 import ProductSchema from '../../../src/outers/schemas/ProductSchema'
 import type Video from '../../../src/inners/models/entities/Video'
 import type Product from '../../../src/inners/models/entities/Product'
+import humps from 'humps'
 
 chai.use(chaiHttp)
 chai.should()
@@ -43,6 +44,7 @@ describe('VideoProductMapController', () => {
         $in: videoProductMapMock.productMock.data.map((productMock: Product) => productMock._id)
       }
     })
+    await oneDatastore.disconnect()
   })
 
   describe('GET /api/v1/video-product-maps', () => {
@@ -55,7 +57,7 @@ describe('VideoProductMapController', () => {
       response.body.should.have.property('data').a('array')
       response.body.data.should.deep.include.members(
         videoProductMapMock.data.map((videoProductMapMock: any) => {
-          return JSON.parse(JSON.stringify(videoProductMapMock))
+          return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoProductMapMock)))
         })
       )
     })
@@ -71,7 +73,7 @@ describe('VideoProductMapController', () => {
       response.body.should.have.property('data').a('array')
       response.body.data.should.deep.include.members(
         videoProductMapMock.aggregatedData.map((videoProductMapMockAggregated: any) => {
-          return JSON.parse(JSON.stringify(videoProductMapMockAggregated))
+          return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoProductMapMockAggregated)))
         })
       )
     })
@@ -90,7 +92,7 @@ describe('VideoProductMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoProductMapMock.data.map((videoProductMapMock: any) => {
-        return JSON.parse(JSON.stringify(videoProductMapMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoProductMapMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -108,7 +110,7 @@ describe('VideoProductMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoProductMapMock.aggregatedData.map((videoProductMapMockAggregated: any) => {
-        return JSON.parse(JSON.stringify(videoProductMapMockAggregated))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoProductMapMockAggregated)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -124,7 +126,7 @@ describe('VideoProductMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoProductMapMock.data.map((videoProductMapMock: any) => {
-        return JSON.parse(JSON.stringify(videoProductMapMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoProductMapMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -144,7 +146,7 @@ describe('VideoProductMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoProductMapMock.data.map((videoProductMapMock: any) => {
-        return JSON.parse(JSON.stringify(videoProductMapMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoProductMapMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -163,7 +165,7 @@ describe('VideoProductMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoProductMapMock.data.map((videoProductMapMock: any) => {
-        return JSON.parse(JSON.stringify(videoProductMapMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoProductMapMock)))
       }).should.not.deep.include(response.body.data)
     })
   })

@@ -1,8 +1,8 @@
 import type Comment from '../../inners/models/entities/Comment'
 import type OneDatastore from '../datastores/OneDatastore'
 import CommentSchema from '../schemas/CommentSchema'
-import type CommentAggregate from '../../inners/models/value_objects/responses/aggregates/CommentAggregate'
-import { SchemaTypes, Types } from 'mongoose'
+import type CommentAggregate from '../../inners/models/aggregates/CommentAggregate'
+import { Types } from 'mongoose'
 
 export default class CommentRepository {
   oneDatastore: OneDatastore
@@ -12,43 +12,15 @@ export default class CommentRepository {
   }
 
   readAll = async (): Promise<Comment[]> => {
-    const foundEntities: Comment[] | null = await CommentSchema.find()
-    if (foundEntities === null) {
-      throw new Error('Found entities is null.')
+    const foundComment: Comment[] | null = await CommentSchema.find()
+    if (foundComment === null) {
+      throw new Error('Found comments is null.')
     }
-    return foundEntities
-  }
-
-  readOneById = async (id: string): Promise<Comment> => {
-    const foundEntity: Comment | null = await CommentSchema.findOne({ _id: id })
-    if (foundEntity === null) {
-      throw new Error('Found entity is null.')
-    }
-    return foundEntity
-  }
-
-  createOne = async (entity: Comment): Promise<Comment> => {
-    return await CommentSchema.create(entity)
-  }
-
-  patchOneById = async (id: string, entity: Comment): Promise<Comment> => {
-    const patchedEntity: Comment | null = await CommentSchema.findOneAndUpdate({ _id: id }, { $set: entity }, { new: true })
-    if (patchedEntity === null) {
-      throw new Error('Patched entity is null.')
-    }
-    return patchedEntity
-  }
-
-  deleteOneById = async (id: string): Promise<Comment> => {
-    const deletedEntity: Comment | null = await CommentSchema.findOneAndDelete({ _id: id })
-    if (deletedEntity === null) {
-      throw new Error('Deleted entity is null.')
-    }
-    return deletedEntity
+    return foundComment
   }
 
   readAllAggregated = async (): Promise<CommentAggregate[]> => {
-    const foundEntities: CommentAggregate[] | null = await CommentSchema.aggregate([
+    const foundComment: CommentAggregate[] | null = await CommentSchema.aggregate([
       {
         $lookup: {
           from: 'users',
@@ -71,14 +43,95 @@ export default class CommentRepository {
         }
       }
     ])
-    if (foundEntities === null) {
-      throw new Error('Found entities is null.')
+    if (foundComment === null) {
+      throw new Error('Found comments is null.')
     }
-    return foundEntities
+    return foundComment
+  }
+
+  readAllByVideoId = async (videoId: string): Promise<Comment[]> => {
+    const foundCommentByVideoId: Comment[] | null = await CommentSchema.aggregate([
+      {
+        $lookup: {
+          from: 'video_comment_maps',
+          localField: '_id',
+          foreignField: 'commentId',
+          as: 'videoCommentMaps'
+        }
+      },
+      {
+        $match: {
+          'videoCommentMaps.videoId': new Types.ObjectId(videoId)
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          userId: 1,
+          content: 1,
+          timestamp: 1
+        }
+      }
+    ])
+    if (foundCommentByVideoId === null) {
+      throw new Error('Found comments by video id is null.')
+    }
+    return foundCommentByVideoId
+  }
+
+  readAllByVideoIdAggregated = async (videoId: string): Promise<CommentAggregate[]> => {
+    const foundCommentByVideoId: CommentAggregate[] | null = await CommentSchema.aggregate([
+      {
+        $lookup: {
+          from: 'video_comment_maps',
+          localField: '_id',
+          foreignField: 'commentId',
+          as: 'videoCommentMaps'
+        }
+      },
+      {
+        $match: {
+          'videoCommentMaps.videoId': new Types.ObjectId(videoId)
+        }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      {
+        $unwind: {
+          path: '$user'
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          user: 1,
+          content: 1,
+          timestamp: 1
+        }
+      }
+    ])
+    if (foundCommentByVideoId === null) {
+      throw new Error('Found comments by video id is null.')
+    }
+    return foundCommentByVideoId
+  }
+
+  readOneById = async (id: string): Promise<Comment> => {
+    const foundComment: Comment | null = await CommentSchema.findOne({ _id: new Types.ObjectId(id) })
+    if (foundComment === null) {
+      throw new Error('Found comment is null.')
+    }
+    return foundComment
   }
 
   readOneByIdAggregated = async (id: string): Promise<CommentAggregate> => {
-    const foundEntities: CommentAggregate[] | null = await CommentSchema.aggregate([
+    const foundComments: CommentAggregate[] | null = await CommentSchema.aggregate([
       {
         $match: {
           _id: new Types.ObjectId(id)
@@ -109,13 +162,33 @@ export default class CommentRepository {
         $limit: 1
       }
     ])
-    if (foundEntities === null) {
-      throw new Error('Found entities is null.')
+    if (foundComments === null) {
+      throw new Error('Found comments is null.')
     }
-    const foundEntity: CommentAggregate | null = foundEntities[0] ?? null
-    if (foundEntity === null) {
-      throw new Error('Found entity is null.')
+    const foundComment: CommentAggregate | null = foundComments[0] ?? null
+    if (foundComment === null) {
+      throw new Error('Found comment is null.')
     }
-    return foundEntity
+    return foundComment
+  }
+
+  createOne = async (comment: Comment): Promise<Comment> => {
+    return await CommentSchema.create(comment)
+  }
+
+  patchOneById = async (id: string, comment: Comment): Promise<Comment> => {
+    const patchedComment: Comment | null = await CommentSchema.findOneAndUpdate({ _id: new Types.ObjectId(id) }, { $set: comment }, { new: true })
+    if (patchedComment === null) {
+      throw new Error('Patched comment is null.')
+    }
+    return patchedComment
+  }
+
+  deleteOneById = async (id: string): Promise<Comment> => {
+    const deletedComment: Comment | null = await CommentSchema.findOneAndDelete({ _id: new Types.ObjectId(id) })
+    if (deletedComment === null) {
+      throw new Error('Deleted comment is null.')
+    }
+    return deletedComment
   }
 }

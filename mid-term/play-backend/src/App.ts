@@ -2,11 +2,13 @@ import express, { type Application } from 'express'
 import './outers/configurations/DotenvConfiguration'
 import OneDatastore from './outers/datastores/OneDatastore'
 import RootRoute from './outers/routes/RootRoute'
+import caseMiddleware from './outers/middlewares/CaseMiddleware'
 
 let app: Application | undefined
 const main = async (): Promise<void> => {
   app = express()
   app.use(express.json({ type: '*/*' }))
+  app.use(caseMiddleware())
 
   const oneDatastore = new OneDatastore()
 

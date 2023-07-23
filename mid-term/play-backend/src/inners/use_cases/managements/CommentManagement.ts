@@ -1,48 +1,59 @@
 import type CommentRepository from '../../../outers/repositories/CommentRepository'
 import Result from '../../models/value_objects/Result'
-import type Comment from '../../models/entities/Comment'
-import type CommentAggregate from '../../models/value_objects/responses/aggregates/CommentAggregate'
+import Comment from '../../models/entities/Comment'
+import type CommentAggregate from '../../models/aggregates/CommentAggregate'
+import type SubmitCommentRequest from '../../models/value_objects/requests/comments/SubmitCommentRequest'
+import type UserRepository from '../../../outers/repositories/UserRepository'
+import type User from '../../models/entities/User'
 
 export default class CommentManagement {
   commentRepository: CommentRepository
+  userRepository: UserRepository
 
-  constructor (commentRepository: CommentRepository) {
+  constructor (commentRepository: CommentRepository, userRepository: UserRepository) {
     this.commentRepository = commentRepository
+    this.userRepository = userRepository
   }
 
-  readAll = async (): Promise<Result<Comment[]>> => {
-    const foundComments: Comment[] = await this.commentRepository.readAll()
-    return new Result<Comment[]>(
+  readAll = async (isAggregated?: boolean): Promise<Result<Comment[] | CommentAggregate[]>> => {
+    let foundComments: Comment[] | CommentAggregate[]
+    if (isAggregated === true) {
+      foundComments = await this.commentRepository.readAllAggregated()
+    } else {
+      foundComments = await this.commentRepository.readAll()
+    }
+    return new Result<Comment[] | CommentAggregate[]>(
       200,
       'Comment read all succeed.',
       foundComments
     )
   }
 
-  readAllAggregated = async (): Promise<Result<CommentAggregate[]>> => {
-    const foundCommentsAggregated: CommentAggregate[] = await this.commentRepository.readAllAggregated()
-    return new Result<CommentAggregate[]>(
+  readAllByVideoId = async (videoId: string, isAggregated?: boolean): Promise<Result<Comment[] | CommentAggregate[]>> => {
+    let foundComments: Comment[] | CommentAggregate[]
+    if (isAggregated === true) {
+      foundComments = await this.commentRepository.readAllByVideoIdAggregated(videoId)
+    } else {
+      foundComments = await this.commentRepository.readAllByVideoId(videoId)
+    }
+    return new Result<Comment[] | CommentAggregate[]>(
       200,
-      'Comment read all aggregated succeed.',
-      foundCommentsAggregated
+      'Comment read all by video id succeed.',
+      foundComments
     )
   }
 
-  readOneById = async (id: string): Promise<Result<Comment>> => {
-    const foundComment: Comment = await this.commentRepository.readOneById(id)
-    return new Result<Comment >(
+  readOneById = async (id: string, isAggregated?: boolean): Promise<Result<Comment | CommentAggregate>> => {
+    let foundComment: Comment | CommentAggregate
+    if (isAggregated === true) {
+      foundComment = await this.commentRepository.readOneByIdAggregated(id)
+    } else {
+      foundComment = await this.commentRepository.readOneById(id)
+    }
+    return new Result<Comment | CommentAggregate >(
       200,
       'Comment read one by id succeed.',
       foundComment
-    )
-  }
-
-  readOneByIdAggregated = async (id: string): Promise<Result<CommentAggregate >> => {
-    const foundCommentAggregated: CommentAggregate = await this.commentRepository.readOneByIdAggregated(id)
-    return new Result<CommentAggregate >(
-      200,
-      'Comment read one by id aggregated succeed.',
-      foundCommentAggregated
     )
   }
 
@@ -70,6 +81,24 @@ export default class CommentManagement {
       200,
       'Comment delete one by id succeed.',
       deletedComment
+    )
+  }
+
+  submit = async (submitComment: SubmitCommentRequest): Promise<Result<Comment>> => {
+    if (submitComment.username === undefined) {
+      throw new Error('Username is undefined.')
+    }
+    const foundUser: User = await this.userRepository.readOneByUsername(submitComment.username)
+    const toCreateComment: Comment = new Comment(
+      foundUser._id,
+      submitComment.content,
+      new Date()
+    )
+    const createdComment: Comment = await this.commentRepository.createOne(toCreateComment)
+    return new Result<Comment>(
+      201,
+      'Comment submit succeed.',
+      createdComment
     )
   }
 }

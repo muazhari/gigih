@@ -3,7 +3,7 @@ import { Types } from 'mongoose'
 import VideoMock from './VideoMock'
 import CommentMock from './CommentMock'
 import VideoCommentMapAggregate
-  from '../../src/inners/models/value_objects/responses/aggregates/VideoCommentMapAggregate'
+  from '../../src/inners/models/aggregates/VideoCommentMapAggregate'
 
 export default class VideoCommentMapMock {
   videoMock: VideoMock

@@ -1,6 +1,7 @@
 import type Product from '../../inners/models/entities/Product'
 import type OneDatastore from '../datastores/OneDatastore'
 import ProductSchema from '../schemas/ProductSchema'
+import { Types } from 'mongoose'
 
 export default class ProductRepository {
   oneDatastore: OneDatastore
@@ -10,18 +11,18 @@ export default class ProductRepository {
   }
 
   readAll = async (): Promise<Product[]> => {
-    const foundEntities: Product[] | null = await ProductSchema.find()
-    if (foundEntities === null) {
-      throw new Error('Found entities is null.')
+    const foundProducts: Product[] | null = await ProductSchema.find()
+    if (foundProducts === null) {
+      throw new Error('Found products is null.')
     }
-    return foundEntities
+    return foundProducts
   }
 
   readAllByVideoId = async (videoId: string): Promise<Product[]> => {
-    const foundEntitiesByVideoId: Product[] | null = await ProductSchema.aggregate([
+    const foundProductsByVideoId: Product[] | null = await ProductSchema.aggregate([
       {
         $lookup: {
-          from: 'aggregates',
+          from: 'video_product_maps',
           localField: '_id',
           foreignField: 'productId',
           as: 'videoProductMaps'
@@ -29,7 +30,7 @@ export default class ProductRepository {
       },
       {
         $match: {
-          'videoProductMaps.videoId': videoId
+          'videoProductMaps.videoId': new Types.ObjectId(videoId)
         }
       },
       {
@@ -41,37 +42,37 @@ export default class ProductRepository {
         }
       }
     ])
-    if (foundEntitiesByVideoId === null) {
-      throw new Error('Found entities by video id is null.')
+    if (foundProductsByVideoId === null) {
+      throw new Error('Found products by video id is null.')
     }
-    return foundEntitiesByVideoId
+    return foundProductsByVideoId
   }
 
   readOneById = async (id: string): Promise<Product> => {
-    const foundEntity: Product | null = await ProductSchema.findOne({ _id: id })
-    if (foundEntity === null) {
-      throw new Error('Found entity is null.')
+    const foundProduct: Product | null = await ProductSchema.findOne({ _id: new Types.ObjectId(id) })
+    if (foundProduct === null) {
+      throw new Error('Found product is null.')
     }
-    return foundEntity
+    return foundProduct
   }
 
-  createOne = async (entity: Product): Promise<Product> => {
-    return await ProductSchema.create(entity)
+  createOne = async (product: Product): Promise<Product> => {
+    return await ProductSchema.create(product)
   }
 
-  patchOneById = async (id: string, entity: Product): Promise<Product> => {
-    const patchedEntity: Product | null = await ProductSchema.findOneAndUpdate({ _id: id }, { $set: entity }, { new: true })
-    if (patchedEntity === null) {
-      throw new Error('Patched entity is null.')
+  patchOneById = async (id: string, product: Product): Promise<Product> => {
+    const patchedProduct: Product | null = await ProductSchema.findOneAndUpdate({ _id: new Types.ObjectId(id) }, { $set: product }, { new: true })
+    if (patchedProduct === null) {
+      throw new Error('Patched product is null.')
     }
-    return patchedEntity
+    return patchedProduct
   }
 
   deleteOneById = async (id: string): Promise<Product> => {
-    const deletedEntity: Product | null = await ProductSchema.findOneAndDelete({ _id: id })
-    if (deletedEntity === null) {
-      throw new Error('Deleted entity is null.')
+    const deletedProduct: Product | null = await ProductSchema.findOneAndDelete({ _id: new Types.ObjectId(id) })
+    if (deletedProduct === null) {
+      throw new Error('Deleted product is null.')
     }
-    return deletedEntity
+    return deletedProduct
   }
 }

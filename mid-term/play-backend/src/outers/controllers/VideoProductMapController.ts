@@ -4,7 +4,7 @@ import type VideoProductMap from '../../inners/models/entities/VideoProductMap'
 import type Result from '../../inners/models/value_objects/Result'
 import type VideoProductMapManagement from '../../inners/use_cases/managements/VideoProductMapManagement'
 import type Product from '../../inners/models/entities/Product'
-import type VideoProductMapAggregate from '../../inners/models/value_objects/responses/aggregates/VideoProductMapAggregate'
+import type VideoProductMapAggregate from '../../inners/models/aggregates/VideoProductMapAggregate'
 
 export default class VideoProductMapController {
   router: Router

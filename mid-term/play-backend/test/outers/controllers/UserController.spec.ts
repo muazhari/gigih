@@ -7,6 +7,7 @@ import UserMock from '../../mocks/UserMock'
 import UserSchema from '../../../src/outers/schemas/UserSchema'
 import { Types } from 'mongoose'
 import User from '../../../src/inners/models/entities/User'
+import humps from 'humps'
 
 chai.use(chaiHttp)
 chai.should()
@@ -27,6 +28,7 @@ describe('UserController', () => {
         $in: userMock.data.map((userMock: User) => userMock._id)
       }
     })
+    await oneDatastore.disconnect()
   })
 
   describe('GET /api/v1/users', () => {
@@ -39,7 +41,7 @@ describe('UserController', () => {
       response.body.should.have.property('data').a('array')
       response.body.data.should.deep.include.members(
         userMock.data.map((userMock: any) => {
-          return JSON.parse(JSON.stringify(userMock))
+          return humps.decamelizeKeys(JSON.parse(JSON.stringify(userMock)))
         })
       )
     })
@@ -58,7 +60,7 @@ describe('UserController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       userMock.data.map((userMock: any) => {
-        return JSON.parse(JSON.stringify(userMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(userMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -74,7 +76,7 @@ describe('UserController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       userMock.data.map((userMock: any) => {
-        return JSON.parse(JSON.stringify(userMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(userMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -94,7 +96,7 @@ describe('UserController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       userMock.data.map((userMock: any) => {
-        return JSON.parse(JSON.stringify(userMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(userMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -113,7 +115,7 @@ describe('UserController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       userMock.data.map((userMock: any) => {
-        return JSON.parse(JSON.stringify(userMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(userMock)))
       }).should.not.deep.include(response.body.data)
     })
   })

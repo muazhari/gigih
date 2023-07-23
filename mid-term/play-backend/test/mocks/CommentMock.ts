@@ -1,7 +1,7 @@
 import Comment from '../../src/inners/models/entities/Comment'
 import { Types } from 'mongoose'
 import UserMock from './UserMock'
-import CommentAggregate from '../../src/inners/models/value_objects/responses/aggregates/CommentAggregate'
+import CommentAggregate from '../../src/inners/models/aggregates/CommentAggregate'
 
 export default class CommentMock {
   userMock: UserMock

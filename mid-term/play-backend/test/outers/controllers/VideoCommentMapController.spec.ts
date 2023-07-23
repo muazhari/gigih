@@ -8,12 +8,13 @@ import VideoCommentMapSchema from '../../../src/outers/schemas/VideoCommentMapSc
 import { Types } from 'mongoose'
 import VideoCommentMap from '../../../src/inners/models/entities/VideoCommentMap'
 import type VideoCommentMapAggregate
-  from '../../../src/inners/models/value_objects/responses/aggregates/VideoCommentMapAggregate'
+  from '../../../src/inners/models/aggregates/VideoCommentMapAggregate'
 import VideoSchema from '../../../src/outers/schemas/VideoSchema'
 import CommentSchema from '../../../src/outers/schemas/CommentSchema'
 import VideoMock from '../../mocks/VideoMock'
 import type Video from '../../../src/inners/models/entities/Video'
 import type Comment from '../../../src/inners/models/entities/Comment'
+import humps from 'humps'
 
 chai.use(chaiHttp)
 chai.should()
@@ -46,6 +47,7 @@ describe('VideoCommentMapController', () => {
         $in: videoCommentMapMock.data.map((videoCommentMapMock: VideoCommentMap) => videoCommentMapMock._id)
       }
     })
+    await oneDatastore.disconnect()
   })
 
   describe('GET /api/v1/video-comment-maps', () => {
@@ -58,7 +60,7 @@ describe('VideoCommentMapController', () => {
       response.body.should.have.property('data').a('array')
       response.body.data.should.deep.include.members(
         videoCommentMapMock.data.map((videoCommentMapMock: any) => {
-          return JSON.parse(JSON.stringify(videoCommentMapMock))
+          return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoCommentMapMock)))
         })
       )
     })
@@ -74,7 +76,7 @@ describe('VideoCommentMapController', () => {
       response.body.should.have.property('data').a('array')
       response.body.data.should.deep.include.members(
         videoCommentMapMock.aggregatedData.map((videoCommentMapMockAggregated: any) => {
-          return JSON.parse(JSON.stringify(videoCommentMapMockAggregated))
+          return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoCommentMapMockAggregated)))
         })
       )
     })
@@ -93,7 +95,7 @@ describe('VideoCommentMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoCommentMapMock.data.map((videoCommentMapMock: any) => {
-        return JSON.parse(JSON.stringify(videoCommentMapMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoCommentMapMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -111,7 +113,7 @@ describe('VideoCommentMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoCommentMapMock.aggregatedData.map((videoCommentMapMockAggregated: any) => {
-        return JSON.parse(JSON.stringify(videoCommentMapMockAggregated))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoCommentMapMockAggregated)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -127,7 +129,7 @@ describe('VideoCommentMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoCommentMapMock.data.map((videoCommentMapMock: any) => {
-        return JSON.parse(JSON.stringify(videoCommentMapMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoCommentMapMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -147,7 +149,7 @@ describe('VideoCommentMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoCommentMapMock.data.map((videoCommentMapMock: any) => {
-        return JSON.parse(JSON.stringify(videoCommentMapMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoCommentMapMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -166,7 +168,7 @@ describe('VideoCommentMapController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoCommentMapMock.data.map((videoCommentMapMock: any) => {
-        return JSON.parse(JSON.stringify(videoCommentMapMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoCommentMapMock)))
       }).should.not.deep.include(response.body.data)
     })
   })

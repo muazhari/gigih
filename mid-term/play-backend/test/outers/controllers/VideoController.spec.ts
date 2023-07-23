@@ -7,6 +7,7 @@ import VideoMock from '../../mocks/VideoMock'
 import VideoSchema from '../../../src/outers/schemas/VideoSchema'
 import { Types } from 'mongoose'
 import Video from '../../../src/inners/models/entities/Video'
+import humps from "humps";
 
 chai.use(chaiHttp)
 chai.should()
@@ -27,6 +28,7 @@ describe('VideoController', () => {
         $in: videoMock.data.map((videoMock: Video) => videoMock._id)
       }
     })
+    await oneDatastore.disconnect()
   })
 
   describe('GET /api/v1/videos', () => {
@@ -39,7 +41,7 @@ describe('VideoController', () => {
       response.body.should.have.property('data').a('array')
       response.body.data.should.deep.include.members(
         videoMock.data.map((videoMock: any) => {
-          return JSON.parse(JSON.stringify(videoMock))
+          return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoMock)))
         })
       )
     })
@@ -58,7 +60,7 @@ describe('VideoController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoMock.data.map((videoMock: any) => {
-        return JSON.parse(JSON.stringify(videoMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -74,7 +76,7 @@ describe('VideoController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoMock.data.map((videoMock: any) => {
-        return JSON.parse(JSON.stringify(videoMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -94,7 +96,7 @@ describe('VideoController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoMock.data.map((videoMock: any) => {
-        return JSON.parse(JSON.stringify(videoMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoMock)))
       }).should.deep.include(response.body.data)
     })
   })
@@ -113,7 +115,7 @@ describe('VideoController', () => {
       response.body.should.have.property('message')
       response.body.should.have.property('data').a('object')
       videoMock.data.map((videoMock: any) => {
-        return JSON.parse(JSON.stringify(videoMock))
+        return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoMock)))
       }).should.not.deep.include(response.body.data)
     })
   })

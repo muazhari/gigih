@@ -1,7 +1,7 @@
 import type VideoProductMap from '../../inners/models/entities/VideoProductMap'
 import type OneDatastore from '../datastores/OneDatastore'
 import VideoProductMapSchema from '../schemas/VideoProductMapSchema'
-import type VideoProductMapAggregate from '../../inners/models/value_objects/responses/aggregates/VideoProductMapAggregate'
+import type VideoProductMapAggregate from '../../inners/models/aggregates/VideoProductMapAggregate'
 import { Types } from 'mongoose'
 
 export default class VideoProductMapRepository {
@@ -12,15 +12,15 @@ export default class VideoProductMapRepository {
   }
 
   readAll = async (): Promise<VideoProductMap[]> => {
-    const foundEntities: VideoProductMap[] | null = await VideoProductMapSchema.find()
-    if (foundEntities === null) {
-      throw new Error('Found entities is null.')
+    const foundVideoProductMaps: VideoProductMap[] | null = await VideoProductMapSchema.find()
+    if (foundVideoProductMaps === null) {
+      throw new Error('Found videoProductMaps is null.')
     }
-    return foundEntities
+    return foundVideoProductMaps
   }
 
   readAllAggregated = async (): Promise<VideoProductMapAggregate[]> => {
-    const foundEntities: VideoProductMapAggregate[] | null = await VideoProductMapSchema.aggregate([
+    const foundVideoProductMaps: VideoProductMapAggregate[] | null = await VideoProductMapSchema.aggregate([
       {
         $lookup: {
           from: 'videos',
@@ -55,22 +55,22 @@ export default class VideoProductMapRepository {
         }
       }
     ])
-    if (foundEntities === null) {
-      throw new Error('Found entities is null.')
+    if (foundVideoProductMaps === null) {
+      throw new Error('Found videoProductMaps is null.')
     }
-    return foundEntities
+    return foundVideoProductMaps
   }
 
   readOneById = async (id: string): Promise<VideoProductMap> => {
-    const foundEntity: VideoProductMap | null = await VideoProductMapSchema.findOne({ _id: id })
-    if (foundEntity === null) {
-      throw new Error('Found entity is null.')
+    const foundVideoProductMap: VideoProductMap | null = await VideoProductMapSchema.findOne({ _id: new Types.ObjectId(id) })
+    if (foundVideoProductMap === null) {
+      throw new Error('Found videoProductMap is null.')
     }
-    return foundEntity
+    return foundVideoProductMap
   }
 
   readOneByIdAggregated = async (id: string): Promise<VideoProductMapAggregate> => {
-    const foundEntities: VideoProductMapAggregate[] | null = await VideoProductMapSchema.aggregate([
+    const foundVideoProductMaps: VideoProductMapAggregate[] | null = await VideoProductMapSchema.aggregate([
       {
         $match: {
           _id: new Types.ObjectId(id)
@@ -110,33 +110,33 @@ export default class VideoProductMapRepository {
         }
       }
     ])
-    if (foundEntities === null) {
-      throw new Error('Found entities is null.')
+    if (foundVideoProductMaps === null) {
+      throw new Error('Found videoProductMaps is null.')
     }
-    const foundEntity: VideoProductMapAggregate = foundEntities[0]
-    if (foundEntity === null) {
-      throw new Error('Found entity is null.')
+    const foundVideoProductMap: VideoProductMapAggregate = foundVideoProductMaps[0]
+    if (foundVideoProductMap === null) {
+      throw new Error('Found videoProductMap is null.')
     }
-    return foundEntity
+    return foundVideoProductMap
   }
 
-  createOne = async (entity: VideoProductMap): Promise<VideoProductMap> => {
-    return await VideoProductMapSchema.create(entity)
+  createOne = async (videoProductMap: VideoProductMap): Promise<VideoProductMap> => {
+    return await VideoProductMapSchema.create(videoProductMap)
   }
 
-  patchOneById = async (id: string, entity: VideoProductMap): Promise<VideoProductMap> => {
-    const patchedEntity: VideoProductMap | null = await VideoProductMapSchema.findOneAndUpdate({ _id: id }, { $set: entity }, { new: true })
-    if (patchedEntity === null) {
-      throw new Error('Patched entity is null.')
+  patchOneById = async (id: string, videoProductMap: VideoProductMap): Promise<VideoProductMap> => {
+    const patchedVideoProductMap: VideoProductMap | null = await VideoProductMapSchema.findOneAndUpdate({ _id: new Types.ObjectId(id) }, { $set: videoProductMap }, { new: true })
+    if (patchedVideoProductMap === null) {
+      throw new Error('Patched videoProductMap is null.')
     }
-    return patchedEntity
+    return patchedVideoProductMap
   }
 
   deleteOneById = async (id: string): Promise<VideoProductMap> => {
-    const deletedEntity: VideoProductMap | null = await VideoProductMapSchema.findOneAndDelete({ _id: id })
-    if (deletedEntity === null) {
-      throw new Error('Deleted entity is null.')
+    const deletedVideoProductMap: VideoProductMap | null = await VideoProductMapSchema.findOneAndDelete({ _id: new Types.ObjectId(id) })
+    if (deletedVideoProductMap === null) {
+      throw new Error('Deleted videoProductMap is null.')
     }
-    return deletedEntity
+    return deletedVideoProductMap
   }
 }

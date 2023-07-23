@@ -44,7 +44,7 @@ export default class RootRoute {
     router.use('/videos', videoController.router)
 
     const commentRepository: CommentRepository = new CommentRepository(this.datastoreOne)
-    const commentManagement: CommentManagement = new CommentManagement(commentRepository)
+    const commentManagement: CommentManagement = new CommentManagement(commentRepository, userRepository)
     const commentController: CommentController = new CommentController(Router(), commentManagement)
     commentController.registerRoutes()
     router.use('/comments', commentController.router)

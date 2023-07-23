@@ -3,7 +3,7 @@ import { type Request, type Response, type Router } from 'express'
 import type VideoCommentMap from '../../inners/models/entities/VideoCommentMap'
 import type Result from '../../inners/models/value_objects/Result'
 import type VideoCommentMapManagement from '../../inners/use_cases/managements/VideoCommentMapManagement'
-import type VideoCommentMapAggregate from '../../inners/models/value_objects/responses/aggregates/VideoCommentMapAggregate'
+import type VideoCommentMapAggregate from '../../inners/models/aggregates/VideoCommentMapAggregate'
 
 export default class VideoCommentMapController {
   router: Router

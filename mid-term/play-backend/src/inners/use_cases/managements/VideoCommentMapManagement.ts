@@ -1,7 +1,7 @@
 import type VideoCommentMapRepository from '../../../outers/repositories/VideoCommentMapRepository'
 import Result from '../../models/value_objects/Result'
 import type VideoCommentMap from '../../models/entities/VideoCommentMap'
-import type VideoCommentMapAggregate from '../../models/value_objects/responses/aggregates/VideoCommentMapAggregate'
+import type VideoCommentMapAggregate from '../../models/aggregates/VideoCommentMapAggregate'
 
 export default class VideoCommentMapManagement {
   videoCommentMapRepository: VideoCommentMapRepository

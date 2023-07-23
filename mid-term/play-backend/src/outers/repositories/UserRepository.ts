@@ -1,6 +1,7 @@
 import type User from '../../inners/models/entities/User'
 import type OneDatastore from '../datastores/OneDatastore'
 import UserSchema from '../schemas/UserSchema'
+import { Types } from 'mongoose'
 
 export default class UserRepository {
   oneDatastore: OneDatastore
@@ -10,38 +11,46 @@ export default class UserRepository {
   }
 
   readAll = async (): Promise<User[]> => {
-    const foundEntities: User[] | null = await UserSchema.find()
-    if (foundEntities === null) {
-      throw new Error('Found entities is null.')
+    const foundUsers: User[] | null = await UserSchema.find()
+    if (foundUsers === null) {
+      throw new Error('Found users is null.')
     }
-    return foundEntities
+    return foundUsers
   }
 
   readOneById = async (id: string): Promise<User> => {
-    const foundEntity: User | null = await UserSchema.findOne({ _id: id })
-    if (foundEntity === null) {
-      throw new Error('Found entity is null.')
+    const foundUser: User | null = await UserSchema.findOne({ _id: new Types.ObjectId(id) })
+    if (foundUser === null) {
+      throw new Error('Found user is null.')
     }
-    return foundEntity
+    return foundUser
   }
 
-  createOne = async (entity: User): Promise<User> => {
-    return await UserSchema.create(entity)
+  readOneByUsername = async (username: string): Promise<User> => {
+    const foundUser: User | null = await UserSchema.findOne({ username })
+    if (foundUser === null) {
+      throw new Error('Found user is null.')
+    }
+    return foundUser
   }
 
-  patchOneById = async (id: string, entity: User): Promise<User> => {
-    const patchedEntity: User | null = await UserSchema.findOneAndUpdate({ _id: id }, { $set: entity }, { new: true })
-    if (patchedEntity === null) {
-      throw new Error('Patched entity is null.')
+  createOne = async (user: User): Promise<User> => {
+    return await UserSchema.create(user)
+  }
+
+  patchOneById = async (id: string, user: User): Promise<User> => {
+    const patchedUser: User | null = await UserSchema.findOneAndUpdate({ _id: new Types.ObjectId(id) }, { $set: user }, { new: true })
+    if (patchedUser === null) {
+      throw new Error('Patched user is null.')
     }
-    return patchedEntity
+    return patchedUser
   }
 
   deleteOneById = async (id: string): Promise<User> => {
-    const deletedEntity: User | null = await UserSchema.findOneAndDelete({ _id: id })
-    if (deletedEntity === null) {
-      throw new Error('Deleted entity is null.')
+    const deletedUser: User | null = await UserSchema.findOneAndDelete({ _id: new Types.ObjectId(id) })
+    if (deletedUser === null) {
+      throw new Error('Deleted user is null.')
     }
-    return deletedEntity
+    return deletedUser
   }
 }

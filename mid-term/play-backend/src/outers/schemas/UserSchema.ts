@@ -3,7 +3,8 @@ import type User from '../../inners/models/entities/User'
 
 const userSchema = new Schema<User>({
   username: {
-    type: Schema.Types.String
+    type: Schema.Types.String,
+    unique: true
   },
   pictureUrl: {
     type: Schema.Types.String

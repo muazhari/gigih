@@ -1,4 +1,4 @@
-import type User from '../../../entities/User'
+import type User from '../entities/User'
 export default class CommentAggregate {
   _id: string | undefined
   user: User | undefined

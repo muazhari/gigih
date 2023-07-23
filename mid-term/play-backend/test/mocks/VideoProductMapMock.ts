@@ -3,7 +3,7 @@ import { Types } from 'mongoose'
 import VideoMock from './VideoMock'
 import ProductMock from './ProductMock'
 import VideoProductMapAggregate
-  from '../../src/inners/models/value_objects/responses/aggregates/VideoProductMapAggregate'
+  from '../../src/inners/models/aggregates/VideoProductMapAggregate'
 
 export default class VideoProductMapMock {
   videoMock: VideoMock

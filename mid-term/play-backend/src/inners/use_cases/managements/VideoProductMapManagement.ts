@@ -1,7 +1,7 @@
 import type VideoProductMapRepository from '../../../outers/repositories/VideoProductMapRepository'
 import Result from '../../models/value_objects/Result'
 import type VideoProductMap from '../../models/entities/VideoProductMap'
-import type VideoProductMapAggregate from '../../models/value_objects/responses/aggregates/VideoProductMapAggregate'
+import type VideoProductMapAggregate from '../../models/aggregates/VideoProductMapAggregate'
 
 export default class VideoProductMapManagement {
   videoProductMapRepository: VideoProductMapRepository
