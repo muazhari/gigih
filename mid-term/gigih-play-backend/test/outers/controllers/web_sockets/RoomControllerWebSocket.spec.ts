@@ -116,7 +116,7 @@ describe('RoomControllerWebSocket', () => {
         selectedUserMock.username,
         'content test'
       )
-      clientTwo.on('commentSubmitted', (result: Result<Comment>) => {
+      clientTwo.on('submittedComment', (result: Result<Comment>) => {
         result.should.be.a('object')
         result.should.have.property('status').eq(201)
         result.should.have.property('message')

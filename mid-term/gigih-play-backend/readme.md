@@ -157,13 +157,11 @@ I'm using Clean Architecture for the API structure. The API structure is divided
 
 - On
 
-| Event            | Payload             | Description                   |
-|------------------|---------------------|-------------------------------|
-| joinedRoom       | {Result<Comment[]>} | Joined a room by videoId      |
-| leftRoom         | videoId: string     | Left a room by videoId        |
-| submittedComment | {Result<Comment>}   | Submitted a comment to a room |
-
-
+| Event            | Payload               | Description                   |
+|------------------|-----------------------|-------------------------------|
+| joinedRoom       | {Result<Comment[]>}   | Joined a room by videoId      |
+| leftRoom         | videoId: string       | Left a room by videoId        |
+| submittedComment | {Result\<Comment\>}   | Submitted a comment to a room |
 
 
 ## How to Run

@@ -58,6 +58,6 @@ export default class RoomControllerWebSocket {
       new Date()
     )
     const result: Result<Comment> = await this.commentManagement.createOne(toCreateComment)
-    socket.to(submitCommentRequest.videoId).emit('commentSubmitted', result)
+    socket.to(submitCommentRequest.videoId).emit('submittedComment', result)
   }
 }
