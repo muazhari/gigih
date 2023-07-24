@@ -113,7 +113,7 @@ chai_1.default.should();
             const joinRoomRequest = new JoinRoomRequest_1.default(selectedVideoMock._id);
             const selectedUserMock = videoCommentMapMock.commentMock.userMock.data[0];
             const submitCommentRequest = new SubmitCommentRequest_1.default(selectedVideoMock._id, selectedUserMock.username, 'content test');
-            clientTwo.on('commentSubmitted', (result) => {
+            clientTwo.on('submittedComment', (result) => {
                 result.should.be.a('object');
                 result.should.have.property('status').eq(201);
                 result.should.have.property('message');

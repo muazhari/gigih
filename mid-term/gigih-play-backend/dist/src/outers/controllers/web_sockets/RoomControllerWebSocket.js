@@ -44,7 +44,7 @@ class RoomControllerWebSocket {
             const foundUser = yield this.userManagement.readOneByUsername(submitCommentRequest.username);
             const toCreateComment = new Comment_1.default(foundUser.data._id, submitCommentRequest.content, new Date());
             const result = yield this.commentManagement.createOne(toCreateComment);
-            socket.to(submitCommentRequest.videoId).emit('commentSubmitted', result);
+            socket.to(submitCommentRequest.videoId).emit('submittedComment', result);
         });
         this.io = io;
         this.commentManagement = commentManagement;
