@@ -164,10 +164,10 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 | DELETE  | /video-product-maps/:id                     |                     | Delete a video-product-map by id        |
  
 #### Authentication
-| Method | Endpoint                                               | Body                                   | Description                 |
-|--------|--------------------------------------------------------|----------------------------------------|-----------------------------|
-| POST   | /authentications/logins?method=username_and_password   | {LoginByUsernameAndPasswordRequest}    | Login to the application    |
-| POST   | /authentications/register?method=username_and_password | {RegisterByUsernameAndPasswordRequest} | Register to the application |
+| Method | Endpoint                                                | Body                                   | Description                 |
+|--------|---------------------------------------------------------|----------------------------------------|-----------------------------|
+| POST   | /authentications/logins?method=username_and_password    | {LoginByUsernameAndPasswordRequest}    | Login to the application    |
+| POST   | /authentications/registers?method=username_and_password | {RegisterByUsernameAndPasswordRequest} | Register to the application |
 
 ### Websocket Endpoints
 #### Room
