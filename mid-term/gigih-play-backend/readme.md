@@ -93,75 +93,75 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
  
 ### REST Endpoints
 #### User
-| Method | Endpoint                      | Body   | Description                |
-|--------|-------------------------------|--------|----------------------------|
-| GET    | /users                        |        | Get all users              |
-| GET    | /users?search=encoded_json    |        | Get all users with search  |
-| GET    | /users/:id                    |        | Get a user by id           |
-| POST   | /users                        | {User} | Create a new user          |
-| PUT    | /users/:id                    | {User} | Update a user by id        |
-| DELETE | /users/:id                    |        | Delete a user by id        |
+| Method   | Endpoint                      | Body   | Description                |
+|----------|-------------------------------|--------|----------------------------|
+| GET      | /users                        |        | Get all users              |
+| GET      | /users?search=encoded_json    |        | Get all users with search  |
+| GET      | /users/:id                    |        | Get a user by id           |
+| POST     | /users                        | {User} | Create a new user          |
+| PATCH    | /users/:id                    | {User} | Update a user by id        |
+| DELETE   | /users/:id                    |        | Delete a user by id        |
 
 #### Product
-| Method | Endpoint                          | Body      | Description                   |
-|--------|-----------------------------------|-----------|-------------------------------|
-| GET    | /products                         |           | Get all products              |
-| GET    | /products?search=encoded_json     |           | Get all products with search  |
-| GET    | /products/:id                     |           | Get a product by id           |
-| GET    | /products/videos/:videoId         |           | Get all products by video id  |
-| POST   | /products                         | {Product} | Create a new product          |
-| PUT    | /products/:id                     | {Product} | Update a product by id        |
-| DELETE | /products/:id                     |           | Delete a product by id        |
+| Method  | Endpoint                          | Body      | Description                   |
+|---------|-----------------------------------|-----------|-------------------------------|
+| GET     | /products                         |           | Get all products              |
+| GET     | /products?search=encoded_json     |           | Get all products with search  |
+| GET     | /products/:id                     |           | Get a product by id           |
+| GET     | /products/videos/:videoId         |           | Get all products by video id  |
+| POST    | /products                         | {Product} | Create a new product          |
+| PATCH   | /products/:id                     | {Product} | Update a product by id        |
+| DELETE  | /products/:id                     |           | Delete a product by id        |
 
 
 #### Comment
-| Method | Endpoint                                 | Body                   | Description                                            |
-|--------|------------------------------------------|------------------------|--------------------------------------------------------|
-| GET    | /comments                                |                        | Get all comments                                       |
-| GET    | /comments?search=encoded_json            |                        | Get all comments with search                           |
-| GET    | /comments?is_aggregated=true             |                        | Get all comment aggregates                             |
-| GET    | /comments/:id                            |                        | Get a comment by id                                    |
-| GET    | /comments/:id?is_aggregated=true         |                        | Get a comment aggregate by id                          |
-| GET    | /comments/videos/:videoId                |                        | Get all comments by video id                           |
-| POST   | /comments                                | {Comment}              | Create a new comment                                   |
-| POST   | /comments/submissions                    | {SubmitCommentRequest} | Create a new comment to a video                        |
-| POST   | /comments/submissions?is_aggregated=true | {SubmitCommentRequest} | Create a new comment to a video with aggregated return |
-| PUT    | /comments/:id                            | {Comment}              | Update a comment by id                                 |
-| DELETE | /comments/:id                            |                        | Delete a comment by id                                 |
+| Method  | Endpoint                                 | Body                   | Description                                            |
+|---------|------------------------------------------|------------------------|--------------------------------------------------------|
+| GET     | /comments                                |                        | Get all comments                                       |
+| GET     | /comments?search=encoded_json            |                        | Get all comments with search                           |
+| GET     | /comments?is_aggregated=true             |                        | Get all comment aggregates                             |
+| GET     | /comments/:id                            |                        | Get a comment by id                                    |
+| GET     | /comments/:id?is_aggregated=true         |                        | Get a comment aggregate by id                          |
+| GET     | /comments/videos/:videoId                |                        | Get all comments by video id                           |
+| POST    | /comments                                | {Comment}              | Create a new comment                                   |
+| POST    | /comments/submissions                    | {SubmitCommentRequest} | Create a new comment to a video                        |
+| POST    | /comments/submissions?is_aggregated=true | {SubmitCommentRequest} | Create a new comment to a video with aggregated return |
+| PATCH   | /comments/:id                            | {Comment}              | Update a comment by id                                 |
+| DELETE  | /comments/:id                            |                        | Delete a comment by id                                 |
 
 #### Video
-| Method | Endpoint                          | Body         | Description                 |
-|--------|-----------------------------------|--------------|-----------------------------|
-| GET    | /videos                           |              | Get all videos              |
-| GET    | /videos?search=encoded_json       |              | Get all videos with search  |
-| GET    | /videos/:id                       |              | Get a video by id           |
-| POST   | /videos                           | {Video}      | Create a new video          |
-| PUT    | /videos/:id                       | {Video}      | Update a video by id        |
-| DELETE | /videos/:id                       |              | Delete a video by id        |
+| Method  | Endpoint                          | Body         | Description                 |
+|---------|-----------------------------------|--------------|-----------------------------|
+| GET     | /videos                           |              | Get all videos              |
+| GET     | /videos?search=encoded_json       |              | Get all videos with search  |
+| GET     | /videos/:id                       |              | Get a video by id           |
+| POST    | /videos                           | {Video}      | Create a new video          |
+| PATCH   | /videos/:id                       | {Video}      | Update a video by id        |
+| DELETE  | /videos/:id                       |              | Delete a video by id        |
 
 #### VideoCommentMap
-| Method | Endpoint                                   | Body              | Description                             |
-|--------|--------------------------------------------|-------------------|-----------------------------------------|
-| GET    | /video-comment-maps                        |                   | Get all video-comment-maps              |
-| GET    | /video-comment-maps?search=encoded_json    |                   | Get all video-comment-maps with search  |
-| GET    | /video-comment-maps?is_aggregated=true     |                   | Get all video-comment-map aggregates    |
-| GET    | /video-comment-maps/:id                    |                   | Get a video-comment-map by id           |
-| GET    | /video-comment-maps/:id?is_aggregated=true |                   | Get a video-comment-map aggregate by id |
-| POST   | /video-comment-maps                        | {VideoCommentMap} | Create a new video-comment-map          |
-| PUT    | /video-comment-maps/:id                    | {VideoCommentMap} | Update a video-comment-map by id        |
-| DELETE | /video-comment-maps/:id                    |                   | Delete a video-comment-map by id        |
+| Method  | Endpoint                                   | Body              | Description                             |
+|---------|--------------------------------------------|-------------------|-----------------------------------------|
+| GET     | /video-comment-maps                        |                   | Get all video-comment-maps              |
+| GET     | /video-comment-maps?search=encoded_json    |                   | Get all video-comment-maps with search  |
+| GET     | /video-comment-maps?is_aggregated=true     |                   | Get all video-comment-map aggregates    |
+| GET     | /video-comment-maps/:id                    |                   | Get a video-comment-map by id           |
+| GET     | /video-comment-maps/:id?is_aggregated=true |                   | Get a video-comment-map aggregate by id |
+| POST    | /video-comment-maps                        | {VideoCommentMap} | Create a new video-comment-map          |
+| PATCH   | /video-comment-maps/:id                    | {VideoCommentMap} | Update a video-comment-map by id        |
+| DELETE  | /video-comment-maps/:id                    |                   | Delete a video-comment-map by id        |
 
 #### VideoProductMap
-| Method | Endpoint                                    | Body                | Description                             |
-|--------|---------------------------------------------|---------------------|-----------------------------------------|
-| GET    | /video-product-maps                         |                     | Get all video-product-maps              |
-| GET    | /video-product-maps?search=encoded_json     |                     | Get all video-product-maps with search  |
-| GET    | /video-product-maps?is_aggregated=true      |                     | Get all video-product-map aggregates    |
-| GET    | /video-product-maps/:id                     |                     | Get a video-product-map by id           |
-| GET    | /video-product-maps/:id?is_aggregated=true  |                     | Get a video-product-map aggregate by id |
-| POST   | /video-product-maps                         | {VideoProductMap}   | Create a new video-product-map          |
-| PUT    | /video-product-maps/:id                     | {VideoProductMap}   | Update a video-product-map by id        |
-| DELETE | /video-product-maps/:id                     |                     | Delete a video-product-map by id        |
+| Method  | Endpoint                                    | Body                | Description                             |
+|---------|---------------------------------------------|---------------------|-----------------------------------------|
+| GET     | /video-product-maps                         |                     | Get all video-product-maps              |
+| GET     | /video-product-maps?search=encoded_json     |                     | Get all video-product-maps with search  |
+| GET     | /video-product-maps?is_aggregated=true      |                     | Get all video-product-map aggregates    |
+| GET     | /video-product-maps/:id                     |                     | Get a video-product-map by id           |
+| GET     | /video-product-maps/:id?is_aggregated=true  |                     | Get a video-product-map aggregate by id |
+| POST    | /video-product-maps                         | {VideoProductMap}   | Create a new video-product-map          |
+| PATCH   | /video-product-maps/:id                     | {VideoProductMap}   | Update a video-product-map by id        |
+| DELETE  | /video-product-maps/:id                     |                     | Delete a video-product-map by id        |
  
 #### Authentication
 | Method | Endpoint                                               | Body                                   | Description                 |
@@ -188,7 +188,7 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 | submittedComment | {Result\<Comment\>}   | Submitted a comment to a room |
 
 
-## How to Run
+## How to Run the App
 ### Prerequisites
 - Node.js.
 - MongoDB.
