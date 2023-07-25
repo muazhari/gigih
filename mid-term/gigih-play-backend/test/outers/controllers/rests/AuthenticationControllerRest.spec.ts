@@ -57,6 +57,36 @@ describe('AuthenticationControllerRest', () => {
         humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedUserMock)))
       )
     })
+
+    it('should return 404 NOT FOUND: Unknown username', async () => {
+      const loginByUsernameAndPasswordRequest = new LoginByUsernameAndPasswordRequest(
+            `username${randomUUID()}`,
+            'password login'
+      )
+      const response = await chai.request(app).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
+      response.should.have.status(404)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(404)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').eq(null)
+    })
+
+    it('should return 404 NOT FOUND: Unknown username or password', async () => {
+      const selectedUserMock = userMock.data[0]
+      if (selectedUserMock.username === undefined) {
+        throw new Error('Selected user mock username is undefined.')
+      }
+      const loginByUsernameAndPasswordRequest = new LoginByUsernameAndPasswordRequest(
+        selectedUserMock.username,
+            `password${randomUUID()}`
+      )
+      const response = await chai.request(app).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
+      response.should.have.status(404)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(404)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').eq(null)
+    })
   })
 
   describe('POST /api/v1/authentications/registers?method=username_and_password', () => {
@@ -75,6 +105,23 @@ describe('AuthenticationControllerRest', () => {
       response.body.data.should.have.property('username').eq(registerByUsernameAndPasswordRequest.username)
       response.body.data.should.have.property('password').eq(registerByUsernameAndPasswordRequest.password)
       response.body.data.should.have.property('picture_url')
+    })
+
+    it('should return 409 CONFLICT: Username already exists', async () => {
+      const selectedUserMock = userMock.data[0]
+      if (selectedUserMock.username === undefined) {
+        throw new Error('Selected user mock username is undefined.')
+      }
+      const registerByUsernameAndPasswordRequest: RegisterByUsernameAndPasswordRequest = new RegisterByUsernameAndPasswordRequest(
+        selectedUserMock.username,
+        'password register'
+      )
+      const response = await chai.request(app).post('/api/v1/authentications/registers?method=username_and_password').send(registerByUsernameAndPasswordRequest)
+      response.should.have.status(409)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(409)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').eq(null)
     })
   })
 })
