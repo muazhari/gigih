@@ -20,6 +20,9 @@ import VideoProductMapManagement from '../../inners/use_cases/managements/VideoP
 import VideoProductMapRepository from '../repositories/VideoProductMapRepository'
 import type socketIo from 'socket.io'
 import RoomControllerWebSocket from '../controllers/web_sockets/RoomControllerWebSocket'
+import LoginAuthentication from '../../inners/use_cases/authentications/LoginAuthentication'
+import RegisterAuthentication from '../../inners/use_cases/authentications/RegisterAuthentication'
+import AuthenticationControllerRest from '../controllers/rests/AuthenticationControllerRest'
 
 export default class RootRoute {
   app: Application
@@ -70,6 +73,12 @@ export default class RootRoute {
     const videoProductMapControllerRest: VideoProductMapControllerRest = new VideoProductMapControllerRest(Router(), videoProductMapManagement)
     videoProductMapControllerRest.registerRoutes()
     routerVersionOne.use('/video-product-maps', videoProductMapControllerRest.router)
+
+    const loginAuthentication: LoginAuthentication = new LoginAuthentication(userManagement)
+    const registerAuthentication: RegisterAuthentication = new RegisterAuthentication(userManagement)
+    const authenticationControllerRest: AuthenticationControllerRest = new AuthenticationControllerRest(Router(), loginAuthentication, registerAuthentication)
+    authenticationControllerRest.registerRoutes()
+    routerVersionOne.use('/authentications', authenticationControllerRest.router)
 
     this.app.use('/api/v1', routerVersionOne)
   }

@@ -6,6 +6,9 @@ const userSchema = new Schema<User>({
     type: Schema.Types.String,
     unique: true
   },
+  password: {
+    type: Schema.Types.String
+  },
   pictureUrl: {
     type: Schema.Types.String
   }

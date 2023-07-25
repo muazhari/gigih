@@ -67,7 +67,7 @@ describe('UserControllerRest', () => {
 
   describe('POST /api/v1/users', () => {
     it('should return 201 CREATED', async () => {
-      const selectedUserMock = new User('username2', 'pictureUrl2', new Types.ObjectId().toString())
+      const selectedUserMock = new User(`username${randomUUID()}`, 'password2', 'pictureUrl2', new Types.ObjectId().toString())
       userMock.data.push(selectedUserMock)
       const response = await chai.request(app).post('/api/v1/users').send(selectedUserMock)
       response.should.have.status(201)
@@ -85,6 +85,7 @@ describe('UserControllerRest', () => {
     it('should return 200 OK', async () => {
       const selectedUserMock = userMock.data[0]
       selectedUserMock.username = `username${randomUUID()} patched`
+      selectedUserMock.password = 'password0 patched'
       selectedUserMock.pictureUrl = 'pictureUrl0 patched'
       if (selectedUserMock._id === undefined) {
         throw new Error('Selected user mock id is undefined.')

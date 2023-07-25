@@ -34,6 +34,14 @@ export default class UserRepository {
     return foundUser
   }
 
+  readOneByUsernameAndPassword = async (username: string, password: string): Promise<User> => {
+    const foundUser: User | null = await UserSchema.findOne({ username, password })
+    if (foundUser === null) {
+      throw new Error('Found user is null.')
+    }
+    return foundUser
+  }
+
   createOne = async (user: User): Promise<User> => {
     return await UserSchema.create(user)
   }

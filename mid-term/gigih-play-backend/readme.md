@@ -159,10 +159,10 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 | DELETE | /video-product-maps/:id                     |                     | Delete a video-product map by id         |
  
 #### Authentication
-| Method | Endpoint                                             | Body                                   | Description                 |
-|--------|------------------------------------------------------|----------------------------------------|-----------------------------|
-| POST   | /authentications/logins?method=usernameAndPassword   | {LoginByUsernameAndPasswordRequest}    | Login to the application    |
-| POST   | /authentications/register?method=usernameAndPassword | {RegisterByUsernameAndPasswordRequest} | Register to the application |
+| Method | Endpoint                                               | Body                                   | Description                 |
+|--------|--------------------------------------------------------|----------------------------------------|-----------------------------|
+| POST   | /authentications/logins?method=username_and_password   | {LoginByUsernameAndPasswordRequest}    | Login to the application    |
+| POST   | /authentications/register?method=username_and_password | {RegisterByUsernameAndPasswordRequest} | Register to the application |
 
 ### Websocket Endpoints
 #### Room
@@ -222,4 +222,4 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 
 ## Notes
 1. Typescript transpile needs time, so wait for a few seconds/minutes after running the App.
-2. You can observe test coverage in this [link](https://muazhari.github.io/gigih/mid-term/gigih-play-backend/coverage/index.html).
+2. You can observe the test coverage in this [link](https://muazhari.github.io/gigih/mid-term/gigih-play-backend/coverage/index.html).

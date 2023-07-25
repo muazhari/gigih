@@ -6,8 +6,8 @@ export default class UserMock {
   data: User[]
   constructor () {
     this.data = [
-      new User(`username${randomUUID()}`, 'pictureUrl0', new Types.ObjectId().toString()),
-      new User(`username${randomUUID()}`, 'pictureUrl1', new Types.ObjectId().toString())
+      new User(`username${randomUUID()}`, 'password0', 'pictureUrl0', new Types.ObjectId().toString()),
+      new User(`username${randomUUID()}`, 'password1', 'pictureUrl1', new Types.ObjectId().toString())
     ]
   }
 }
