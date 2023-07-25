@@ -23,7 +23,7 @@ export default class UserControllerRest {
 
   readAll = (request: Request, response: Response): void => {
     const { search } = request.query
-    const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURI(String(search))) : undefined
+    const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURIComponent(String(search))) : undefined
     this.userManagement
       .readAll(parsedSearch)
       .then((result: Result<User[]>) => {

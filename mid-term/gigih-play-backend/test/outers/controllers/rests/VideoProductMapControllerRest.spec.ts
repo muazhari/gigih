@@ -84,7 +84,7 @@ describe('VideoProductMapControllerRest', () => {
       if (selectedVideoProductMapMock._id === undefined) {
         throw new Error('Selected videoProductMap mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedVideoProductMapMock._id
       }))
       const response = await chai.request(app).get(`/api/v1/video-product-maps?search=${encodedSearch}`)
@@ -105,7 +105,7 @@ describe('VideoProductMapControllerRest', () => {
       if (selectedVideoProductMapAggregateMock._id === undefined) {
         throw new Error('Selected videoProductMapAggregate mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedVideoProductMapAggregateMock._id
       }))
       const response = await chai.request(app).get(`/api/v1/video-product-maps?is_aggregated=true&search=${encodedSearch}`)

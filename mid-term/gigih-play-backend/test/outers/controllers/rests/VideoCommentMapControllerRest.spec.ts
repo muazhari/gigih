@@ -84,7 +84,7 @@ describe('VideoCommentMapControllerRest', () => {
       if (selectedVideoCommentMapMock._id === undefined) {
         throw new Error('Selected videoCommentMap mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedVideoCommentMapMock._id
       }))
       const response = await chai.request(app).get(`/api/v1/video-comment-maps?search=${encodedSearch}`)
@@ -105,7 +105,7 @@ describe('VideoCommentMapControllerRest', () => {
       if (selectedVideoCommentMapAggregateMock._id === undefined) {
         throw new Error('Selected videoCommentMapAggregate mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedVideoCommentMapAggregateMock._id
       }))
       const response = await chai.request(app).get(`/api/v1/video-comment-maps?is_aggregated=true&search=${encodedSearch}`)

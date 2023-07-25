@@ -52,7 +52,7 @@ describe('VideoControllerRest', () => {
       if (selectedVideoMock._id === undefined) {
         throw new Error('Selected video mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedVideoMock._id
       }))
       const response = await chai.request(app).get(`/api/v1/videos?search=${encodedSearch}`)

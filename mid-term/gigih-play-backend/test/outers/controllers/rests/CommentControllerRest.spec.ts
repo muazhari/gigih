@@ -94,7 +94,7 @@ describe('CommentControllerRest', () => {
       if (selectedCommentMock._id === undefined) {
         throw new Error('Selected comment mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedCommentMock._id
       }))
       const response = await chai.request(app).get(`/api/v1/comments?search=${encodedSearch}`)
@@ -115,7 +115,7 @@ describe('CommentControllerRest', () => {
       if (selectedCommentMockAggregated._id === undefined) {
         throw new Error('Selected comment mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedCommentMockAggregated._id
       }))
       const response = await chai.request(app).get(`/api/v1/comments?is_aggregated=true&search=${encodedSearch}`)

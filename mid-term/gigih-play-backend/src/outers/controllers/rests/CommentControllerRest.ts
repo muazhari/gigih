@@ -28,7 +28,7 @@ export default class CommentControllerRest {
   readAll = (request: Request, response: Response): void => {
     const { isAggregated, search } = request.query
     const parsedIsAggregated: boolean = Boolean(isAggregated)
-    const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURI(String(search))) : undefined
+    const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURIComponent(String(search))) : undefined
     this.commentManagement
       .readAll(parsedIsAggregated, parsedSearch)
       .then((result: Result<Comment[] | CommentAggregate[]>) => {

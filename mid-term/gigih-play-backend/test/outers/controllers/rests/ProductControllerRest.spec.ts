@@ -68,7 +68,7 @@ describe('ProductControllerRest', () => {
       if (selectedProductMock._id === undefined) {
         throw new Error('Selected product mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedProductMock._id
       }))
       const response = await chai.request(app).get(`/api/v1/products?search=${encodedSearch}`)

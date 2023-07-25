@@ -53,7 +53,7 @@ describe('UserControllerRest', () => {
       if (selectedUserMock._id === undefined) {
         throw new Error('Selected user mock id is undefined.')
       }
-      const encodedSearch = encodeURI(JSON.stringify({
+      const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedUserMock._id
       }))
       const response = await chai.request(app).get(`/api/v1/users?search=${encodedSearch}`)
