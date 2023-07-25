@@ -1,7 +1,7 @@
 # gigih-play-backend
 
 ## Database Structure
-I'm using MongoDB for the DBMS. I'm implementing the database schema with BCNF/3.5 normal form technique for storage efficiency and source code easy compatibility.
+I'm using MongoDB for the DBMS. I'm implementing the database schema with BCNF/3.5 normal form technique for storage efficiency and source code easy compatibility.  
 ![img.png](assets/erd.png)
 
 ## Folder Structure 
