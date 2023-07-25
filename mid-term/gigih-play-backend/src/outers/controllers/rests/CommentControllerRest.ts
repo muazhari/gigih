@@ -20,7 +20,7 @@ export default class CommentControllerRest {
     this.router.get('/videos/:videoId', this.readAllByVideoId)
     this.router.get('/:id', this.readOneById)
     this.router.post('', this.createOne)
-    this.router.post('/submission', this.submit)
+    this.router.post('/submissions', this.submit)
     this.router.patch('/:id', this.patchOneById)
     this.router.delete('/:id', this.deleteOneById)
   }

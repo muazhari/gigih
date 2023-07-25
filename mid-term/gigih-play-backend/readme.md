@@ -1,16 +1,17 @@
 # gigih-play-backend
 
 ## Database Structure
-I'm using MongoDB for the DBMS. I'm implementing the database schema with BCNF/3.5 normal form technique.
+I'm using MongoDB for the DBMS. I'm implementing the database schema with BCNF/3.5 normal form technique for storage efficiency and source code easy compatibility.
+![img.png](assets/erd.png)
 
-## API Structure 
-I'm using Clean Architecture for the API structure. The API structure is divided into onion-like layers, which are:
-- **Repository Layer**: This layer contains the database access logic. It is the outer layer of the API.
-- **Controller Layer**: This layer contains the API endpoint logic. It is the outermost layer of the API.
+## Folder Structure 
+I'm using Clean Architecture for the folder structure. The Folder structure is divided into onion-like layers, which are:
+- **Model Layer**: This layer contains the data model of the application. It is the innermost layer of the application.
+- **Repository Layer**: This layer contains the database access logic. It is the outermost layer of the application.
 - **Use Case Layer**: This layer contains the use case logic. It is the layer between the model layer and the repository layer.
-- **Model Layer**: This layer contains the data model of the API. It is the innermost layer of the API.
+- **Controller Layer**: This layer contains the API endpoint logic. It is the outermost layer of the application.
 
-## API Documentation
+## API Structure
 ### Models
 
 #### Result
@@ -102,15 +103,16 @@ I'm using Clean Architecture for the API structure. The API structure is divided
 
 
 #### Comment
-| Method | Endpoint                          | Body                   | Description                     |
-|--------|-----------------------------------|------------------------|---------------------------------|
-| GET    | /comments                         |                        | Get all comments                |
-| GET    | /comments/:id                     |                        | Get a comment by id             |
-| GET    | /comments/videos/:videoId         |                        | Get all comments by video id    |
-| POST   | /comments                         | {Comment}              | Create a new comment            |
-| POST   | /comments/submission              | {SubmitCommentRequest} | Create a new comment to a video |
-| PUT    | /comments/:id                     | {Comment}              | Update a comment by id          |
-| DELETE | /comments/:id                     |                        | Delete a comment by id          |
+| Method | Endpoint                                 | Body                   | Description                                            |
+|--------|------------------------------------------|------------------------|--------------------------------------------------------|
+| GET    | /comments                                |                        | Get all comments                                       |
+| GET    | /comments/:id                            |                        | Get a comment by id                                    |
+| GET    | /comments/videos/:videoId                |                        | Get all comments by video id                           |
+| POST   | /comments                                | {Comment}              | Create a new comment                                   |
+| POST   | /comments/submissions                    | {SubmitCommentRequest} | Create a new comment to a video                        |
+| POST   | /comments/submissions?is_aggregated=true | {SubmitCommentRequest} | Create a new comment to a video with aggregated return |
+| PUT    | /comments/:id                            | {Comment}              | Update a comment by id                                 |
+| DELETE | /comments/:id                            |                        | Delete a comment by id                                 |
 
 #### Video
 | Method | Endpoint                          | Body         | Description                 |
@@ -195,9 +197,10 @@ I'm using Clean Architecture for the API structure. The API structure is divided
 ### Run Tests
 1. Clone this repository.
 2. Open the terminal and go to the repository directory.
-3. Run `yarn install` to install all dependencies.
-4. Run `docker-compose up ds-1` to run MongoDB container.
-5. Run `yarn test` to try the tests.
+3. Set the environment variable `DS_1_HOST` to `localhost` in the `.env` file.
+4. Run `yarn install` to install all dependencies.
+5. Run `docker-compose up ds-1` to run MongoDB container.
+6. Run `yarn test` to try the tests.
 
 
 ## Notes

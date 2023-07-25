@@ -160,7 +160,7 @@ describe('CommentControllerRest', () => {
     })
   })
 
-  describe('POST /api/v1/comments/submission', () => {
+  describe('POST /api/v1/comments/submissions', () => {
     it('should return 201 CREATED', async () => {
       const selectedVideoMock = videoCommentMapMock.videoMock.data[0]
       const selectedUserMock = videoCommentMapMock.commentMock.userMock.data[0]
@@ -172,7 +172,7 @@ describe('CommentControllerRest', () => {
         selectedUserMock.username,
         'content submit'
       )
-      const response = await chai.request(app).post('/api/v1/comments/submission').send(submitCommentRequest)
+      const response = await chai.request(app).post('/api/v1/comments/submissions').send(submitCommentRequest)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -187,7 +187,7 @@ describe('CommentControllerRest', () => {
     })
   })
 
-  describe('POST /api/v1/comments/submission?is_aggregated=true', () => {
+  describe('POST /api/v1/comments/submissions?is_aggregated=true', () => {
     it('should return 201 CREATED', async () => {
       const selectedVideoMock = videoCommentMapMock.videoMock.data[0]
       const selectedUserMock = videoCommentMapMock.commentMock.userMock.data[0]
@@ -199,7 +199,7 @@ describe('CommentControllerRest', () => {
         selectedUserMock.username,
         'content submit'
       )
-      const response = await chai.request(app).post('/api/v1/comments/submission?is_aggregated=true').send(submitCommentRequest)
+      const response = await chai.request(app).post('/api/v1/comments/submissions?is_aggregated=true').send(submitCommentRequest)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
