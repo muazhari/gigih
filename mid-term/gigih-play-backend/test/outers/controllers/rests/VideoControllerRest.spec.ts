@@ -46,6 +46,27 @@ describe('VideoControllerRest', () => {
     })
   })
 
+  describe('GET /api/v1/videos?search=encoded', () => {
+    it('should return 200 OK', async () => {
+      const selectedVideoMock = videoMock.data[0]
+      if (selectedVideoMock._id === undefined) {
+        throw new Error('Selected video mock id is undefined.')
+      }
+      const encodedSearch = encodeURI(JSON.stringify({
+        _id: selectedVideoMock._id
+      }))
+      const response = await chai.request(app).get(`/api/v1/videos?search=${encodedSearch}`)
+      response.should.have.status(200)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(200)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').a('array')
+      response.body.data.should.deep.include(
+        humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedVideoMock)))
+      )
+    })
+  })
+
   describe('GET /api/v1/videos/:id', () => {
     it('should return 200 OK', async () => {
       const selectedVideoMock = videoMock.data[0]

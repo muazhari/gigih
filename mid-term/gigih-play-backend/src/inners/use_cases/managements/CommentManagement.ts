@@ -15,12 +15,12 @@ export default class CommentManagement {
     this.userRepository = userRepository
   }
 
-  readAll = async (isAggregated?: boolean): Promise<Result<Comment[] | CommentAggregate[]>> => {
+  readAll = async (isAggregated?: boolean, search?: any): Promise<Result<Comment[] | CommentAggregate[]>> => {
     let foundComments: Comment[] | CommentAggregate[]
     if (isAggregated === true) {
-      foundComments = await this.commentRepository.readAllAggregated()
+      foundComments = await this.commentRepository.readAllAggregated(search)
     } else {
-      foundComments = await this.commentRepository.readAll()
+      foundComments = await this.commentRepository.readAll(search)
     }
     return new Result<Comment[] | CommentAggregate[]>(
       200,

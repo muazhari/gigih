@@ -62,9 +62,9 @@ describe('VideoProductMapControllerRest', () => {
     })
   })
 
-  describe('GET /api/v1/video-product-maps/aggregated', () => {
+  describe('GET /api/v1/video-product-maps?is_aggregated=true', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/video-product-maps/aggregated')
+      const response = await chai.request(app).get('/api/v1/video-product-maps?is_aggregated=true')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -74,6 +74,48 @@ describe('VideoProductMapControllerRest', () => {
         videoProductMapMock.aggregatedData.map((videoProductMapMockAggregated: any) => {
           return humps.decamelizeKeys(JSON.parse(JSON.stringify(videoProductMapMockAggregated)))
         })
+      )
+    })
+  })
+
+  describe('GET /api/v1/video-product-maps?search=encoded', () => {
+    it('should return 200 OK', async () => {
+      const selectedVideoProductMapMock = videoProductMapMock.data[0]
+      if (selectedVideoProductMapMock._id === undefined) {
+        throw new Error('Selected videoProductMap mock id is undefined.')
+      }
+      const encodedSearch = encodeURI(JSON.stringify({
+        _id: selectedVideoProductMapMock._id
+      }))
+      const response = await chai.request(app).get(`/api/v1/video-product-maps?search=${encodedSearch}`)
+      response.should.have.status(200)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(200)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').a('array')
+      response.body.data.should.deep.include(
+        humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedVideoProductMapMock)))
+      )
+    })
+  })
+
+  describe('GET /api/v1/video-product-maps?is_aggregated=true&search=encoded', () => {
+    it('should return 200 OK', async () => {
+      const selectedVideoProductMapAggregateMock = videoProductMapMock.aggregatedData[0]
+      if (selectedVideoProductMapAggregateMock._id === undefined) {
+        throw new Error('Selected videoProductMapAggregate mock id is undefined.')
+      }
+      const encodedSearch = encodeURI(JSON.stringify({
+        _id: selectedVideoProductMapAggregateMock._id
+      }))
+      const response = await chai.request(app).get(`/api/v1/video-product-maps?is_aggregated=true&search=${encodedSearch}`)
+      response.should.have.status(200)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(200)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').a('array')
+      response.body.data.should.deep.include(
+        humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedVideoProductMapAggregateMock)))
       )
     })
   })
@@ -96,13 +138,13 @@ describe('VideoProductMapControllerRest', () => {
     })
   })
 
-  describe('GET /api/v1/video-product-maps/:id/aggregated', () => {
+  describe('GET /api/v1/video-product-maps/:id?is_aggregated=true', () => {
     it('should return 200 OK', async () => {
       const selectedVideoProductMapMock = videoProductMapMock.data[0]
       if (selectedVideoProductMapMock._id === undefined) {
         throw new Error('Selected videoProductMap mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}/aggregated`)
+      const response = await chai.request(app).get(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}?is_aggregated=true`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)

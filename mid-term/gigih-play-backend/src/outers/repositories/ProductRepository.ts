@@ -10,8 +10,13 @@ export default class ProductRepository {
     this.oneDatastore = datastoreOne
   }
 
-  readAll = async (): Promise<Product[]> => {
-    const foundProducts: Product[] | null = await ProductSchema.find()
+  readAll = async (search?: any): Promise<Product[]> => {
+    if (search !== undefined) {
+      if (search._id !== null) {
+        search._id = new Types.ObjectId(search._id)
+      }
+    }
+    const foundProducts: Product[] | null = await ProductSchema.find(search)
     if (foundProducts === null) {
       throw new Error('Found products is null.')
     }

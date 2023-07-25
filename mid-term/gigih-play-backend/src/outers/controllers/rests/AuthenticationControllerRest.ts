@@ -2,7 +2,6 @@ import { type Request, type Response, type Router } from 'express'
 
 import type User from '../../../inners/models/entities/User'
 import Result from '../../../inners/models/value_objects/Result'
-import type UserManagement from '../../../inners/use_cases/managements/UserManagement'
 import type RegisterAuthentication from '../../../inners/use_cases/authentications/RegisterAuthentication'
 import type LoginAuthentication from '../../../inners/use_cases/authentications/LoginAuthentication'
 import type LoginByUsernameAndPasswordRequest

@@ -88,6 +88,48 @@ describe('CommentControllerRest', () => {
     })
   })
 
+  describe('GET /api/v1/comments?search=encoded', () => {
+    it('should return 200 OK', async () => {
+      const selectedCommentMock = videoCommentMapMock.commentMock.data[0]
+      if (selectedCommentMock._id === undefined) {
+        throw new Error('Selected comment mock id is undefined.')
+      }
+      const encodedSearch = encodeURI(JSON.stringify({
+        _id: selectedCommentMock._id
+      }))
+      const response = await chai.request(app).get(`/api/v1/comments?search=${encodedSearch}`)
+      response.should.have.status(200)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(200)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').a('array')
+      response.body.data.should.deep.include(
+        humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedCommentMock)))
+      )
+    })
+  })
+
+  describe('GET /api/v1/comments?is_aggregated=true&search=encoded', () => {
+    it('should return 200 OK', async () => {
+      const selectedCommentMockAggregated: CommentAggregate = videoCommentMapMock.commentMock.aggregatedData[0]
+      if (selectedCommentMockAggregated._id === undefined) {
+        throw new Error('Selected comment mock id is undefined.')
+      }
+      const encodedSearch = encodeURI(JSON.stringify({
+        _id: selectedCommentMockAggregated._id
+      }))
+      const response = await chai.request(app).get(`/api/v1/comments?is_aggregated=true&search=${encodedSearch}`)
+      response.should.have.status(200)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(200)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').a('array')
+      response.body.data.should.deep.include(
+        humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedCommentMockAggregated)))
+      )
+    })
+  })
+
   describe('GET /api/v1/comments/videos/:videoId', () => {
     it('should return 200 OK', async () => {
       const selectedVideoCommentMapMock = videoCommentMapMock.data[0]

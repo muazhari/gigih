@@ -16,33 +16,19 @@ export default class VideoCommentMapController {
 
   registerRoutes = (): void => {
     this.router.get('', this.readAll)
-    this.router.get('/aggregated', this.readAllAggregated)
     this.router.get('/:id', this.readOneById)
-    this.router.get('/:id/aggregated', this.readOneByIdAggregated)
     this.router.post('', this.createOne)
     this.router.patch('/:id', this.patchOneById)
     this.router.delete('/:id', this.deleteOneById)
   }
 
   readAll = (request: Request, response: Response): void => {
+    const { isAggregated, search } = request.query
+    const parsedIsAggregated: boolean = Boolean(isAggregated)
+    const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURI(String(search))) : undefined
     this.videoCommentMapManagement
-      .readAll()
-      .then((result: Result<VideoCommentMap[]>) => {
-        response.status(result.status).json(result)
-      })
-      .catch((error: Error) => {
-        response.status(500).json({
-          status: 500,
-          message: error.message,
-          data: null
-        })
-      })
-  }
-
-  readAllAggregated = (request: Request, response: Response): void => {
-    this.videoCommentMapManagement
-      .readAllAggregated()
-      .then((result: Result<VideoCommentMapAggregate[]>) => {
+      .readAll(parsedIsAggregated, parsedSearch)
+      .then((result: Result<VideoCommentMap[] | VideoCommentMapAggregate[]>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {
@@ -56,25 +42,11 @@ export default class VideoCommentMapController {
 
   readOneById = (request: Request, response: Response): void => {
     const { id } = request.params
+    const { isAggregated } = request.query
+    const parsedIsAggregated: boolean = Boolean(isAggregated)
     this.videoCommentMapManagement
-      .readOneById(id)
-      .then((result: Result<VideoCommentMap>) => {
-        response.status(result.status).json(result)
-      })
-      .catch((error: Error) => {
-        response.status(500).json({
-          status: 500,
-          message: error.message,
-          data: null
-        })
-      })
-  }
-
-  readOneByIdAggregated = (request: Request, response: Response): void => {
-    const { id } = request.params
-    this.videoCommentMapManagement
-      .readOneByIdAggregated(id)
-      .then((result: Result<VideoCommentMapAggregate>) => {
+      .readOneById(id, parsedIsAggregated)
+      .then((result: Result<VideoCommentMap | VideoCommentMapAggregate>) => {
         response.status(result.status).json(result)
       })
       .catch((error: Error) => {

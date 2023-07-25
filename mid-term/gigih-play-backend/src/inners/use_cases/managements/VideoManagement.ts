@@ -9,8 +9,8 @@ export default class VideoManagement {
     this.videoRepository = videoRepository
   }
 
-  readAll = async (): Promise<Result<Video[]>> => {
-    const foundVideos: Video[] = await this.videoRepository.readAll()
+  readAll = async (search?: any): Promise<Result<Video[]>> => {
+    const foundVideos: Video[] = await this.videoRepository.readAll(search)
     return new Result<Video[]>(
       200,
       'Video read all succeed.',

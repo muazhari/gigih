@@ -9,8 +9,8 @@ export default class UserManagement {
     this.userRepository = userRepository
   }
 
-  readAll = async (): Promise<Result<User[]>> => {
-    const foundUsers: User[] = await this.userRepository.readAll()
+  readAll = async (search?: any): Promise<Result<User[]>> => {
+    const foundUsers: User[] = await this.userRepository.readAll(search)
     return new Result<User[]>(
       200,
       'User read all succeed.',

@@ -10,8 +10,13 @@ export default class VideoRepository {
     this.oneDatastore = datastoreOne
   }
 
-  readAll = async (): Promise<Video[]> => {
-    const foundVideos: Video[] | null = await VideoSchema.find()
+  readAll = async (search?: any): Promise<Video[]> => {
+    if (search !== undefined) {
+      if (search._id !== null) {
+        search._id = new Types.ObjectId(search._id)
+      }
+    }
+    const foundVideos: Video[] | null = await VideoSchema.find(search)
     if (foundVideos === null) {
       throw new Error('Found videos is null.')
     }

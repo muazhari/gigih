@@ -11,16 +11,21 @@ export default class CommentRepository {
     this.oneDatastore = datastoreOne
   }
 
-  readAll = async (): Promise<Comment[]> => {
-    const foundComment: Comment[] | null = await CommentSchema.find()
+  readAll = async (search?: any): Promise<Comment[]> => {
+    if (search !== undefined) {
+      if (search._id !== null) {
+        search._id = new Types.ObjectId(search._id)
+      }
+    }
+    const foundComment: Comment[] | null = await CommentSchema.find(search)
     if (foundComment === null) {
       throw new Error('Found comments is null.')
     }
     return foundComment
   }
 
-  readAllAggregated = async (): Promise<CommentAggregate[]> => {
-    const foundComment: CommentAggregate[] | null = await CommentSchema.aggregate([
+  readAllAggregated = async (search?: any): Promise<CommentAggregate[]> => {
+    const pipeline: any[] = [
       {
         $lookup: {
           from: 'users',
@@ -42,7 +47,16 @@ export default class CommentRepository {
           timestamp: 1
         }
       }
-    ])
+    ]
+    if (search !== undefined) {
+      if (search._id !== null) {
+        search._id = new Types.ObjectId(search._id)
+      }
+      pipeline.push({
+        $match: search
+      })
+    }
+    const foundComment: CommentAggregate[] | null = await CommentSchema.aggregate(pipeline)
     if (foundComment === null) {
       throw new Error('Found comments is null.')
     }

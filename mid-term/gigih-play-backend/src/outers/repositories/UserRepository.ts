@@ -10,8 +10,13 @@ export default class UserRepository {
     this.oneDatastore = datastoreOne
   }
 
-  readAll = async (): Promise<User[]> => {
-    const foundUsers: User[] | null = await UserSchema.find()
+  readAll = async (search?: any): Promise<User[]> => {
+    if (search !== undefined) {
+      if (search._id !== null) {
+        search._id = new Types.ObjectId(search._id)
+      }
+    }
+    const foundUsers: User[] | null = await UserSchema.find(search)
     if (foundUsers === null) {
       throw new Error('Found users is null.')
     }

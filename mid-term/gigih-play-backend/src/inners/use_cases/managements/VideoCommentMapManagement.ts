@@ -10,39 +10,32 @@ export default class VideoCommentMapManagement {
     this.videoCommentMapRepository = videoCommentMapRepository
   }
 
-  readAll = async (): Promise<Result<VideoCommentMap[]>> => {
-    const foundVideoCommentMaps: VideoCommentMap[] = await this.videoCommentMapRepository.readAll()
-    return new Result<VideoCommentMap[]>(
+  readAll = async (isAggregated?: boolean, search?: any): Promise<Result<VideoCommentMap[] | VideoCommentMapAggregate[]>> => {
+    let foundVideoCommentMaps: VideoCommentMap[] | VideoCommentMapAggregate[]
+    if (isAggregated === true) {
+      foundVideoCommentMaps = await this.videoCommentMapRepository.readAllAggregated(search)
+    } else {
+      foundVideoCommentMaps = await this.videoCommentMapRepository.readAll(search)
+    }
+
+    return new Result<VideoCommentMap[] | VideoCommentMapAggregate[]>(
       200,
       'VideoCommentMap read all succeed.',
       foundVideoCommentMaps
     )
   }
 
-  readAllAggregated = async (): Promise<Result<VideoCommentMapAggregate[]>> => {
-    const foundVideoCommentMapsAggregated: VideoCommentMapAggregate[] = await this.videoCommentMapRepository.readAllAggregated()
-    return new Result<VideoCommentMapAggregate[]>(
-      200,
-      'VideoCommentMap read all aggregated succeed.',
-      foundVideoCommentMapsAggregated
-    )
-  }
-
-  readOneById = async (id: string): Promise<Result<VideoCommentMap>> => {
-    const foundVideoCommentMap: VideoCommentMap = await this.videoCommentMapRepository.readOneById(id)
-    return new Result<VideoCommentMap >(
+  readOneById = async (id: string, isAggregated?: boolean): Promise<Result<VideoCommentMap | VideoCommentMapAggregate>> => {
+    let foundVideoCommentMap: VideoCommentMap | VideoCommentMapAggregate
+    if (isAggregated === true) {
+      foundVideoCommentMap = await this.videoCommentMapRepository.readOneByIdAggregated(id)
+    } else {
+      foundVideoCommentMap = await this.videoCommentMapRepository.readOneById(id)
+    }
+    return new Result<VideoCommentMap | VideoCommentMapAggregate>(
       200,
       'VideoCommentMap read one by id succeed.',
       foundVideoCommentMap
-    )
-  }
-
-  readOneByIdAggregated = async (id: string): Promise<Result<VideoCommentMapAggregate>> => {
-    const foundVideoCommentMapAggregated: VideoCommentMapAggregate = await this.videoCommentMapRepository.readOneByIdAggregated(id)
-    return new Result<VideoCommentMapAggregate>(
-      200,
-      'VideoCommentMap read one by id aggregated succeed.',
-      foundVideoCommentMapAggregated
     )
   }
 

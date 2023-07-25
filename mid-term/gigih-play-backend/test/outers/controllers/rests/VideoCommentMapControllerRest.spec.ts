@@ -7,7 +7,6 @@ import VideoCommentMapMock from '../../../mocks/VideoCommentMapMock'
 import VideoCommentMapSchema from '../../../../src/outers/schemas/VideoCommentMapSchema'
 import { Types } from 'mongoose'
 import VideoCommentMap from '../../../../src/inners/models/entities/VideoCommentMap'
-import type VideoCommentMapAggregate from '../../../../src/inners/models/aggregates/VideoCommentMapAggregate'
 import VideoSchema from '../../../../src/outers/schemas/VideoSchema'
 import CommentSchema from '../../../../src/outers/schemas/CommentSchema'
 import type Video from '../../../../src/inners/models/entities/Video'
@@ -63,9 +62,9 @@ describe('VideoCommentMapControllerRest', () => {
     })
   })
 
-  describe('GET /api/v1/video-comment-maps/aggregated', () => {
+  describe('GET /api/v1/video-comment-maps?is_aggregated=true', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/video-comment-maps/aggregated')
+      const response = await chai.request(app).get('/api/v1/video-comment-maps?is_aggregated=true')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -79,9 +78,51 @@ describe('VideoCommentMapControllerRest', () => {
     })
   })
 
+  describe('GET /api/v1/video-comment-maps?search=encoded', () => {
+    it('should return 200 OK', async () => {
+      const selectedVideoCommentMapMock = videoCommentMapMock.data[0]
+      if (selectedVideoCommentMapMock._id === undefined) {
+        throw new Error('Selected videoCommentMap mock id is undefined.')
+      }
+      const encodedSearch = encodeURI(JSON.stringify({
+        _id: selectedVideoCommentMapMock._id
+      }))
+      const response = await chai.request(app).get(`/api/v1/video-comment-maps?search=${encodedSearch}`)
+      response.should.have.status(200)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(200)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').a('array')
+      response.body.data.should.deep.include(
+        humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedVideoCommentMapMock)))
+      )
+    })
+  })
+
+  describe('GET /api/v1/video-comment-maps?is_aggregated=true&search=encoded', () => {
+    it('should return 200 OK', async () => {
+      const selectedVideoCommentMapAggregateMock = videoCommentMapMock.aggregatedData[0]
+      if (selectedVideoCommentMapAggregateMock._id === undefined) {
+        throw new Error('Selected videoCommentMapAggregate mock id is undefined.')
+      }
+      const encodedSearch = encodeURI(JSON.stringify({
+        _id: selectedVideoCommentMapAggregateMock._id
+      }))
+      const response = await chai.request(app).get(`/api/v1/video-comment-maps?is_aggregated=true&search=${encodedSearch}`)
+      response.should.have.status(200)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(200)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').a('array')
+      response.body.data.should.deep.include(
+        humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedVideoCommentMapAggregateMock)))
+      )
+    })
+  })
+
   describe('GET /api/v1/video-comment-maps/:id', () => {
     it('should return 200 OK', async () => {
-      const selectedVideoCommentMapMock: VideoCommentMap = videoCommentMapMock.data[0]
+      const selectedVideoCommentMapMock = videoCommentMapMock.data[0]
       if (selectedVideoCommentMapMock._id === undefined) {
         throw new Error('Selected videoCommentMap mock id is undefined.')
       }
@@ -97,13 +138,13 @@ describe('VideoCommentMapControllerRest', () => {
     })
   })
 
-  describe('GET /api/v1/video-comment-maps/:id/aggregated', () => {
+  describe('GET /api/v1/video-comment-maps/:id?is_aggregated=true', () => {
     it('should return 200 OK', async () => {
-      const selectedVideoCommentMapMockAggregated: VideoCommentMapAggregate = videoCommentMapMock.aggregatedData[0]
-      if (selectedVideoCommentMapMockAggregated._id === undefined) {
-        throw new Error('Selected videoCommentMap mock id is undefined.')
+      const selectedVideoCommentMapAggregateMock = videoCommentMapMock.aggregatedData[0]
+      if (selectedVideoCommentMapAggregateMock._id === undefined) {
+        throw new Error('Selected videoCommentMapAggregate mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/video-comment-maps/${selectedVideoCommentMapMockAggregated._id}/aggregated`)
+      const response = await chai.request(app).get(`/api/v1/video-comment-maps/${selectedVideoCommentMapAggregateMock._id}?is_aggregated=true`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -117,7 +158,7 @@ describe('VideoCommentMapControllerRest', () => {
 
   describe('POST /api/v1/video-comment-maps', () => {
     it('should return 201 CREATED', async () => {
-      const selectedVideoCommentMapMock: VideoCommentMap = new VideoCommentMap(videoCommentMapMock.videoMock.data[0]._id, videoCommentMapMock.commentMock.data[0]._id, new Types.ObjectId().toString())
+      const selectedVideoCommentMapMock = new VideoCommentMap(videoCommentMapMock.videoMock.data[0]._id, videoCommentMapMock.commentMock.data[0]._id, new Types.ObjectId().toString())
       videoCommentMapMock.data.push(selectedVideoCommentMapMock)
       const response = await chai.request(app).post('/api/v1/video-comment-maps').send(selectedVideoCommentMapMock)
       response.should.have.status(201)

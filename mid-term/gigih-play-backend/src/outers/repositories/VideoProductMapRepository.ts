@@ -11,16 +11,21 @@ export default class VideoProductMapRepository {
     this.oneDatastore = datastoreOne
   }
 
-  readAll = async (): Promise<VideoProductMap[]> => {
-    const foundVideoProductMaps: VideoProductMap[] | null = await VideoProductMapSchema.find()
+  readAll = async (search?: any): Promise<VideoProductMap[]> => {
+    if (search !== undefined) {
+      if (search._id !== null) {
+        search._id = new Types.ObjectId(search._id)
+      }
+    }
+    const foundVideoProductMaps: VideoProductMap[] | null = await VideoProductMapSchema.find(search)
     if (foundVideoProductMaps === null) {
       throw new Error('Found videoProductMaps is null.')
     }
     return foundVideoProductMaps
   }
 
-  readAllAggregated = async (): Promise<VideoProductMapAggregate[]> => {
-    const foundVideoProductMaps: VideoProductMapAggregate[] | null = await VideoProductMapSchema.aggregate([
+  readAllAggregated = async (search?: any): Promise<VideoProductMapAggregate[]> => {
+    const pipeline: any[] = [
       {
         $lookup: {
           from: 'videos',
@@ -54,7 +59,16 @@ export default class VideoProductMapRepository {
           product: 1
         }
       }
-    ])
+    ]
+    if (search !== undefined) {
+      if (search._id !== null) {
+        search._id = new Types.ObjectId(search._id)
+      }
+      pipeline.push({
+        $match: search
+      })
+    }
+    const foundVideoProductMaps: VideoProductMapAggregate[] | null = await VideoProductMapSchema.aggregate(pipeline)
     if (foundVideoProductMaps === null) {
       throw new Error('Found videoProductMaps is null.')
     }

@@ -10,27 +10,28 @@ export default class VideoProductMapManagement {
     this.videoProductMapRepository = videoProductMapRepository
   }
 
-  readAll = async (): Promise<Result<VideoProductMap[]>> => {
-    const foundVideoProductMaps: VideoProductMap[] = await this.videoProductMapRepository.readAll()
-    return new Result<VideoProductMap[]>(
+  readAll = async (isAggregated?: boolean, search?: any): Promise<Result<VideoProductMap[] | VideoProductMapAggregate[]>> => {
+    let foundVideoProductMaps: VideoProductMap[] | VideoProductMapAggregate[]
+    if (isAggregated === true) {
+      foundVideoProductMaps = await this.videoProductMapRepository.readAllAggregated(search)
+    } else {
+      foundVideoProductMaps = await this.videoProductMapRepository.readAll(search)
+    }
+    return new Result<VideoProductMap[] | VideoProductMapAggregate[]>(
       200,
       'VideoProductMap read all succeed.',
       foundVideoProductMaps
     )
   }
 
-  readAllAggregated = async (): Promise<Result<VideoProductMapAggregate[]>> => {
-    const foundVideoProductMaps: VideoProductMapAggregate[] = await this.videoProductMapRepository.readAllAggregated()
-    return new Result<VideoProductMapAggregate[]>(
-      200,
-      'VideoProductMap read all aggregated succeed.',
-      foundVideoProductMaps
-    )
-  }
-
-  readOneById = async (id: string): Promise<Result<VideoProductMap >> => {
-    const foundVideoProductMap: VideoProductMap = await this.videoProductMapRepository.readOneById(id)
-    return new Result<VideoProductMap >(
+  readOneById = async (id: string, isAggregated?: boolean): Promise<Result<VideoProductMap | VideoProductMapAggregate>> => {
+    let foundVideoProductMap: VideoProductMap | VideoProductMapAggregate
+    if (isAggregated === true) {
+      foundVideoProductMap = await this.videoProductMapRepository.readOneByIdAggregated(id)
+    } else {
+      foundVideoProductMap = await this.videoProductMapRepository.readOneById(id)
+    }
+    return new Result<VideoProductMap | VideoProductMapAggregate>(
       200,
       'VideoProductMap read one by id succeed.',
       foundVideoProductMap
@@ -55,16 +56,16 @@ export default class VideoProductMapManagement {
     )
   }
 
-  patchOneById = async (id: string, item: any): Promise<Result<VideoProductMap >> => {
+  patchOneById = async (id: string, item: any): Promise<Result<VideoProductMap>> => {
     const patchedVideoProductMap: VideoProductMap = await this.videoProductMapRepository.patchOneById(id, item)
-    return new Result<VideoProductMap >(
+    return new Result<VideoProductMap>(
       200,
       'VideoProductMap patch one by id succeed.',
       patchedVideoProductMap
     )
   }
 
-  deleteOneById = async (id: string): Promise<Result<VideoProductMap >> => {
+  deleteOneById = async (id: string): Promise<Result<VideoProductMap>> => {
     const deletedVideoProductMap: VideoProductMap = await this.videoProductMapRepository.deleteOneById(id)
     return new Result<VideoProductMap>(
       200,

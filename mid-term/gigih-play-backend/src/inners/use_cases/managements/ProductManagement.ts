@@ -9,8 +9,8 @@ export default class ProductManagement {
     this.productRepository = productRepository
   }
 
-  readAll = async (): Promise<Result<Product[]>> => {
-    const foundProducts: Product[] = await this.productRepository.readAll()
+  readAll = async (search?: any): Promise<Result<Product[]>> => {
+    const foundProducts: Product[] = await this.productRepository.readAll(search)
     return new Result<Product[]>(
       200,
       'Product read all succeed.',

@@ -62,6 +62,27 @@ describe('ProductControllerRest', () => {
     })
   })
 
+  describe('GET /api/v1/products?search=encoded', () => {
+    it('should return 200 OK', async () => {
+      const selectedProductMock = videoProductMapMock.productMock.data[0]
+      if (selectedProductMock._id === undefined) {
+        throw new Error('Selected product mock id is undefined.')
+      }
+      const encodedSearch = encodeURI(JSON.stringify({
+        _id: selectedProductMock._id
+      }))
+      const response = await chai.request(app).get(`/api/v1/products?search=${encodedSearch}`)
+      response.should.have.status(200)
+      response.body.should.be.a('object')
+      response.body.should.have.property('status').eq(200)
+      response.body.should.have.property('message')
+      response.body.should.have.property('data').a('array')
+      response.body.data.should.deep.include(
+        humps.decamelizeKeys(JSON.parse(JSON.stringify(selectedProductMock)))
+      )
+    })
+  })
+
   describe('GET /api/v1/products/videos/:videoId', () => {
     it('should return 200 OK', async () => {
       const selectedVideoProductMapMock = videoProductMapMock.data[0]

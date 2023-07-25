@@ -22,8 +22,10 @@ export default class VideoControllerRest {
   }
 
   readAll = (request: Request, response: Response): void => {
+    const { search } = request.query
+    const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURI(String(search))) : undefined
     this.videoManagement
-      .readAll()
+      .readAll(parsedSearch)
       .then((result: Result<Video[]>) => {
         response.status(result.status).json(result)
       })
