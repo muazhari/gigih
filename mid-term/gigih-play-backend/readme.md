@@ -78,6 +78,18 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 |--------------|---------|
 | videoId      | string  |
 | isAggregated | boolean |
+
+### LoginByUsernameAndPasswordRequest
+| Field     | Type   |
+|-----------|--------|
+| username  | string |
+| password  | string |
+
+### RegisterByUsernameAndPasswordRequest
+| Field     | Type   |
+|-----------|--------|
+| username  | string |
+| password  | string |
  
 ### REST Endpoints
 #### User
@@ -146,6 +158,11 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 | PUT    | /video-product-maps/:id                     | {VideoProductMap}   | Update a video-product map by id         |
 | DELETE | /video-product-maps/:id                     |                     | Delete a video-product map by id         |
  
+#### Authentication
+| Method | Endpoint                                             | Body                                   | Description                 |
+|--------|------------------------------------------------------|----------------------------------------|-----------------------------|
+| POST   | /authentications/logins?method=usernameAndPassword   | {LoginByUsernameAndPasswordRequest}    | Login to the application    |
+| POST   | /authentications/register?method=usernameAndPassword | {RegisterByUsernameAndPasswordRequest} | Register to the application |
 
 ### Websocket Endpoints
 #### Room
@@ -205,3 +222,4 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 
 ## Notes
 1. Typescript transpile needs time, so wait for a few seconds/minutes after running the App.
+2. You can observe test coverage in this [link](https://muazhari.github.io/gigih/mid-term/gigih-play-backend/coverage/index.html).
