@@ -1,7 +1,7 @@
-import SpotifyLogo from "../assets/spotify-logo-with-text.svg";
-import "./SideBar.css";
+import SpotifyLogo from "../../assets/spotify-logo-with-text.svg";
+import "./index.css";
 
-export default function SideBar() {
+export default function SideBarComponent() {
     return (
         <>
             <div className="side-bar">

@@ -1,0 +1,34 @@
+.song {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 3% 3% 3%;
+}
+
+.song .song-image {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.song .song-image img {
+    width: 199px;
+    height: auto;
+}
+
+.song .song-info {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    padding: 3%;
+}
