@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    text-decoration: none;
+    list-style: none;
+}
+
+#root {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.page {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+}
