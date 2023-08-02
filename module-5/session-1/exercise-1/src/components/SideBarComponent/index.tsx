@@ -31,7 +31,7 @@ export default function SideBarComponent() {
                 </div>
                 <div className="upper-menu">
                     <a className="menu-item" onClick={handleClickMenuItemAllSong}>
-                        <p>All Songs</p>
+                        All Songs
                     </a>
                 </div>
                 <div className="bottom-menu">

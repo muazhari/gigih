@@ -4,7 +4,6 @@
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: #2c2c2c;
     left: 0;
     top: 0;
     width: 25%;
@@ -43,7 +42,7 @@
 }
 
 .side-bar .menu-item:hover {
-    background-color: rgba(125, 125, 125, 0.25);
+    background: rgba(125, 125, 125, 0.25);
 }
 
 .side-bar .menu-item {
@@ -54,10 +53,6 @@
     width: 100%;
     cursor: pointer;
     padding: 5% 10%;
-}
-
-.side-bar.menu-item p {
-    text-align: start;
 }
 
 .side-bar .bottom-menu {
