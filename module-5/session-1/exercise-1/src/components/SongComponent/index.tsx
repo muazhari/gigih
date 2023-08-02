@@ -3,14 +3,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
 import {RootState} from "../../slices/Store.ts";
 import SpotifyContentService from "../../services/SpotifyContentService.ts";
+import Song from "../../models/Song.ts";
+import domainSlice, {DomainState} from "../../slices/DomainSlice.ts";
 
 type SongComponentProps = {
-    data: {
-        songName: string,
-        artistName: string,
-        songUrl: string,
-        imageUrl: string
-    }
+    data: Song
 }
 
 export default function SongComponent(props: SongComponentProps) {
@@ -18,17 +15,19 @@ export default function SongComponent(props: SongComponentProps) {
 
     const dispatch = useDispatch()
     const authenticationState: AuthenticationState = useSelector((state: RootState) => state.authentication);
+    const domainState: DomainState = useSelector((state: RootState) => state.domain);
     const spotifyContentService: SpotifyContentService = new SpotifyContentService(authenticationState.accessToken)
 
     const handleClick = () => {
-        spotifyContentService
-            .playSongs([data.songUrl])
-            .then((result) => {
-                console.log(result)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        if(domainState.playlistDomain!.songs!.find((song) => JSON.stringify(song) === JSON.stringify(data)) !== undefined){
+            dispatch(domainSlice.actions.setPlaylistDomain({
+                songs: domainState.playlistDomain!.songs!.filter((song) => song !== data)
+            }))
+        } else {
+            dispatch(domainSlice.actions.setPlaylistDomain({
+                songs: [...domainState.playlistDomain!.songs!, data]
+            }))
+        }
     }
 
     return (
@@ -38,7 +37,7 @@ export default function SongComponent(props: SongComponentProps) {
             </div>
             <div className="song-info">
                 <h3>{data.songName}</h3>
-                <p>{data.artistName}</p>
+                <p>{data.artists[0].artistName}</p>
             </div>
         </div>
     )

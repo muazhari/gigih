@@ -3,9 +3,11 @@ import {configureStore} from "@reduxjs/toolkit";
 import authenticationSlice from "./AuthenticationSlice.ts";
 import {persistReducer, persistStore} from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import domainSlice from "./DomainSlice.ts";
 
 const rootReducer = combineReducers({
     [authenticationSlice.name]: authenticationSlice.reducer,
+    [domainSlice.name]: domainSlice.reducer,
 })
 
 const persistedReducer = persistReducer({

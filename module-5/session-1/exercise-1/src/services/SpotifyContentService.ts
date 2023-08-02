@@ -60,5 +60,19 @@ export default class SpotifyContentService {
                 }
             })
     }
+
+    getRecommendations = (seedTracks: string[], seedArtists: string[], seedGenres: string[]): Promise<any> => {
+        return axios
+            .create({
+                baseURL: this.contentUrl,
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`
+                }
+            })
+            .request({
+                url: `/recommendations?seed_tracks=${seedTracks.join(",")}&seed_artists=${seedArtists.join(",")}&seed_genres=${seedGenres.join(",")}`,
+                method: "GET"
+            })
+    }
 }
 

@@ -23,6 +23,25 @@ export default function SideBarComponent() {
         allSong.scrollIntoView({behavior: "smooth"})
     }
 
+
+    const handleClickMenuItemPlaylistedSong = () => {
+        const playlistedSong = document.getElementById("playlisted-song")
+        if (playlistedSong === null) {
+            throw new Error("All song is null.")
+        }
+        playlistedSong.scrollIntoView({behavior: "smooth"})
+    }
+
+
+    const handleClickMenuItemRecommendatinSong = () => {
+        const recommendationSong = document.getElementById("recommendation-song")
+        if (recommendationSong === null) {
+            throw new Error("All song is null.")
+        }
+        recommendationSong.scrollIntoView({behavior: "smooth"})
+    }
+
+
     return (
         <>
             <div className="side-bar">
@@ -32,6 +51,12 @@ export default function SideBarComponent() {
                 <div className="upper-menu">
                     <a className="menu-item" onClick={handleClickMenuItemAllSong}>
                         All Songs
+                    </a>
+                    <a className="menu-item" onClick={handleClickMenuItemRecommendatinSong}>
+                        Recommendation Songs
+                    </a>
+                    <a className="menu-item" onClick={handleClickMenuItemPlaylistedSong}>
+                        Playlisted Songs
                     </a>
                 </div>
                 <div className="bottom-menu">
