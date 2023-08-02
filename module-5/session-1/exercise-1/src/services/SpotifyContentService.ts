@@ -1,14 +1,19 @@
 import axios from "axios";
 
 export default class SpotifyContentService {
+    accessToken: string | undefined
     contentUrl: string
-    accessToken: string
 
     constructor(
-        contentUrl: string = "https://api.spotify.com/v1"
+        accessToken: string | undefined,
+        contentUrl: string = "https://api.spotify.com/v1",
     ) {
+        this.accessToken = accessToken
         this.contentUrl = contentUrl
-        this.accessToken = localStorage.getItem("accessToken") as string
+
+        if (this.accessToken === undefined) {
+            throw new Error("Access token is undefined.")
+        }
     }
 
     getProfile = (): Promise<any> => {
@@ -22,6 +27,37 @@ export default class SpotifyContentService {
             .request({
                 url: "/me",
                 method: "GET"
+            })
+    }
+
+    search = (query: string): Promise<any> => {
+        return axios
+            .create({
+                baseURL: this.contentUrl,
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`
+                }
+            })
+            .request({
+                url: "/search?q=" + encodeURIComponent(query) + "&type=track",
+                method: "GET",
+            })
+    }
+
+    playSongs = (urls: string[]): Promise<any> => {
+        return axios
+            .create({
+                baseURL: this.contentUrl,
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`
+                }
+            })
+            .request({
+                url: "/me/player/play",
+                method: "PUT",
+                data: {
+                    uris: urls
+                }
             })
     }
 }

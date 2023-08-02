@@ -37,3 +37,23 @@
     align-items: flex-start;
     padding: 0 5%;
 }
+
+.content .section .search-bar {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 5% 5%;
+}
+
+.content .section .search-bar input {
+    padding: 2%;
+    text-align: left;
+    background: white;
+    color: black;
+    border: 1px solid white;
+    border-radius: 5px;
+    width: 100%;
+    height: 10vh;
+}

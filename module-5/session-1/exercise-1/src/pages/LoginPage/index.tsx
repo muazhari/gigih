@@ -3,8 +3,8 @@ import "./index.css"
 import authenticationSlice, {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../slices/Store.ts";
-import forge from "node-forge";
 import SpotifyAuthService from "../../services/SpotifyAuthService.ts";
+import {md, util} from "node-forge";
 
 export default function LoginPage() {
     const dispatch = useDispatch()
@@ -14,14 +14,6 @@ export default function LoginPage() {
     useEffect(() => {
         const params: URLSearchParams = new URLSearchParams(window.location.search)
         const authorizationCode: string | null = params.get("code")
-        const state: string | null = params.get("state")
-
-        // if (state !== null) {
-        //     console.log(state, authenticationState.state)
-        //     if(state !== authenticationState.state) {
-        //         throw new Error("State is not match.")
-        //     }
-        // }
 
         if (authorizationCode !== null) {
             if (authenticationState.codeVerifier === undefined) {
@@ -34,6 +26,7 @@ export default function LoginPage() {
                     if (result.status === 200) {
                         dispatch(authenticationSlice.actions.login({
                             accessToken: result.data.access_token,
+                            refreshToken: result.data.refresh_token,
                             authorizationCode: authorizationCode
                         }))
                     } else {
@@ -46,10 +39,28 @@ export default function LoginPage() {
         }
     }, [])
 
-    const handleClickLoginWithSpotify = (event: any) => {
-        const codeVerifier: string = forge.util.encode64(forge.random.getBytesSync(256))
-        const codeChallenge: string = forge.util.encode64(forge.sha256.create().update(codeVerifier).digest().getBytes())
-        const state: string = forge.util.encode64(forge.random.getBytesSync(32))
+    const generateRandomString = (length: number): string => {
+        let text = '';
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        for (let i = 0; i < length; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+    }
+
+    const base64UrlEncode = (bytes: string): string => {
+        return util.encode64(bytes)
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_')
+            .replace(/=+$/, '');
+    }
+
+    const handleClickLoginWithSpotify = async (event: any) => {
+        const codeVerifier: string = generateRandomString(128)
+        const hashedCodeVerifier: string = md.sha256.create().update(codeVerifier).digest().bytes()
+        const codeChallenge: string = base64UrlEncode(hashedCodeVerifier)
+        const state: string = generateRandomString(16)
         const scope: string[] = [
             "user-read-private",
             "user-read-email"

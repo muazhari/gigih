@@ -1,5 +1,4 @@
 import axios, {AxiosResponse} from "axios";
-import forge from "node-forge";
 
 export default class SpotifyAuthService {
 
@@ -60,13 +59,13 @@ export default class SpotifyAuthService {
             })
             .request({
                 method: "POST",
-                data: {
+                data: new URLSearchParams({
                     grant_type: 'authorization_code',
                     code: authorizationCode,
                     redirect_uri: this.redirectUri,
                     client_id: this.clientId,
                     code_verifier: codeVerifier
-                },
+                }),
             })
     }
 }

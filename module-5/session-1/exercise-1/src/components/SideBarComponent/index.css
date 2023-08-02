@@ -31,9 +31,9 @@
     height: auto;
 }
 
-.side-bar .menu {
+.side-bar .upper-menu {
     display: flex;
-    flex: 1 1 75%;
+    flex: 1 1 50%;
     flex-flow: column wrap;
     justify-content: flex-start;
     align-items: center;
@@ -42,11 +42,11 @@
     height: auto;
 }
 
-.side-bar .menu .menu-item:hover {
-    background-color: #00000041;
+.side-bar .menu-item:hover {
+    background-color: rgba(125, 125, 125, 0.25);
 }
 
-.side-bar .menu .menu-item {
+.side-bar .menu-item {
     display: flex;
     flex-flow: column wrap;
     justify-content: flex-start;
@@ -56,6 +56,24 @@
     padding: 5% 10%;
 }
 
-.side-bar .menu .menu-item p {
+.side-bar.menu-item p {
     text-align: start;
 }
+
+.side-bar .bottom-menu {
+    display: flex;
+    flex: 1 1 25%;
+    flex-flow: column wrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.side-bar .bottom-menu .menu-item {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
