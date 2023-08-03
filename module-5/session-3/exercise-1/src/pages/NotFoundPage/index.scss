@@ -1,0 +1,14 @@
+.page.login {
+    flex-flow: column;
+    background: black;
+    height: 100vh;
+}
+
+.page.login button {
+    margin: 5% 0%;
+    padding: 2%;
+    border-radius: 10px;
+    border: 1px solid white;
+    background: transparent;
+    cursor: pointer;
+}

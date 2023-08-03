@@ -1,0 +1,74 @@
+.component.side-bar {
+    position: fixed;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    left: 0;
+    top: 0;
+    width: 25%;
+    height: 100%;
+}
+
+.component.side-bar-behind {
+    display: flex;
+    flex-flow: column wrap;
+    flex: 1 1 25%;
+}
+
+.component.side-bar .logo {
+    display: flex;
+    flex: 1 1 25%;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 10%;
+}
+
+.component.side-bar .logo img {
+    width: 100%;
+    height: auto;
+}
+
+.component.side-bar .upper-menu {
+    display: flex;
+    flex: 1 1 50%;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0%;
+    width: 100%;
+    height: auto;
+}
+
+.component.side-bar .menu-item:hover {
+    background: rgba(125, 125, 125, 0.25);
+}
+
+.component.side-bar .menu-item {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    cursor: pointer;
+    padding: 5% 10%;
+}
+
+.component.side-bar .bottom-menu {
+    display: flex;
+    flex: 1 1 25%;
+    flex-flow: column wrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.component.side-bar .bottom-menu .menu-item {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+

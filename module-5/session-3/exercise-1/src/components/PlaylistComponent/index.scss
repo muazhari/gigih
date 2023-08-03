@@ -1,0 +1,41 @@
+.component.playlist {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 3% 3% 3%;
+    cursor: pointer;
+    max-width: 199px;
+
+}
+
+.component.playlist:hover {
+    filter: brightness(1.5);
+}
+
+.component.playlist .playlist-image {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.component.playlist .playlist-image img {
+    width: 199px;
+    height: 199px;
+}
+
+.component.playlist .playlist-info {
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    padding: 3%;
+}
