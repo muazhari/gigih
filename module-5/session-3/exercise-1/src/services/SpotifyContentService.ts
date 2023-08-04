@@ -44,7 +44,7 @@ export default class SpotifyContentService {
             })
     }
 
-    playTracks = (urls: string[]): Promise<any> => {
+    getTrack = (trackId: string): Promise<any> => {
         return axios
             .create({
                 baseURL: this.contentUrl,
@@ -53,11 +53,8 @@ export default class SpotifyContentService {
                 }
             })
             .request({
-                url: "/me/player/play",
-                method: "PUT",
-                data: {
-                    uris: urls
-                }
+                url: `/tracks/${trackId}`,
+                method: "GET"
             })
     }
 
@@ -100,6 +97,89 @@ export default class SpotifyContentService {
             .request({
                 url: `/playlists/${playlistId}/tracks`,
                 method: "GET"
+            })
+    }
+
+    getPlaylist = (playlistId: string): Promise<any> => {
+        return axios
+            .create({
+                baseURL: this.contentUrl,
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`
+                }
+            })
+            .request({
+                url: `/playlists/${playlistId}`,
+                method: "GET"
+            })
+    }
+
+    createPlaylist = (userId: string, playlistName: string): Promise<any> => {
+        return axios
+            .create({
+                baseURL: this.contentUrl,
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`,
+                    "Content-Type": "application/json"
+                }
+            })
+            .request({
+                url: `/users/${userId}/playlists`,
+                method: "POST",
+                data: {
+                    name: playlistName
+                }
+            })
+    }
+
+    addTracksToPlaylist = (playlistId: string, trackUris: string[]): Promise<any> => {
+        return axios
+            .create({
+                baseURL: this.contentUrl,
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`,
+                    "Content-Type": "application/json"
+                }
+            })
+            .request({
+                url: `/playlists/${playlistId}/tracks`,
+                method: "POST",
+                data: {
+                    uris: trackUris
+                }
+            })
+    }
+
+    removeTracksFromPlaylist = (playlistId: string, trackUris: string[]): Promise<any> => {
+        return axios
+            .create({
+                baseURL: this.contentUrl,
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`,
+                    "Content-Type": "application/json"
+                }
+            })
+            .request({
+                url: `/playlists/${playlistId}/tracks`,
+                method: "DELETE",
+                data: {
+                    tracks: trackUris.map(uri => ({uri}))
+                }
+            })
+    }
+
+    unfollowPlaylist = (playlistId: string): Promise<any> => {
+        return axios
+            .create({
+                baseURL: this.contentUrl,
+                headers: {
+                    Authorization: `Bearer ${this.accessToken}`,
+                    "Content-Type": "application/json"
+                }
+            })
+            .request({
+                url: `/playlists/${playlistId}/followers`,
+                method: "DELETE"
             })
     }
 }

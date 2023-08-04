@@ -5,8 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../slices/Store.ts";
 import SpotifyAuthService from "../../services/SpotifyAuthService.ts";
 import {md, util} from "node-forge";
-import AuthenticatedRouter from "../../routers/AuthenticatedRouter.tsx";
-import UnAuthenticatedRouter from "../../routers/UnAuthenticatedRouter.tsx";
 import {useNavigate} from "react-router-dom";
 
 export default function LoginPage() {
@@ -16,7 +14,7 @@ export default function LoginPage() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(authenticationState.isLoggedIn === true) {
+        if (authenticationState.isLoggedIn === true) {
             navigate("/")
         }
     }, [authenticationState.isLoggedIn])
@@ -73,7 +71,11 @@ export default function LoginPage() {
         const state: string = generateRandomString(16)
         const scope: string[] = [
             "user-read-private",
-            "user-read-email"
+            "user-read-email",
+            "playlist-read-private",
+            "playlist-read-collaborative",
+            "playlist-modify-public",
+            "playlist-modify-private",
         ]
         const spotifyLoginUrl: string = spotifyAuthService.getAuthorizationURL(scope, codeChallenge, state)
         dispatch(authenticationSlice.actions.preLogin({

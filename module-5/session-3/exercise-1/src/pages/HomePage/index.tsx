@@ -109,9 +109,9 @@ export default function HomePage() {
                                         <TrackComponent
                                             data={track}
                                             key={track.trackId}
-                                            handleClickTrack={(event) => handleClickTrack(event, track)}
-                                            handleClickTrackPreview={(event) => handleClickTrackPreview(event, track)}
-                                            handleClickTrackAddToPlaylist={(event) => handleClickTrackAddToPlaylist(event, track)}
+                                            onClickTrack={(event) => handleClickTrack(event, track)}
+                                            onClickTrackPreview={(event) => handleClickTrackPreview(event, track)}
+                                            onClickTrackAddToPlaylist={(event) => handleClickTrackAddToPlaylist(event, track)}
                                         />
                                     )
                                 })

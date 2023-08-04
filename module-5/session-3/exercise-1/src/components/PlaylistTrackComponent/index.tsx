@@ -10,15 +10,15 @@ type TrackComponentProps = {
     data: Track,
     onClickTrack: (event: any) => void,
     onClickTrackPreview: (event: any) => void,
-    onClickTrackAddToPlaylist: (event: any) => void,
+    onClickTrackRemoveFromPlaylist: (event: any) => void,
 }
 
-export default function TrackComponent(props: TrackComponentProps) {
+export default function PlaylistTrackComponent(props: TrackComponentProps) {
     const {
         data,
         onClickTrack,
         onClickTrackPreview,
-        onClickTrackAddToPlaylist
+        onClickTrackRemoveFromPlaylist
     } = props;
 
     const dispatch = useDispatch()
@@ -27,7 +27,7 @@ export default function TrackComponent(props: TrackComponentProps) {
     const spotifyContentService: SpotifyContentService = new SpotifyContentService(authenticationState.accessToken)
 
     return (
-        <div className="component track" onClick={onClickTrack}>
+        <div className="component playlist-track" onClick={onClickTrack}>
             <div className="track-image">
                 <img src={data.imageUrl} alt="track-image"/>
             </div>
@@ -37,7 +37,7 @@ export default function TrackComponent(props: TrackComponentProps) {
             </div>
             <div className="track-action">
                 <button onClick={onClickTrackPreview}>Preview</button>
-                <button onClick={onClickTrackAddToPlaylist}>Add To Playlist</button>
+                <button onClick={onClickTrackRemoveFromPlaylist}>Remove From Playlist</button>
             </div>
         </div>
     )

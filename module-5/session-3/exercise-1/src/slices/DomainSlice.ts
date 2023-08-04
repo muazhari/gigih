@@ -3,6 +3,7 @@ import Track from "../models/Track.ts";
 import Playlist from "../models/Playlist.ts";
 
 export interface PlaylistDomain {
+    selectedTrack: Track | undefined;
     selectedPlaylist: Playlist | undefined;
     selectedPlaylistTracks: Track[] | undefined;
     playlists: Playlist[] | undefined;
@@ -28,6 +29,7 @@ export default createSlice({
     name: 'domain',
     initialState: <DomainState>{
         playlistDomain: {
+            selectedTrack: undefined,
             playlists: [],
             selectedPlaylist: undefined,
             selectedPlaylistTracks: [],

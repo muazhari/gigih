@@ -6,12 +6,46 @@ import domainSlice, {DomainState} from "../../slices/DomainSlice.ts";
 import SpotifyContentService from "../../services/SpotifyContentService.ts";
 import {useEffect, useState} from "react";
 import Track from "../../models/Track.ts";
+import {useNavigate} from "react-router-dom";
+import {useFormik} from "formik";
 
 export default function RecommendationPage() {
     const dispatch = useDispatch()
     const authenticationState: AuthenticationState = useSelector((state: RootState) => state.authentication);
     const domainState: DomainState = useSelector((state: RootState) => state.domain);
     const spotifyContentService: SpotifyContentService = new SpotifyContentService(authenticationState.accessToken)
+    const navigate = useNavigate()
+
+    const searchFormik = useFormik({
+        initialValues: {
+            searchValue: domainState.searchDomain!.searchValue!
+        },
+        enableReinitialize: true,
+        onSubmit: (values) => {
+            handleSubmitSearch(values.searchValue)
+        },
+    })
+
+    const handleSubmitSearch = (value: string) => {
+        if (value === "") {
+            dispatch(domainSlice.actions.setSearchDomain({
+                searchValue: "",
+                tracks: domainState.recommendationDomain!.tracks!
+            }))
+            return
+        }
+
+        dispatch(domainSlice.actions.setSearchDomain({
+            searchValue: value,
+            tracks: domainState.recommendationDomain!.tracks!.filter((track) => {
+                return JSON.stringify(track).toLowerCase().includes(value.toLowerCase())
+            })
+        }))
+    }
+
+    useEffect(() => {
+        handleSubmitSearch(searchFormik.values.searchValue)
+    }, [searchFormik.values.searchValue])
 
     useEffect(() => {
         spotifyContentService
@@ -36,10 +70,15 @@ export default function RecommendationPage() {
                     )
             })
             .then((recommendationTracks) => {
+                const tracks = recommendationTracks.data.tracks.map((track: any) => {
+                    return Track.constructFromApi(track)
+                })
                 dispatch(domainSlice.actions.setRecommendationDomain({
-                    tracks: recommendationTracks.data.tracks.map((track: any) => {
-                        return Track.constructFromApi(track)
-                    }),
+                    tracks: tracks
+                }))
+                dispatch(domainSlice.actions.setSearchDomain({
+                    searchValue: "",
+                    tracks: tracks
                 }))
             })
             .catch((error) => {
@@ -59,34 +98,46 @@ export default function RecommendationPage() {
             audio.play().then(() => {
                 setAudio(audio);
             })
-        }
-        else {
+        } else {
             audio.pause();
             setAudio(undefined);
         }
     }
 
     const handleClickTrackAddToPlaylist = (event: any, track: Track) => {
-
+        navigate(`/playlists/tracks/${track.trackId}`)
     }
 
     return (
         <div className="page authenticated recommendation">
+            <div className="section" id="search">
+                <div className="search-bar">
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        id="search-input"
+                        name="searchValue"
+                        onBlur={searchFormik.handleBlur}
+                        onChange={searchFormik.handleChange}
+                    />
+                </div>
+            </div>
+
             <div className="section" id="recommendation-track">
                 <div className="title">
                     <h1>Recommendation Tracks</h1>
                 </div>
                 <div className="list">
                     {
-                        domainState.recommendationDomain!.tracks!.length > 0 ?
-                            domainState.recommendationDomain!.tracks!.map((track, index) => {
+                        domainState.searchDomain!.tracks!.length > 0 ?
+                            domainState.searchDomain!.tracks!.map((track, index) => {
                                     return (
                                         <TrackComponent
                                             data={track}
                                             key={track.trackId}
-                                            handleClickTrack={(event) => handleClickTrack(event, track)}
-                                            handleClickTrackPreview={(event) => handleClickTrackPreview(event, track)}
-                                            handleClickTrackAddToPlaylist={(event) => handleClickTrackAddToPlaylist(event, track)}
+                                            onClickTrack={(event) => handleClickTrack(event, track)}
+                                            onClickTrackPreview={(event) => handleClickTrackPreview(event, track)}
+                                            onClickTrackAddToPlaylist={(event) => handleClickTrackAddToPlaylist(event, track)}
                                         />
                                     )
                                 }

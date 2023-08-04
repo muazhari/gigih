@@ -11,6 +11,7 @@ import {useEffect} from "react";
 import SpotifyContentService from "../services/SpotifyContentService.ts";
 import User from "../models/User.ts";
 import SelectedPlaylistPage from "../pages/SelectedPlaylistPage";
+import SelectPlaylistPage from "../pages/SelectPlaylistPage";
 
 export default function AuthenticatedRouter() {
     const authenticationState: AuthenticationState = useSelector((state: RootState) => state.authentication);
@@ -37,8 +38,9 @@ export default function AuthenticatedRouter() {
                 <Route index path="/" element={<Navigate to="/home"/>}/>
                 <Route path="/home" element={<HomePage/>}/>
                 <Route path="/recommendations" element={<RecommendationPage/>}/>
-                <Route path="/playlist/:playlistId" element={<SelectedPlaylistPage/>}/>
                 <Route path="/playlists" element={<PlaylistPage/>}/>
+                <Route path="/playlists/tracks/:trackId" element={<SelectPlaylistPage/>}/>
+                <Route path="/playlists/:playlistId" element={<SelectedPlaylistPage/>}/>
                 <Route path="*" element={<NotFoundPage/>}/>
             </Routes>
         </>

@@ -14,7 +14,7 @@ export default function RootRouter() {
     const [router, setRouter] = useState(<UnAuthenticatedRouter/>)
 
     useEffect(() => {
-        if(authenticationState.isLoggedIn === true) {
+        if (authenticationState.isLoggedIn === true) {
             setRouter(<AuthenticatedRouter/>)
         } else {
             setRouter(<UnAuthenticatedRouter/>)

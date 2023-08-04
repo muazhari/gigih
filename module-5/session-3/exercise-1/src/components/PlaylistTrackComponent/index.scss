@@ -1,20 +1,19 @@
-.component.playlist {
+.component.playlist-track {
   display: flex;
   flex: 1 1 auto;
   flex-flow: column wrap;
   justify-content: flex-start;
   align-items: center;
   margin: 0 3% 3% 3%;
-  cursor: pointer;
   max-width: 199px;
 
 }
 
-.component.playlist:hover {
+.component.playlist-track:hover {
   filter: brightness(1.5);
 }
 
-.component.playlist .playlist-image {
+.component.playlist-track .track-image {
   display: flex;
   flex: 1 1 auto;
   flex-flow: column wrap;
@@ -24,12 +23,12 @@
   height: auto;
 }
 
-.component.playlist .playlist-image img {
+.component.playlist-track .track-image img {
   width: 199px;
   height: 199px;
 }
 
-.component.playlist .playlist-info {
+.component.playlist-track .track-info {
   display: flex;
   flex: 1 1 auto;
   flex-flow: column wrap;
@@ -40,7 +39,7 @@
   padding: 3%;
 }
 
-.component.playlist .playlist-action {
+.component.playlist-track .track-action {
   display: flex;
   flex: 1 1 auto;
   flex-flow: column wrap;
@@ -51,7 +50,7 @@
   padding: 3%;
 }
 
-.component.playlist .playlist-action button {
+.component.playlist-track .track-action button {
   margin: 0 0 5% 0;
   padding: 2%;
   border-radius: 10px;
@@ -62,7 +61,7 @@
   height: auto;
 }
 
-.component.playlist .playlist-action button:hover {
+.component.playlist-track .track-action button:hover {
   background: white;
   color: black;
 }

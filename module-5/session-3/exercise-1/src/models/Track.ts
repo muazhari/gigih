@@ -3,7 +3,7 @@ import Artist from "./Artist.ts";
 export default class Track {
     trackId: string | undefined
     trackName: string | undefined
-    trackUrl: string | undefined
+    trackUri: string | undefined
     imageUrl: string | undefined
     previewUrl: string | undefined
     artists: Artist[]
@@ -20,7 +20,7 @@ export default class Track {
     ) {
         this.trackId = trackId
         this.trackName = trackName
-        this.trackUrl = trackUrl
+        this.trackUri = trackUrl
         this.imageUrl = imageUrl
         this.previewUrl = previewUrl
         this.artists = artists

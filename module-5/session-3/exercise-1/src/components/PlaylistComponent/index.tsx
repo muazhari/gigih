@@ -8,13 +8,15 @@ import {DomainState} from "../../slices/DomainSlice.ts";
 
 type PlaylistComponentProps = {
     data: Playlist,
-    handleClick: (event: any) => void
+    onClickPlaylist: (event: any) => void,
+    onClickPlaylistRemove: (event: any) => void
 }
 
 export default function PlaylistComponent(props: PlaylistComponentProps) {
     const {
         data,
-        handleClick
+        onClickPlaylist,
+        onClickPlaylistRemove
     } = props;
 
     const dispatch = useDispatch()
@@ -23,13 +25,16 @@ export default function PlaylistComponent(props: PlaylistComponentProps) {
     const spotifyContentService: SpotifyContentService = new SpotifyContentService(authenticationState.accessToken)
 
     return (
-        <div className="component playlist" onClick={handleClick}>
+        <div className="component playlist" onClick={onClickPlaylist}>
             <div className="playlist-image">
                 <img src={data.imageUrl ?? `https://placehold.co/200x200?text=${data.playlistName!.charAt(0)}`}
                      alt="playlist-image"/>
             </div>
             <div className="playlist-info">
                 <h3>{data.playlistName}</h3>
+            </div>
+            <div className="playlist-action">
+                <button onClick={onClickPlaylistRemove}>Remove Playlist</button>
             </div>
         </div>
     )

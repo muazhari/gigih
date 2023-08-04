@@ -3,28 +3,33 @@ import {useDispatch, useSelector} from "react-redux";
 import {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
 import {RootState} from "../../slices/Store.ts";
 import SpotifyContentService from "../../services/SpotifyContentService.ts";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import Playlist from "../../models/Playlist.ts";
 import PlaylistComponent from "../../components/PlaylistComponent";
-import {useNavigate} from "react-router-dom";
-import CreatePlaylistModalComponent from "../../components/CreatePlaylistModalComponent";
-import {useFormik} from "formik";
+import {useNavigate, useParams} from "react-router-dom";
+import Track from "../../models/Track.ts";
 
-export default function PlaylistPage() {
+export default function SelectPlaylistPage() {
     const dispatch = useDispatch()
     const authenticationState: AuthenticationState = useSelector((state: RootState) => state.authentication);
     const domainState: DomainState = useSelector((state: RootState) => state.domain);
     const spotifyContentService: SpotifyContentService = new SpotifyContentService(authenticationState.accessToken)
     const navigate = useNavigate();
+    const params = useParams();
 
     useEffect(() => {
-        spotifyContentService
-            .getPlaylistsByUserId(authenticationState.user!.userId!)
+        Promise.all([
+            spotifyContentService.getPlaylistsByUserId(authenticationState.user!.userId!),
+            spotifyContentService.getTrack(params.trackId!)
+        ])
             .then((result) => {
+                const playlists = result[0]
+                const track = result[1]
                 dispatch(domainSlice.actions.setPlaylistDomain({
-                    playlists: result.data.items.map((playlist: any) => {
+                    playlists: playlists.data.items.map((playlist: any) => {
                         return Playlist.constructFromApi(playlist)
-                    })
+                    }),
+                    selectedTrack: Track.constructFromApi(track.data)
                 }))
             })
             .catch((error) => {
@@ -33,7 +38,17 @@ export default function PlaylistPage() {
     }, [])
 
     const handleClickPlaylist = (event: any, playlist: Playlist) => {
-        navigate(`/playlists/${playlist.playlistId}`)
+        spotifyContentService
+            .addTracksToPlaylist(
+                playlist.playlistId!,
+                [domainState.playlistDomain!.selectedTrack!.trackUri!]
+            )
+            .then((result) => {
+                navigate(`/playlists/${playlist.playlistId}`)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     const handleClickPlaylistRemove = (event: any, playlist: Playlist) => {
@@ -50,47 +65,15 @@ export default function PlaylistPage() {
             })
     }
 
-    const handleClickCreatePlaylist = (event: any) => {
-        setIsCreatePlaylistModalOpen(true)
-    }
-
-    const createPlaylistModalFormik = useFormik({
-        initialValues: {
-            name: ""
-        },
-        onSubmit: (values) => {
-            spotifyContentService
-                .createPlaylist(authenticationState.user!.userId!, values.name)
-                .then((result) => {
-                    dispatch(domainSlice.actions.setPlaylistDomain({
-                        playlists: domainState.playlistDomain!.playlists!.concat([Playlist.constructFromApi(result.data)])
-                    }))
-                    setIsCreatePlaylistModalOpen(false)
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-        }
-    })
-
-    const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] = useState(false)
-    const handleCreatePlaylistModalClose = () => {
-        setIsCreatePlaylistModalOpen(false)
-    }
-
     return (
-        <div className="page authenticated playlist">
+        <div className="page authenticated select-playlist">
             <div className="section" id="playlisted-track">
                 <div className="title">
-                    <h1>Playlists</h1>
-                </div>
-                <div className="action">
-                    <button onClick={handleClickCreatePlaylist}>Create Playlist</button>
-                    <CreatePlaylistModalComponent
-                        isOpen={isCreatePlaylistModalOpen}
-                        onClose={handleCreatePlaylistModalClose}
-                        formik={createPlaylistModalFormik}
-                    />
+                    <h1>Select Which Playlist You Want To Add This Track</h1>
+                    {
+                        domainState.playlistDomain!.selectedTrack &&
+                        <p>{domainState.playlistDomain!.selectedTrack!.trackName} - {domainState.playlistDomain!.selectedTrack!.artists.map((artist) => artist.artistName).join(", ")}</p>
+                    }
                 </div>
                 <div className="list">
                     {

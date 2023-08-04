@@ -17,7 +17,7 @@ export default class Playlist {
         return new Playlist(
             playlist.id,
             playlist.name,
-            playlist.images.length > 0? playlist.images[0].url : undefined
+            playlist.images && playlist.images.length > 0 ? playlist.images[0].url : undefined
         )
     }
 }
