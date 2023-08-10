@@ -1,0 +1,1 @@
+{"version":3,"file":"JoinRoomRequest.js","sourceRoot":"","sources":["../../../../../../../src/inners/models/value_objects/requests/rooms/JoinRoomRequest.ts"],"names":[],"mappings":";;AAAA,MAAqB,eAAe;IAIlC,YACE,OAA2B,EAC3B,YAAkC;QAElC,IAAI,CAAC,OAAO,GAAG,OAAO,CAAA;QACtB,IAAI,CAAC,YAAY,GAAG,YAAY,CAAA;IAClC,CAAC;CACF;AAXD,kCAWC"}

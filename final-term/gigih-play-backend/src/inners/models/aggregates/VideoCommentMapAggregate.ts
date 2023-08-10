@@ -1,14 +1,14 @@
 import type Video from '../entities/Video'
-import type Comment from '../entities/Comment'
+import type CommentAggregate from './CommentAggregate'
 
 export default class VideoCommentMapAggregate {
   _id: string | undefined
   video: Video | undefined
-  comment: Comment | undefined
+  comment: CommentAggregate | undefined
 
   constructor (
     video: Video | undefined,
-    comment: Comment | undefined,
+    comment: CommentAggregate | undefined,
     _id?: string | undefined
   ) {
     this._id = _id

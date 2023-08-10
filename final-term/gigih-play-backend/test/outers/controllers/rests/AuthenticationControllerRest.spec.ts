@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { beforeEach, describe, it } from 'mocha'
 import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
-import { app } from '../../../../src/App'
+import { server } from '../../../../src/App'
 import UserMock from '../../../mocks/UserMock'
 import UserSchema from '../../../../src/outers/schemas/UserSchema'
 import type User from '../../../../src/inners/models/entities/User'
@@ -47,7 +47,7 @@ describe('AuthenticationControllerRest', () => {
         selectedUserMock.username,
         selectedUserMock.password
       )
-      const response = await chai.request(app).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
+      const response = await chai.request(server).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -63,7 +63,7 @@ describe('AuthenticationControllerRest', () => {
             `username${randomUUID()}`,
             'password login'
       )
-      const response = await chai.request(app).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
+      const response = await chai.request(server).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
       response.should.have.status(404)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(404)
@@ -80,7 +80,7 @@ describe('AuthenticationControllerRest', () => {
         selectedUserMock.username,
             `password${randomUUID()}`
       )
-      const response = await chai.request(app).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
+      const response = await chai.request(server).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
       response.should.have.status(404)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(404)
@@ -95,7 +95,7 @@ describe('AuthenticationControllerRest', () => {
         `username${randomUUID()}`,
         'password register'
       )
-      const response = await chai.request(app).post('/api/v1/authentications/registers?method=username_and_password').send(registerByUsernameAndPasswordRequest)
+      const response = await chai.request(server).post('/api/v1/authentications/registers?method=username_and_password').send(registerByUsernameAndPasswordRequest)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -116,7 +116,7 @@ describe('AuthenticationControllerRest', () => {
         selectedUserMock.username,
         'password register'
       )
-      const response = await chai.request(app).post('/api/v1/authentications/registers?method=username_and_password').send(registerByUsernameAndPasswordRequest)
+      const response = await chai.request(server).post('/api/v1/authentications/registers?method=username_and_password').send(registerByUsernameAndPasswordRequest)
       response.should.have.status(409)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(409)

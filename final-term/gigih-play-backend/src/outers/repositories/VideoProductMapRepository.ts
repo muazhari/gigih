@@ -13,8 +13,14 @@ export default class VideoProductMapRepository {
 
   readAll = async (search?: any): Promise<VideoProductMap[]> => {
     if (search !== undefined) {
-      if (search._id !== null) {
+      if (search._id !== undefined) {
         search._id = new Types.ObjectId(search._id)
+      }
+      if (search.videoId !== undefined) {
+        search.videoId = new Types.ObjectId(search.videoId)
+      }
+      if (search.productId !== undefined) {
+        search.productId = new Types.ObjectId(search.productId)
       }
     }
     const foundVideoProductMaps: VideoProductMap[] | null = await VideoProductMapSchema.find(search)
@@ -61,10 +67,19 @@ export default class VideoProductMapRepository {
       }
     ]
     if (search !== undefined) {
-      if (search._id !== null) {
+      if (search._id !== undefined) {
         search._id = new Types.ObjectId(search._id)
       }
-      pipeline.push({
+      if (search.videoId !== undefined) {
+        search.videoId = new Types.ObjectId(search.videoId)
+      }
+      if (search.productId !== undefined) {
+        search.productId = new Types.ObjectId(search.productId)
+      }
+      if (search.product?._id !== undefined) {
+        search.product._id = new Types.ObjectId(search.product._id)
+      }
+      pipeline.splice(pipeline.length - 1, 0, {
         $match: search
       })
     }

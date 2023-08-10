@@ -6,18 +6,28 @@ import socketIo from 'socket.io'
 import http from 'http'
 import caseExpressMiddleware from './outers/middlewares/CaseExpressMiddleware'
 import { type AddressInfo } from 'net'
+import cors from 'cors'
+import OneMigration from './outers/migrations/OneMigration'
 
 let app: Application | undefined
 let io: socketIo.Server | undefined
 let server: http.Server | undefined
 const main = async (): Promise<void> => {
   app = express()
+  app.use(cors())
   app.use(express.json({ type: '*/*' }))
   app.use(caseExpressMiddleware())
 
   const appHttp: http.Server = http.createServer(app)
 
-  io = new socketIo.Server(appHttp)
+  io = new socketIo.Server(
+    appHttp,
+    {
+      cors: {
+        origin: '*'
+      }
+    }
+  )
 
   const oneDatastore = new OneDatastore()
 
@@ -28,9 +38,11 @@ const main = async (): Promise<void> => {
     console.log('Error connecting to one datastore: ', error)
   }
 
-  // const oneMigration = new OneMigration(oneDatastore)
-  // await oneMigration.down()
-  // await oneMigration.up()
+  if (process.env.NODE_ENV !== 'test') {
+    const oneMigration = new OneMigration(oneDatastore)
+    await oneMigration.down()
+    await oneMigration.up()
+  }
 
   const rootRoute = new RootRoute(app, io, oneDatastore)
   await rootRoute.registerRoutes()

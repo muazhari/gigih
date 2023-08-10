@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  text-decoration: none;
+  list-style: none;
+}
+
+#root {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 5% 0;
+}
+
+.page {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.component {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}

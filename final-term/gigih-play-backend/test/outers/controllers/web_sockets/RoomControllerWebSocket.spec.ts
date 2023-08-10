@@ -17,6 +17,7 @@ import { server } from '../../../../src/App'
 import SubmitCommentRequest from '../../../../src/inners/models/value_objects/requests/comments/SubmitCommentRequest'
 import { type AddressInfo } from 'net'
 import waitUntil from 'async-wait-until'
+import type CommentAggregate from '../../../../src/inners/models/aggregates/CommentAggregate'
 
 chai.should()
 
@@ -87,9 +88,9 @@ describe('RoomControllerWebSocket', () => {
     it('should client left', (done) => {
       const selectedVideoMock: Video = videoCommentMapMock.videoMock.data[0]
       const joinRoomRequest: JoinRoomRequest = new JoinRoomRequest(selectedVideoMock._id)
-      clientOne.on('leftRoom', (videoId: string) => {
-        videoId.should.be.a('string')
-        videoId.should.eq(joinRoomRequest.videoId)
+      clientOne.on('leftRoom', (result: Result<string>) => {
+        result.data.should.be.a('string')
+        result.data.should.eq(joinRoomRequest.videoId)
         done()
       })
       clientOne.on('joinedRoom', (result: Result<Comment[]>) => {
@@ -116,13 +117,13 @@ describe('RoomControllerWebSocket', () => {
         selectedUserMock.username,
         'content test'
       )
-      clientTwo.on('submittedComment', (result: Result<Comment>) => {
+      clientTwo.on('submittedComment', (result: Result<CommentAggregate>) => {
         result.should.be.a('object')
         result.should.have.property('status').eq(201)
         result.should.have.property('message')
         result.should.have.property('data').a('object')
         result.data.should.have.property('_id')
-        result.data.should.have.property('userId').eq(selectedUserMock._id)
+        result.data.should.have.property('user').a('object').deep.eq(selectedUserMock)
         result.data.should.have.property('content').eq(submitCommentRequest.content)
         result.data.should.have.property('timestamp')
         done()

@@ -1,0 +1,16 @@
+.page.home .videos {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.page.home .videos .card {
+  margin: 1% 1% 1% 1%;
+}
+
+.page.home .videos .card:hover {
+  cursor: pointer;
+}
+

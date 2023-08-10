@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { beforeEach, describe, it } from 'mocha'
 import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
-import { app } from '../../../../src/App'
+import { server } from '../../../../src/App'
 import UserMock from '../../../mocks/UserMock'
 import UserSchema from '../../../../src/outers/schemas/UserSchema'
 import { Types } from 'mongoose'
@@ -33,7 +33,7 @@ describe('UserControllerRest', () => {
 
   describe('GET /api/v1/users', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/users')
+      const response = await chai.request(server).get('/api/v1/users')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -56,7 +56,7 @@ describe('UserControllerRest', () => {
       const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedUserMock._id
       }))
-      const response = await chai.request(app).get(`/api/v1/users?search=${encodedSearch}`)
+      const response = await chai.request(server).get(`/api/v1/users?search=${encodedSearch}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -74,7 +74,7 @@ describe('UserControllerRest', () => {
       if (selectedUserMock._id === undefined) {
         throw new Error('Selected user mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/users/${selectedUserMock._id}`)
+      const response = await chai.request(server).get(`/api/v1/users/${selectedUserMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -90,7 +90,7 @@ describe('UserControllerRest', () => {
     it('should return 201 CREATED', async () => {
       const selectedUserMock = new User(`username${randomUUID()}`, 'password2', 'pictureUrl2', new Types.ObjectId().toString())
       userMock.data.push(selectedUserMock)
-      const response = await chai.request(app).post('/api/v1/users').send(selectedUserMock)
+      const response = await chai.request(server).post('/api/v1/users').send(selectedUserMock)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -111,7 +111,7 @@ describe('UserControllerRest', () => {
       if (selectedUserMock._id === undefined) {
         throw new Error('Selected user mock id is undefined.')
       }
-      const response = await chai.request(app).patch(`/api/v1/users/${selectedUserMock._id}`).send(selectedUserMock)
+      const response = await chai.request(server).patch(`/api/v1/users/${selectedUserMock._id}`).send(selectedUserMock)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -130,7 +130,7 @@ describe('UserControllerRest', () => {
       if (selectedUserMock._id === undefined) {
         throw new Error('Selected user mock id is undefined.')
       }
-      const response = await chai.request(app).delete(`/api/v1/users/${selectedUserMock._id}`)
+      const response = await chai.request(server).delete(`/api/v1/users/${selectedUserMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)

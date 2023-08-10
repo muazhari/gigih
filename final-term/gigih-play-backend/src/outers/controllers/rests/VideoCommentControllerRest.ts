@@ -24,7 +24,7 @@ export default class VideoCommentMapController {
 
   readAll = (request: Request, response: Response): void => {
     const { isAggregated, search } = request.query
-    const parsedIsAggregated: boolean = Boolean(isAggregated)
+    const parsedIsAggregated: boolean | undefined = isAggregated !== undefined ? Boolean(isAggregated) : undefined
     const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURIComponent(String(search))) : undefined
     this.videoCommentMapManagement
       .readAll(parsedIsAggregated, parsedSearch)
@@ -43,7 +43,7 @@ export default class VideoCommentMapController {
   readOneById = (request: Request, response: Response): void => {
     const { id } = request.params
     const { isAggregated } = request.query
-    const parsedIsAggregated: boolean = Boolean(isAggregated)
+    const parsedIsAggregated: boolean | undefined = isAggregated !== undefined ? Boolean(isAggregated) : undefined
     this.videoCommentMapManagement
       .readOneById(id, parsedIsAggregated)
       .then((result: Result<VideoCommentMap | VideoCommentMapAggregate>) => {

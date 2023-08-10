@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { afterEach, beforeEach, describe, it } from 'mocha'
 import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
-import { app } from '../../../../src/App'
+import { server } from '../../../../src/App'
 import CommentSchema from '../../../../src/outers/schemas/CommentSchema'
 import { Types } from 'mongoose'
 import Comment from '../../../../src/inners/models/entities/Comment'
@@ -58,7 +58,7 @@ describe('CommentControllerRest', () => {
 
   describe('GET /api/v1/comments', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/comments')
+      const response = await chai.request(server).get('/api/v1/comments')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -74,7 +74,7 @@ describe('CommentControllerRest', () => {
 
   describe('GET /api/v1/comments?is_aggregated=true', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/comments?is_aggregated=true')
+      const response = await chai.request(server).get('/api/v1/comments?is_aggregated=true')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -97,7 +97,7 @@ describe('CommentControllerRest', () => {
       const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedCommentMock._id
       }))
-      const response = await chai.request(app).get(`/api/v1/comments?search=${encodedSearch}`)
+      const response = await chai.request(server).get(`/api/v1/comments?search=${encodedSearch}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -118,7 +118,7 @@ describe('CommentControllerRest', () => {
       const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedCommentMockAggregated._id
       }))
-      const response = await chai.request(app).get(`/api/v1/comments?is_aggregated=true&search=${encodedSearch}`)
+      const response = await chai.request(server).get(`/api/v1/comments?is_aggregated=true&search=${encodedSearch}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -136,7 +136,7 @@ describe('CommentControllerRest', () => {
       if (selectedVideoCommentMapMock.videoId === undefined) {
         throw new Error('Selected video comment map mock video id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/comments/videos/${selectedVideoCommentMapMock.videoId}`)
+      const response = await chai.request(server).get(`/api/v1/comments/videos/${selectedVideoCommentMapMock.videoId}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -154,7 +154,7 @@ describe('CommentControllerRest', () => {
       if (selectedVideoCommentMapMock.videoId === undefined) {
         throw new Error('Selected video comment map mock video id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/comments/videos/${selectedVideoCommentMapMock.videoId}?is_aggregated=true`)
+      const response = await chai.request(server).get(`/api/v1/comments/videos/${selectedVideoCommentMapMock.videoId}?is_aggregated=true`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -172,7 +172,7 @@ describe('CommentControllerRest', () => {
       if (selectedCommentMock._id === undefined) {
         throw new Error('Selected comment mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/comments/${selectedCommentMock._id}`)
+      const response = await chai.request(server).get(`/api/v1/comments/${selectedCommentMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -190,7 +190,7 @@ describe('CommentControllerRest', () => {
       if (selectedCommentMockAggregated._id === undefined) {
         throw new Error('Selected comment mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/comments/${selectedCommentMockAggregated._id}?is_aggregated=true`)
+      const response = await chai.request(server).get(`/api/v1/comments/${selectedCommentMockAggregated._id}?is_aggregated=true`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -214,7 +214,7 @@ describe('CommentControllerRest', () => {
         selectedUserMock.username,
         'content submit'
       )
-      const response = await chai.request(app).post('/api/v1/comments/submissions').send(submitCommentRequest)
+      const response = await chai.request(server).post('/api/v1/comments/submissions').send(submitCommentRequest)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -241,7 +241,7 @@ describe('CommentControllerRest', () => {
         selectedUserMock.username,
         'content submit'
       )
-      const response = await chai.request(app).post('/api/v1/comments/submissions?is_aggregated=true').send(submitCommentRequest)
+      const response = await chai.request(server).post('/api/v1/comments/submissions?is_aggregated=true').send(submitCommentRequest)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -260,7 +260,7 @@ describe('CommentControllerRest', () => {
     it('should return 201 CREATED', async () => {
       const selectedCommentMock = new Comment(videoCommentMapMock.commentMock.userMock.data[0]._id, 'content2', new Date(), new Types.ObjectId().toString())
       videoCommentMapMock.commentMock.data.push(selectedCommentMock)
-      const response = await chai.request(app).post('/api/v1/comments').send(selectedCommentMock)
+      const response = await chai.request(server).post('/api/v1/comments').send(selectedCommentMock)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -280,7 +280,7 @@ describe('CommentControllerRest', () => {
       if (selectedCommentMock._id === undefined) {
         throw new Error('Selected comment mock id is undefined.')
       }
-      const response = await chai.request(app).patch(`/api/v1/comments/${selectedCommentMock._id}`).send(selectedCommentMock)
+      const response = await chai.request(server).patch(`/api/v1/comments/${selectedCommentMock._id}`).send(selectedCommentMock)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -299,7 +299,7 @@ describe('CommentControllerRest', () => {
       if (selectedCommentMock._id === undefined) {
         throw new Error('Selected comment mock id is undefined.')
       }
-      const response = await chai.request(app).delete(`/api/v1/comments/${selectedCommentMock._id}`)
+      const response = await chai.request(server).delete(`/api/v1/comments/${selectedCommentMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)

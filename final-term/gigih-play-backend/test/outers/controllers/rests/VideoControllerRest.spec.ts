@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { beforeEach, describe, it } from 'mocha'
 import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
-import { app } from '../../../../src/App'
+import { server } from '../../../../src/App'
 import VideoMock from '../../../mocks/VideoMock'
 import VideoSchema from '../../../../src/outers/schemas/VideoSchema'
 import { Types } from 'mongoose'
@@ -32,7 +32,7 @@ describe('VideoControllerRest', () => {
 
   describe('GET /api/v1/videos', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/videos')
+      const response = await chai.request(server).get('/api/v1/videos')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -55,7 +55,7 @@ describe('VideoControllerRest', () => {
       const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedVideoMock._id
       }))
-      const response = await chai.request(app).get(`/api/v1/videos?search=${encodedSearch}`)
+      const response = await chai.request(server).get(`/api/v1/videos?search=${encodedSearch}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -73,7 +73,7 @@ describe('VideoControllerRest', () => {
       if (selectedVideoMock._id === undefined) {
         throw new Error('Selected video mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/videos/${selectedVideoMock._id}`)
+      const response = await chai.request(server).get(`/api/v1/videos/${selectedVideoMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -89,7 +89,7 @@ describe('VideoControllerRest', () => {
     it('should return 201 CREATED', async () => {
       const selectedVideoMock = new Video('thumbnailUrl2', 'contentUrl2', new Types.ObjectId().toString())
       videoMock.data.push(selectedVideoMock)
-      const response = await chai.request(app).post('/api/v1/videos').send(selectedVideoMock)
+      const response = await chai.request(server).post('/api/v1/videos').send(selectedVideoMock)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -109,7 +109,7 @@ describe('VideoControllerRest', () => {
       if (selectedVideoMock._id === undefined) {
         throw new Error('Selected video mock id is undefined.')
       }
-      const response = await chai.request(app).patch(`/api/v1/videos/${selectedVideoMock._id}`).send(selectedVideoMock)
+      const response = await chai.request(server).patch(`/api/v1/videos/${selectedVideoMock._id}`).send(selectedVideoMock)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -128,7 +128,7 @@ describe('VideoControllerRest', () => {
       if (selectedVideoMock._id === undefined) {
         throw new Error('Selected video mock id is undefined.')
       }
-      const response = await chai.request(app).delete(`/api/v1/videos/${selectedVideoMock._id}`)
+      const response = await chai.request(server).delete(`/api/v1/videos/${selectedVideoMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)

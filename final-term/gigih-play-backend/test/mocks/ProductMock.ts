@@ -5,8 +5,8 @@ export default class ProductMock {
   data: Product[]
   constructor () {
     this.data = [
-      new Product('title0', 0, 'linkUrl0', new Types.ObjectId().toString()),
-      new Product('title1', 1, 'linkUrl1', new Types.ObjectId().toString())
+      new Product('title0', 0, 'https://placehold.co/400x400?text=linkUrl0', new Types.ObjectId().toString()),
+      new Product('title1', 1, 'https://placehold.co/400x400?text=linkUrl1', new Types.ObjectId().toString())
     ]
   }
 }

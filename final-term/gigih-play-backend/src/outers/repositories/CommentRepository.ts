@@ -13,8 +13,11 @@ export default class CommentRepository {
 
   readAll = async (search?: any): Promise<Comment[]> => {
     if (search !== undefined) {
-      if (search._id !== null) {
+      if (search._id !== undefined) {
         search._id = new Types.ObjectId(search._id)
+      }
+      if (search.userId !== undefined) {
+        search.userId = new Types.ObjectId(search.userId)
       }
     }
     const foundComment: Comment[] | null = await CommentSchema.find(search)
@@ -49,10 +52,13 @@ export default class CommentRepository {
       }
     ]
     if (search !== undefined) {
-      if (search._id !== null) {
+      if (search._id !== undefined) {
         search._id = new Types.ObjectId(search._id)
       }
-      pipeline.push({
+      if (search.userId !== undefined) {
+        search.userId = new Types.ObjectId(search.userId)
+      }
+      pipeline.splice(pipeline.length - 1, 0, {
         $match: search
       })
     }

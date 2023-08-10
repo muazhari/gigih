@@ -13,8 +13,14 @@ export default class VideoCommentMapRepository {
 
   readAll = async (search?: any): Promise<VideoCommentMap[]> => {
     if (search !== undefined) {
-      if (search._id !== null) {
+      if (search._id !== undefined) {
         search._id = new Types.ObjectId(search._id)
+      }
+      if (search.videoId !== undefined) {
+        search.videoId = new Types.ObjectId(search.videoId)
+      }
+      if (search.commentId !== undefined) {
+        search.commentId = new Types.ObjectId(search.commentId)
       }
     }
     const foundVideoCommentMaps: VideoCommentMap[] | null = await VideoCommentMapSchema.find(search)
@@ -53,18 +59,48 @@ export default class VideoCommentMapRepository {
         }
       },
       {
+        $lookup: {
+          from: 'users',
+          localField: 'comment.userId',
+          foreignField: '_id',
+          as: 'comment.user'
+        }
+      },
+      {
+        $unwind: {
+          path: '$comment.user'
+        }
+      },
+      {
         $project: {
           _id: 1,
           video: 1,
-          comment: 1
+          comment: {
+            _id: 1,
+            content: 1,
+            timestamp: 1,
+            user: 1
+          }
         }
       }
     ]
     if (search !== undefined) {
-      if (search._id !== null) {
+      if (search._id !== undefined) {
         search._id = new Types.ObjectId(search._id)
       }
-      pipeline.push({
+      if (search.videoId !== undefined) {
+        search.videoId = new Types.ObjectId(search.videoId)
+      }
+      if (search.commentId !== undefined) {
+        search.commentId = new Types.ObjectId(search.commentId)
+      }
+      if (search.comment?._id !== undefined) {
+        search.comment._id = new Types.ObjectId(search.comment._id)
+      }
+      if (search.comment?.userId !== undefined) {
+        search.comment.userId = new Types.ObjectId(search.comment.userId)
+      }
+      pipeline.splice(pipeline.length - 1, 0, {
         $match: search
       })
     }
@@ -117,10 +153,28 @@ export default class VideoCommentMapRepository {
         }
       },
       {
+        $lookup: {
+          from: 'users',
+          localField: 'comment.userId',
+          foreignField: '_id',
+          as: 'comment.user'
+        }
+      },
+      {
+        $unwind: {
+          path: '$comment.user'
+        }
+      },
+      {
         $project: {
           _id: 1,
           video: 1,
-          comment: 1
+          comment: {
+            _id: 1,
+            content: 1,
+            timestamp: 1,
+            user: 1
+          }
         }
       },
       {

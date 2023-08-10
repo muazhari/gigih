@@ -17,8 +17,8 @@ export default class VideoCommentMapMock {
       new VideoCommentMap(this.videoMock.data[1]._id, this.commentMock.data[1]._id, new Types.ObjectId().toString())
     ]
     this.aggregatedData = [
-      new VideoCommentMapAggregate(this.videoMock.data[0], this.commentMock.data[0], this.data[0]._id),
-      new VideoCommentMapAggregate(this.videoMock.data[1], this.commentMock.data[1], this.data[1]._id)
+      new VideoCommentMapAggregate(this.videoMock.data[0], this.commentMock.aggregatedData[0], this.data[0]._id),
+      new VideoCommentMapAggregate(this.videoMock.data[1], this.commentMock.aggregatedData[1], this.data[1]._id)
     ]
   }
 }

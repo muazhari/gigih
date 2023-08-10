@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { afterEach, beforeEach, describe, it } from 'mocha'
 import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
-import { app } from '../../../../src/App'
+import { server } from '../../../../src/App'
 import ProductSchema from '../../../../src/outers/schemas/ProductSchema'
 import { Types } from 'mongoose'
 import Product from '../../../../src/inners/models/entities/Product'
@@ -48,7 +48,7 @@ describe('ProductControllerRest', () => {
 
   describe('GET /api/v1/products', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/products')
+      const response = await chai.request(server).get('/api/v1/products')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -71,7 +71,7 @@ describe('ProductControllerRest', () => {
       const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedProductMock._id
       }))
-      const response = await chai.request(app).get(`/api/v1/products?search=${encodedSearch}`)
+      const response = await chai.request(server).get(`/api/v1/products?search=${encodedSearch}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -89,7 +89,7 @@ describe('ProductControllerRest', () => {
       if (selectedVideoProductMapMock.videoId === undefined) {
         throw new Error('Selected video product map mock videoId is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/products/videos/${selectedVideoProductMapMock.videoId}`)
+      const response = await chai.request(server).get(`/api/v1/products/videos/${selectedVideoProductMapMock.videoId}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -107,7 +107,7 @@ describe('ProductControllerRest', () => {
       if (selectedProductMock._id === undefined) {
         throw new Error('Selected product mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/products/${selectedProductMock._id}`)
+      const response = await chai.request(server).get(`/api/v1/products/${selectedProductMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -123,7 +123,7 @@ describe('ProductControllerRest', () => {
     it('should return 201 CREATED', async () => {
       const selectedProductMock = new Product('title2', 2, 'linkUrl2', new Types.ObjectId().toString())
       videoProductMapMock.productMock.data.push(selectedProductMock)
-      const response = await chai.request(app).post('/api/v1/products').send(selectedProductMock)
+      const response = await chai.request(server).post('/api/v1/products').send(selectedProductMock)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -144,7 +144,7 @@ describe('ProductControllerRest', () => {
       if (selectedProductMock._id === undefined) {
         throw new Error('Selected product mock id is undefined.')
       }
-      const response = await chai.request(app).patch(`/api/v1/products/${selectedProductMock._id}`).send(selectedProductMock)
+      const response = await chai.request(server).patch(`/api/v1/products/${selectedProductMock._id}`).send(selectedProductMock)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -163,7 +163,7 @@ describe('ProductControllerRest', () => {
       if (selectedProductMock._id === undefined) {
         throw new Error('Selected product mock id is undefined.')
       }
-      const response = await chai.request(app).delete(`/api/v1/products/${selectedProductMock._id}`)
+      const response = await chai.request(server).delete(`/api/v1/products/${selectedProductMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)

@@ -27,7 +27,7 @@ export default class CommentControllerRest {
 
   readAll = (request: Request, response: Response): void => {
     const { isAggregated, search } = request.query
-    const parsedIsAggregated: boolean = Boolean(isAggregated)
+    const parsedIsAggregated: boolean | undefined = isAggregated !== undefined ? Boolean(isAggregated) : undefined
     const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURIComponent(String(search))) : undefined
     this.commentManagement
       .readAll(parsedIsAggregated, parsedSearch)
@@ -46,7 +46,7 @@ export default class CommentControllerRest {
   readAllByVideoId = (request: Request, response: Response): void => {
     const { videoId } = request.params
     const { isAggregated } = request.query
-    const parsedIsAggregated: boolean = Boolean(isAggregated)
+    const parsedIsAggregated: boolean | undefined = isAggregated !== undefined ? Boolean(isAggregated) : undefined
     this.commentManagement
       .readAllByVideoId(videoId, parsedIsAggregated)
       .then((result: Result<Comment[] | CommentAggregate[]>) => {

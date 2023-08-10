@@ -5,8 +5,8 @@ export default class VideoMock {
   data: Video[]
   constructor () {
     this.data = [
-      new Video('thumbnailUrl0', 'contentUrl0', new Types.ObjectId().toString()),
-      new Video('thumbnailUrl1', 'contentUrl1', new Types.ObjectId().toString())
+      new Video('https://placehold.co/400x400?text=thumbnailUrl0', 'https://placehold.co/1366x768.mp4?text=contentUrl0', new Types.ObjectId().toString()),
+      new Video('https://placehold.co/400x400?text=thumbnailUrl1', 'https://placehold.co/1366x768.mp4?text=contentUrl1', new Types.ObjectId().toString())
     ]
   }
 }

@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { beforeEach, describe, it } from 'mocha'
 import OneDatastore from '../../../../src/outers/datastores/OneDatastore'
-import { app } from '../../../../src/App'
+import { server } from '../../../../src/App'
 import VideoProductMapMock from '../../../mocks/VideoProductMapMock'
 import VideoProductMapSchema from '../../../../src/outers/schemas/VideoProductMapSchema'
 import { Types } from 'mongoose'
@@ -48,7 +48,7 @@ describe('VideoProductMapControllerRest', () => {
 
   describe('GET /api/v1/video-product-maps', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/video-product-maps')
+      const response = await chai.request(server).get('/api/v1/video-product-maps')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -64,7 +64,7 @@ describe('VideoProductMapControllerRest', () => {
 
   describe('GET /api/v1/video-product-maps?is_aggregated=true', () => {
     it('should return 200 OK', async () => {
-      const response = await chai.request(app).get('/api/v1/video-product-maps?is_aggregated=true')
+      const response = await chai.request(server).get('/api/v1/video-product-maps?is_aggregated=true')
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -87,7 +87,7 @@ describe('VideoProductMapControllerRest', () => {
       const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedVideoProductMapMock._id
       }))
-      const response = await chai.request(app).get(`/api/v1/video-product-maps?search=${encodedSearch}`)
+      const response = await chai.request(server).get(`/api/v1/video-product-maps?search=${encodedSearch}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -108,7 +108,7 @@ describe('VideoProductMapControllerRest', () => {
       const encodedSearch = encodeURIComponent(JSON.stringify({
         _id: selectedVideoProductMapAggregateMock._id
       }))
-      const response = await chai.request(app).get(`/api/v1/video-product-maps?is_aggregated=true&search=${encodedSearch}`)
+      const response = await chai.request(server).get(`/api/v1/video-product-maps?is_aggregated=true&search=${encodedSearch}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -126,7 +126,7 @@ describe('VideoProductMapControllerRest', () => {
       if (selectedVideoProductMapMock._id === undefined) {
         throw new Error('Selected videoProductMap mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}`)
+      const response = await chai.request(server).get(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -144,7 +144,7 @@ describe('VideoProductMapControllerRest', () => {
       if (selectedVideoProductMapMock._id === undefined) {
         throw new Error('Selected videoProductMap mock id is undefined.')
       }
-      const response = await chai.request(app).get(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}?is_aggregated=true`)
+      const response = await chai.request(server).get(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}?is_aggregated=true`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -160,7 +160,7 @@ describe('VideoProductMapControllerRest', () => {
     it('should return 201 CREATED', async () => {
       const selectedVideoProductMapMock = new VideoProductMap(videoProductMapMock.videoMock.data[0]._id, videoProductMapMock.productMock.data[0]._id, new Types.ObjectId().toString())
       videoProductMapMock.data.push(selectedVideoProductMapMock)
-      const response = await chai.request(app).post('/api/v1/video-product-maps').send(selectedVideoProductMapMock)
+      const response = await chai.request(server).post('/api/v1/video-product-maps').send(selectedVideoProductMapMock)
       response.should.have.status(201)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(201)
@@ -180,7 +180,7 @@ describe('VideoProductMapControllerRest', () => {
       if (selectedVideoProductMapMock._id === undefined) {
         throw new Error('Selected videoProductMap mock id is undefined.')
       }
-      const response = await chai.request(app).patch(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}`).send(selectedVideoProductMapMock)
+      const response = await chai.request(server).patch(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}`).send(selectedVideoProductMapMock)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)
@@ -199,7 +199,7 @@ describe('VideoProductMapControllerRest', () => {
       if (selectedVideoProductMapMock._id === undefined) {
         throw new Error('Selected videoProductMap mock id is undefined.')
       }
-      const response = await chai.request(app).delete(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}`)
+      const response = await chai.request(server).delete(`/api/v1/video-product-maps/${selectedVideoProductMapMock._id}`)
       response.should.have.status(200)
       response.body.should.be.a('object')
       response.body.should.have.property('status').eq(200)

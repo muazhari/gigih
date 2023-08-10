@@ -7,10 +7,14 @@ const caseExpressMiddleware = (options?: OptionOrProcessor): any => {
   const snakeCaseResHandler = (_req: Request, res: Response, next: NextFunction): void => {
     const send: any = res.send
     res.send = function (body?: any): any {
-      const parsedBody = JSON.parse(body)
-      body = humps.decamelizeKeys(parsedBody, options)
-      const stringifiesBody = JSON.stringify(body)
-      send.call(this, stringifiesBody)
+      try {
+        const parsedBody = JSON.parse(body)
+        body = humps.decamelizeKeys(parsedBody, options)
+        const stringifiesBody = JSON.stringify(body)
+        send.call(this, stringifiesBody)
+      } catch (error) {
+        send.call(this, body)
+      }
       return res
     }
     next()
