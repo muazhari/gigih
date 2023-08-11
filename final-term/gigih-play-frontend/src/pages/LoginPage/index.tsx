@@ -17,12 +17,6 @@ export default function LoginPage() {
     const navigate = useNavigate()
     const authenticationService = new AuthenticationService()
 
-    useEffect(() => {
-        if (authenticationState.isLoggedIn) {
-            navigate("/")
-        }
-    }, [authenticationState.isLoggedIn])
-
     const loginFormik = useFormik({
         initialValues: new LoginByUsernameAndPasswordRequest(undefined, undefined),
         onSubmit: (values) => {
@@ -35,6 +29,7 @@ export default function LoginPage() {
                     dispatch(authenticationSlice.actions.login({
                         user: result.data
                     }))
+                    navigate("/home")
                 })
                 .catch((error) => {
                     dispatch(messageSlice.actions.set({

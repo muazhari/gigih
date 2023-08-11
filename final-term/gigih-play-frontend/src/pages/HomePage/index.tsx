@@ -1,9 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
-import {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
+import authenticationSlice, {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
 import {RootState} from "../../slices/Store.ts";
 import domainSlice, {DomainState} from "../../slices/DomainSlice.ts";
 import "./index.scss"
-import {AspectRatio, Card, CardBody, CardHeader, Heading, Text} from "@chakra-ui/react";
+import {AspectRatio, Button, Card, CardBody, CardHeader, Heading, Text} from "@chakra-ui/react";
 import {useEffect} from "react";
 import VideoService from "../../services/VideoService.ts";
 import messageSlice from "../../slices/MessageSlice.ts";

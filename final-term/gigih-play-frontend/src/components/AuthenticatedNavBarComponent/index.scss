@@ -1,0 +1,36 @@
+.component.authenticated-nav-bar{
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 1%;
+}
+
+.component.authenticated-nav-bar .left{
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 1%;
+}
+
+.component.authenticated-nav-bar .right {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 1%;
+}
+
+.component.authenticated-nav-bar button {
+    margin: 0 1% 0 1%;
+}

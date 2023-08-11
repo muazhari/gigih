@@ -1,4 +1,14 @@
-.page.home .content {
+.page.video {
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page.video .video-id {
+  margin: 0 0 3% 0;
+}
+
+.page.video .content {
   display: flex;
   flex: 1 1 auto;
   flex-flow: row nowrap;
@@ -8,39 +18,137 @@
   height: auto;
 }
 
-.page.home .content .products {
+.page.video .content .products {
   display: flex;
   flex: 1 1 25%;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  width: 100%;
 }
 
-.page.home .content .products .product:hover {
+.page.video .content .products .list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  padding: 5%;
+}
+
+.page.video .content .products .product:hover {
   cursor: pointer;
 }
 
+.page.video .content .products .product {
+  display: flex;
+  flex: 0 0 20%;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 2% 0 2% 0;
+  width: 100%;
+  height: auto;
+}
 
-.page.home .content .video {
+.page.video .content .video {
   display: flex;
   flex: 1 1 50%;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  width: 100%;
 }
 
-.page.home .content .video iframe {
+.page.video .content .video iframe {
   width: 100%;
   height: 100%;
   aspect-ratio: 16/9;
 }
 
-
-.page.home .content .comments {
+.page.video .content .comments {
   display: flex;
   flex: 1 1 25%;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.page.video .content .comments .list {
+  display: flex;
+  flex: 1 1 80%;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  padding: 5%;
+}
+
+.page.video .content .comments .list .comment {
+  display: flex;
+  flex: 0 0 20%;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 2% 0 2% 0;
+  width: 100%;
+  height: auto;
+}
+
+.page.video .content .comments .list .comment .body {
+  display: flex;
+  flex: 1 1 auto;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
+.page.video .content .comments .list .comment p.username {
+  font-weight: bold;
+}
+
+.page.video .content .comments .submission {
+  display: flex;
+  flex: 1 1 20%;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.page.video .content .comments .submission form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 5%;
+}
+
+.page.video .content .comments .submission form div {
+  margin: 0 0 5% 0;
+}
+
+.page.video .content .comments .submission form div input {
+  width: 100%;
+  height: 9vh;
+}
+
+.page.video .content .comments .submission form button {
+  width: 100%;
+  height: 9vh;
+}

@@ -11,7 +11,7 @@
 #root {
   display: flex;
   flex: 1 1 auto;
-  flex-flow: row;
+  flex-flow: column;
   justify-content: space-between;
   align-items: center;
   margin: 0 0 5% 0;
@@ -20,16 +20,10 @@
 .page {
   display: flex;
   flex: 1 1 auto;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
 }
 
 .component {
   display: flex;
   flex: 1 1 auto;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
 }

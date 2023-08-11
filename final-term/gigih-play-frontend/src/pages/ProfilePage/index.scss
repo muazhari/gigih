@@ -1,0 +1,18 @@
+.page.profile {
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page.profile form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 200%;
+}
+
+.page.profile form div {
+  margin: 0 0 10% 0;
+}

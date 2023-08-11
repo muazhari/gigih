@@ -1,3 +1,9 @@
+.page.home {
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .page.home .videos {
   display: flex;
   flex: 1 1 auto;

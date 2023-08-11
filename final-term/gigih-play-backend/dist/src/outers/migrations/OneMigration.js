@@ -26,6 +26,8 @@ const VideoProductMapSchema_1 = __importDefault(require("../schemas/VideoProduct
 const VideoSchema_1 = __importDefault(require("../schemas/VideoSchema"));
 const VideoProductMap_1 = __importDefault(require("../../inners/models/entities/VideoProductMap"));
 const underscore_1 = __importDefault(require("underscore"));
+const User_1 = __importDefault(require("../../inners/models/entities/User"));
+const mongoose_1 = require("mongoose");
 class OneMigration {
     constructor(oneDatastore) {
         this.up = () => __awaiter(this, void 0, void 0, function* () {
@@ -40,6 +42,9 @@ class OneMigration {
                 .map((videoProductMap) => {
                 return new VideoProductMap_1.default(videoProductMap[0]._id, videoProductMap[1]._id);
             }));
+            yield UserSchema_1.default.insertMany([
+                new User_1.default('admin', 'admin', 'https://placehold.co/400x400?text=pictureUrlAdmin', new mongoose_1.Types.ObjectId().toString())
+            ]);
             console.log('One migration up.');
         });
         this.down = () => __awaiter(this, void 0, void 0, function* () {

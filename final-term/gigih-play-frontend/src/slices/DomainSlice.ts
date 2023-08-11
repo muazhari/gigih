@@ -4,6 +4,7 @@ import Product from "../models/entities/Product.ts";
 import VideoCommentMapAggregate from "../models/aggregates/VideoCommentMapAggregate.ts";
 import VideoProductMapAggregate from "../models/aggregates/VideoProductMapAggregate.ts";
 import CommentAggregate from "../models/aggregates/CommentAggregate.ts";
+import User from "../models/entities/User.ts";
 
 export interface VideoDomain {
     video: Video | undefined
@@ -22,10 +23,15 @@ export interface CommentDomain {
     comments: CommentAggregate[] | undefined
 }
 
+export interface UserDomain {
+    user: User | undefined
+}
+
 export interface DomainState {
     videoDomain: VideoDomain | undefined
     productDomain: ProductDomain | undefined
     commentDomain: CommentDomain | undefined
+    userDomain: UserDomain | undefined
 }
 
 export default createSlice({
@@ -44,6 +50,9 @@ export default createSlice({
         commentDomain: <CommentDomain>{
             comment: undefined,
             comments: []
+        },
+        userDomain: <UserDomain>{
+            user: undefined
         }
     },
     reducers: {
@@ -55,6 +64,9 @@ export default createSlice({
         },
         setCommentDomain: (state, action) => {
             state.commentDomain = {...state.commentDomain, ...action.payload};
+        },
+        setUserDomain: (state, action) => {
+            state.userDomain = {...state.userDomain, ...action.payload};
         }
     },
 });

@@ -7,10 +7,9 @@ import {Button, Card, CardBody, CardHeader, FormControl, Heading, Input, Text} f
 import {useEffect} from "react";
 import VideoService from "../../services/VideoService.ts";
 import messageSlice from "../../slices/MessageSlice.ts";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import VideoProductMapService from "../../services/VideoProductMapService.ts";
 import VideoProductMapAggregate from "../../models/aggregates/VideoProductMapAggregate.ts";
-import VideoCommentMapService from "../../services/VideoCommentMapService.ts";
 import useSocket from "../../hooks/UseSocket.ts";
 import OneSocket from "../../sockets/OneSocket.ts";
 import JoinRoomRequest from "../../models/value_objects/requests/rooms/JoinRoomRequest.ts";
@@ -61,7 +60,7 @@ export default function VideoPage() {
     }, [])
 
     const handleClickProduct = (videoProductMap: VideoProductMapAggregate) => {
-        window.location.replace(videoProductMap.product!.linkUrl!)
+        window.open(videoProductMap.product!.linkUrl!, "_blank")
     }
 
     const oneSocket = new OneSocket()
@@ -115,42 +114,44 @@ export default function VideoPage() {
     })
 
     return (
-        <div className="page home">
-            <Heading>
+        <div className="page video">
+            <Heading className="page-name">
                 Video
             </Heading>
-            <Heading as="h4" size="md">
+            <Heading className="video-id" as="h4" size="md">
                 {params.id}
             </Heading>
             <div className="content">
                 <div className="products">
-                    {
-                        domainState.videoDomain!.videoProductMaps!.length > 0 ?
-                            domainState.videoDomain!.videoProductMaps!.map((videoProductMap) => {
-                                return (
-                                    <Card
-                                        key={videoProductMap._id}
-                                        className="product"
-                                        onClick={() => handleClickProduct(videoProductMap)}
-                                    >
-                                        <CardHeader>
-                                            <Heading as="h4" size="md">
-                                                {videoProductMap.product!.title}
-                                            </Heading>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <Text>
-                                                Rp. {videoProductMap.product!.price}
-                                            </Text>
-                                        </CardBody>
-                                    </Card>
-                                )
-                            })
-                            :
-                            <Heading as="h4" size="md">
-                                No products
-                            </Heading>
-                    }
+                    <div className="list">
+                        {
+                            domainState.videoDomain!.videoProductMaps!.length > 0 ?
+                                domainState.videoDomain!.videoProductMaps!.map((videoProductMap) => {
+                                    return (
+                                        <Card
+                                            key={videoProductMap._id}
+                                            className="product"
+                                            onClick={() => handleClickProduct(videoProductMap)}
+                                        >
+                                            <CardHeader className="header">
+                                                <Heading as="h4" size="md">
+                                                    {videoProductMap.product!.title}
+                                                </Heading>
+                                            </CardHeader>
+                                            <CardBody className="body">
+                                                <Text>
+                                                    Rp. {videoProductMap.product!.price}
+                                                </Text>
+                                            </CardBody>
+                                        </Card>
+                                    )
+                                })
+                                :
+                                <Heading as="h4" size="md">
+                                    No products
+                                </Heading>
+                        }
+                    </div>
                 </div>
                 <div className="video">
                     <iframe
@@ -168,16 +169,14 @@ export default function VideoPage() {
                                             key={comment._id}
                                             className="comment"
                                         >
-                                            <CardHeader>
-                                                <Heading as="h4" size="md">
+                                            <CardBody className="body">
+                                                <Text className="username">
                                                     {comment.user!.username}
-                                                </Heading>
-                                            </CardHeader>
-                                            <CardBody>
-                                                <Text>
+                                                </Text>
+                                                <Text className="content">
                                                     {comment.content}
                                                 </Text>
-                                                <Text>
+                                                <Text className="timestamp">
                                                     {new Date(comment.timestamp!).toLocaleString()}
                                                 </Text>
                                             </CardBody>

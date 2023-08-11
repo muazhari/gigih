@@ -17,6 +17,9 @@ import type Video from '../../inners/models/entities/Video'
 import type Product from '../../inners/models/entities/Product'
 import VideoCommentMap from '../../inners/models/entities/VideoCommentMap'
 import type Comment from '../../inners/models/entities/Comment'
+import User from '../../inners/models/entities/User'
+import { randomUUID } from 'crypto'
+import { Types } from 'mongoose'
 
 export default class OneMigration {
   oneDatastore: OneDatastore
@@ -53,6 +56,15 @@ export default class OneMigration {
           return new VideoProductMap(videoProductMap[0]._id, videoProductMap[1]._id)
         })
     )
+
+    await UserSchema.insertMany([
+      new User(
+        'admin',
+        'admin',
+        'https://placehold.co/400x400?text=pictureUrlAdmin',
+        new Types.ObjectId().toString()
+      )
+    ])
 
     console.log('One migration up.')
   }
