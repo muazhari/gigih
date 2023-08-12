@@ -181,11 +181,11 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 
 - On
 
-| Event            | Payload               | Description                   |
-|------------------|-----------------------|-------------------------------|
-| joinedRoom       | {Result<Comment[]>}   | Joined a room by videoId      |
-| leftRoom         | videoId: string       | Left a room by videoId        |
-| submittedComment | {Result\<Comment\>}   | Submitted a comment to a room |
+| Event            | Payload                      | Description                   |
+|------------------|------------------------------|-------------------------------|
+| joinedRoom       | {Result<CommentAggregate[]>} | Joined a room by videoId      |
+| leftRoom         | videoId: string              | Left a room by videoId        |
+| submittedComment | {Result\<CommentAggregate\>} | Submitted a comment to a room |
 
 
 ## How to Run the App
