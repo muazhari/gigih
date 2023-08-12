@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto'
 
 export default class UserMock {
   data: User[]
+
   constructor () {
     this.data = [
       new User(`username${randomUUID()}`, 'password0', 'https://placehold.co/400x400?text=pictureUrl0', new Types.ObjectId().toString()),

@@ -1,27 +1,34 @@
-# React + TypeScript + Vite
+# gigih-play-frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## How to Run the App
+### Prerequisites
+- Node.js.
+- NPM.
+- Yarn.
+- Browser (Preferable Chrome).
+- Git.
+- Docker.
+- Docker Compose.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Run Steps (with docker)
+1. Clone this repository.
+2. Open the terminal and go to the repository directory.
+3. Set the environment variable `VITE_ONE_CLIENT_URL` to the backend http protocol in the `.env` file.
+4. Set the environment variable `VITE_ONE_SOCKET_URL` to the backend web socket protocol in the `.env` file.
+5. Run `yarn install` to install all dependencies.
+6. Run `docker-compose up` to run the App.
+7. Open the browser and try the app.
 
-## Expanding the ESLint configuration
+### Run Steps (without docker)
+1. Clone this repository.
+2. Open the terminal and go to the repository directory.
+3. Set the environment variable `VITE_ONE_CLIENT_URL` to the backend http protocol in the `.env` file.
+4. Set the environment variable `VITE_ONE_SOCKET_URL` to the backend web socket protocol in the `.env` file.
+5. Run `yarn install` to install all dependencies.
+6. Run `yarn start` to run the App.
+7. Open the browser and try the app.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Notes
+1. Typescript transpile needs time, so wait for a few seconds/minutes after running the App.
+2. I already implemented the minimum and bonus requirements.

@@ -50,7 +50,7 @@ export default class CommentManagement {
     } else {
       foundComment = await this.commentRepository.readOneById(id)
     }
-    return new Result<Comment | CommentAggregate >(
+    return new Result<Comment | CommentAggregate>(
       200,
       'Comment read one by id succeed.',
       foundComment
@@ -68,7 +68,7 @@ export default class CommentManagement {
 
   patchOneById = async (id: string, item: any): Promise<Result<Comment>> => {
     const patchedComment: Comment = await this.commentRepository.patchOneById(id, item)
-    return new Result<Comment >(
+    return new Result<Comment>(
       200,
       'Comment patch one by id succeed.',
       patchedComment

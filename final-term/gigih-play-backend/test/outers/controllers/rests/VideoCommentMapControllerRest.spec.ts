@@ -13,7 +13,7 @@ import type Video from '../../../../src/inners/models/entities/Video'
 import type Comment from '../../../../src/inners/models/entities/Comment'
 import humps from 'humps'
 import UserSchema from '../../../../src/outers/schemas/UserSchema'
-import User from "../../../../src/inners/models/entities/User";
+import type User from '../../../../src/inners/models/entities/User'
 
 chai.use(chaiHttp)
 chai.should()

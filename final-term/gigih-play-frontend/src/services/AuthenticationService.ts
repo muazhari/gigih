@@ -17,7 +17,7 @@ export default class AuthenticationService {
         this.oneClient = oneClient
     }
 
-    login = (request: LoginByUsernameAndPasswordRequest): Promise<AxiosResponse<Result<User>>>  =>  {
+    login = (request: LoginByUsernameAndPasswordRequest): Promise<AxiosResponse<Result<User>>> => {
         return this.oneClient.instance.post(
             'authentications/logins?method=username_and_password',
             request

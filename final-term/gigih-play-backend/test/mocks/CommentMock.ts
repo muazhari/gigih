@@ -7,6 +7,7 @@ export default class CommentMock {
   userMock: UserMock
   data: Comment[]
   aggregatedData: any[]
+
   constructor () {
     this.userMock = new UserMock()
     this.data = [

@@ -6,20 +6,25 @@ import type SubmitCommentRequest from '../../../inners/models/value_objects/requ
 import Comment from '../../../inners/models/entities/Comment'
 import type JoinRoomRequest from '../../../inners/models/value_objects/requests/rooms/JoinRoomRequest'
 import type UserManagement from '../../../inners/use_cases/managements/UserManagement'
+import type VideoCommentMapManagement from '../../../inners/use_cases/managements/VideoCommentMapManagement'
+import VideoCommentMap from '../../../inners/models/entities/VideoCommentMap'
 
 export default class RoomControllerWebSocket {
   io: socketIo.Server
   commentManagement: CommentManagement
   userManagement: UserManagement
+  videoCommentMapManagement: VideoCommentMapManagement
 
   constructor (
     io: socketIo.Server,
     commentManagement: CommentManagement,
-    userManagement: UserManagement
+    userManagement: UserManagement,
+    videoCommentMapManagement: VideoCommentMapManagement
   ) {
     this.io = io
     this.commentManagement = commentManagement
     this.userManagement = userManagement
+    this.videoCommentMapManagement = videoCommentMapManagement
   }
 
   registerSockets = (): void => {
@@ -61,6 +66,13 @@ export default class RoomControllerWebSocket {
       foundUser.data._id,
       submitCommentRequest.content,
       new Date()
+    ))
+    if (createdComment.data === undefined) {
+      throw new Error('CreatedComment is undefined')
+    }
+    await this.videoCommentMapManagement.createOne(new VideoCommentMap(
+      submitCommentRequest.videoId,
+      createdComment.data._id
     ))
     const result: Result<CommentAggregate> = new Result<CommentAggregate>(
       201,

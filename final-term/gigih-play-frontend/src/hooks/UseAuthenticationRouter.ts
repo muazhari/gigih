@@ -4,9 +4,9 @@ export default function useAuthenticationRouter(
     isLoggedIn: boolean | undefined,
     loggedInCallback: () => void,
     unLoggedInCallback: () => void
-){
+) {
     useEffect(() => {
-        if (isLoggedIn === true){
+        if (isLoggedIn === true) {
             loggedInCallback()
         } else {
             unLoggedInCallback()

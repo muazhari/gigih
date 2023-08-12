@@ -1,4 +1,4 @@
-.component.authenticated-nav-bar{
+.component.authenticated-nav-bar {
   display: flex;
   flex: 1 1 auto;
   flex-flow: row;
@@ -9,7 +9,7 @@
   margin: 1%;
 }
 
-.component.authenticated-nav-bar .left{
+.component.authenticated-nav-bar .left {
   display: flex;
   flex: 1 1 auto;
   flex-flow: row;
@@ -32,5 +32,5 @@
 }
 
 .component.authenticated-nav-bar button {
-    margin: 0 1% 0 1%;
+  margin: 0 1% 0 1%;
 }

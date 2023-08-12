@@ -9,6 +9,7 @@ export default class VideoProductMapMock {
   productMock: ProductMock
   data: VideoProductMap[]
   aggregatedData: VideoProductMapAggregate[]
+
   constructor () {
     this.videoMock = new VideoMock()
     this.productMock = new ProductMock()

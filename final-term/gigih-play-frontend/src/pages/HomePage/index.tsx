@@ -1,15 +1,15 @@
 import {useDispatch, useSelector} from "react-redux";
-import authenticationSlice, {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
+import {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
 import {RootState} from "../../slices/Store.ts";
 import domainSlice, {DomainState} from "../../slices/DomainSlice.ts";
 import "./index.scss"
-import {AspectRatio, Button, Card, CardBody, CardHeader, Heading, Text} from "@chakra-ui/react";
+import {AspectRatio, Card, CardBody, CardHeader, Heading, Image, Input, Text} from "@chakra-ui/react";
 import {useEffect} from "react";
 import VideoService from "../../services/VideoService.ts";
 import messageSlice from "../../slices/MessageSlice.ts";
-import { Image } from '@chakra-ui/react'
 import {useNavigate} from "react-router-dom";
 import Video from "../../models/entities/Video.ts";
+import {useFormik} from "formik";
 
 export default function HomePage() {
     const dispatch = useDispatch()
@@ -21,11 +21,14 @@ export default function HomePage() {
     useEffect(() => {
         videoService
             .readAll()
-            .then ((response) => {
+            .then((response) => {
                 return response.data
             })
             .then((result) => {
                 dispatch(domainSlice.actions.setVideoDomain({
+                    videos: result.data
+                }))
+                dispatch(domainSlice.actions.setSearchDomain({
                     videos: result.data
                 }))
             })
@@ -42,14 +45,37 @@ export default function HomePage() {
         navigate(`/videos/${video._id}`)
     }
 
+    const searchFormik = useFormik({
+        initialValues: {
+            searchValue: "",
+        },
+        enableReinitialize: true,
+        onSubmit: (values) => {
+            dispatch(domainSlice.actions.setSearchDomain({
+                videos: domainState.videoDomain!.videos!.filter((video) => {
+                    return JSON.stringify(video).toLowerCase().includes(values.searchValue.toLowerCase())
+                }),
+            }))
+        }
+    })
+
     return (
         <div className="page home">
-            <Heading>
+            <Heading className="page-name">
                 Home
             </Heading>
+            <form className="search" onSubmit={searchFormik.handleSubmit}>
+                <Input
+                    placeholder="Search"
+                    name="searchValue"
+                    onChange={searchFormik.handleChange}
+                    onBlur={searchFormik.handleBlur}
+                    onKeyUp={() => searchFormik.submitForm()}
+                />
+            </form>
             <div className="videos">
-                {domainState.videoDomain!.videos!.length > 0 ?
-                    domainState.videoDomain!.videos!.map((video) => {
+                {domainState.searchDomain!.videos!.length > 0 ?
+                    domainState.searchDomain!.videos!.map((video) => {
                         return (
                             <Card
                                 key={video._id}
@@ -61,7 +87,7 @@ export default function HomePage() {
                                 </CardHeader>
                                 <CardBody className="body">
                                     <AspectRatio ratio={1} maxW="100%">
-                                        <Image src={video.thumbnailUrl} />
+                                        <Image src={video.thumbnailUrl}/>
                                     </AspectRatio>
                                 </CardBody>
                             </Card>

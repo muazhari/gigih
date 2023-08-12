@@ -3,6 +3,7 @@ import { Types } from 'mongoose'
 
 export default class ProductMock {
   data: Product[]
+
   constructor () {
     this.data = [
       new Product('title0', 0, 'https://placehold.co/400x400?text=linkUrl0', new Types.ObjectId().toString()),

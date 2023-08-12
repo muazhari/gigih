@@ -23,7 +23,10 @@ export default class VideoCommentMapController {
   }
 
   readAll = (request: Request, response: Response): void => {
-    const { isAggregated, search } = request.query
+    const {
+      isAggregated,
+      search
+    } = request.query
     const parsedIsAggregated: boolean | undefined = isAggregated !== undefined ? Boolean(isAggregated) : undefined
     const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURIComponent(String(search))) : undefined
     this.videoCommentMapManagement

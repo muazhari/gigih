@@ -60,8 +60,8 @@ describe('AuthenticationControllerRest', () => {
 
     it('should return 404 NOT FOUND: Unknown username', async () => {
       const loginByUsernameAndPasswordRequest = new LoginByUsernameAndPasswordRequest(
-            `username${randomUUID()}`,
-            'password login'
+                `username${randomUUID()}`,
+                'password login'
       )
       const response = await chai.request(server).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
       response.should.have.status(404)
@@ -78,7 +78,7 @@ describe('AuthenticationControllerRest', () => {
       }
       const loginByUsernameAndPasswordRequest = new LoginByUsernameAndPasswordRequest(
         selectedUserMock.username,
-            `password${randomUUID()}`
+                `password${randomUUID()}`
       )
       const response = await chai.request(server).post('/api/v1/authentications/logins?method=username_and_password').send(loginByUsernameAndPasswordRequest)
       response.should.have.status(404)
@@ -92,8 +92,8 @@ describe('AuthenticationControllerRest', () => {
   describe('POST /api/v1/authentications/registers?method=username_and_password', () => {
     it('should return 201 CREATED', async () => {
       const registerByUsernameAndPasswordRequest: RegisterByUsernameAndPasswordRequest = new RegisterByUsernameAndPasswordRequest(
-        `username${randomUUID()}`,
-        'password register'
+                `username${randomUUID()}`,
+                'password register'
       )
       const response = await chai.request(server).post('/api/v1/authentications/registers?method=username_and_password').send(registerByUsernameAndPasswordRequest)
       response.should.have.status(201)

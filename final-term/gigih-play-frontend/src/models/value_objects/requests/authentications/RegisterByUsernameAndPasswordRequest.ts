@@ -1,12 +1,12 @@
 export default class RegisterByUsernameAndPasswordRequest {
-  username: string | undefined
-  password: string | undefined
+    username: string | undefined
+    password: string | undefined
 
-  constructor (
-      username: string | undefined,
-      password: string | undefined
-  ) {
-    this.username = username
-    this.password = password
-  }
+    constructor(
+        username: string | undefined,
+        password: string | undefined
+    ) {
+        this.username = username
+        this.password = password
+    }
 }

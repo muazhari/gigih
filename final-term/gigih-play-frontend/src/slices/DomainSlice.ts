@@ -27,11 +27,17 @@ export interface UserDomain {
     user: User | undefined
 }
 
+export interface SearchDomain {
+    videos: Video[] | undefined
+    products: Product[] | undefined
+}
+
 export interface DomainState {
     videoDomain: VideoDomain | undefined
     productDomain: ProductDomain | undefined
     commentDomain: CommentDomain | undefined
     userDomain: UserDomain | undefined
+    searchDomain: SearchDomain | undefined
 }
 
 export default createSlice({
@@ -53,6 +59,10 @@ export default createSlice({
         },
         userDomain: <UserDomain>{
             user: undefined
+        },
+        searchDomain: <SearchDomain>{
+            products: [],
+            videos: []
         }
     },
     reducers: {
@@ -65,8 +75,17 @@ export default createSlice({
         setCommentDomain: (state, action) => {
             state.commentDomain = {...state.commentDomain, ...action.payload};
         },
+        commentDomainAddComment: (state, action) => {
+            state.commentDomain = {
+                ...state.commentDomain!,
+                comments: [...state.commentDomain!.comments!, action.payload]
+            };
+        },
         setUserDomain: (state, action) => {
             state.userDomain = {...state.userDomain, ...action.payload};
+        },
+        setSearchDomain: (state, action) => {
+            state.searchDomain = {...state.searchDomain, ...action.payload};
         }
     },
 });

@@ -26,8 +26,8 @@ export default class LoginAuthentication {
     } catch (error) {
       return new Result<null>(
         404,
-        `Login by username failed, unknown username: ${(error as Error).message}`,
-        null
+                `Login by username failed, unknown username: ${(error as Error).message}`,
+                null
       )
     }
 
@@ -37,8 +37,8 @@ export default class LoginAuthentication {
     } catch (error) {
       return new Result<null>(
         404,
-            `Login by username and password failed, unknown username or password: ${(error as Error).message}`,
-            null
+                `Login by username and password failed, unknown username or password: ${(error as Error).message}`,
+                null
       )
     }
 

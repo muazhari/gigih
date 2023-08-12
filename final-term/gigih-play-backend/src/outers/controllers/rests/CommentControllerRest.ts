@@ -26,7 +26,10 @@ export default class CommentControllerRest {
   }
 
   readAll = (request: Request, response: Response): void => {
-    const { isAggregated, search } = request.query
+    const {
+      isAggregated,
+      search
+    } = request.query
     const parsedIsAggregated: boolean | undefined = isAggregated !== undefined ? Boolean(isAggregated) : undefined
     const parsedSearch: any | undefined = search !== undefined ? JSON.parse(decodeURIComponent(String(search))) : undefined
     this.commentManagement
@@ -95,7 +98,11 @@ export default class CommentControllerRest {
 
   submit = (request: Request, response: Response): void => {
     const { isAggregated } = request.query
-    const { videoId, username, content } = request.body
+    const {
+      videoId,
+      username,
+      content
+    } = request.body
     const submitComment: SubmitCommentRequest = new SubmitCommentRequest(videoId, username, content)
     this.commentManagement
       .submit(submitComment, Boolean(isAggregated))

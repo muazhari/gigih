@@ -227,5 +227,5 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 
 ## Notes
 1. Typescript transpile needs time, so wait for a few seconds/minutes after running the App.
-2. You can observe the test coverage in this [link](https://muazhari.github.io/gigih/mid-term/gigih-play-backend/coverage/index.html).
+2. You can observe the test coverage in this [link](https://muazhari.github.io/gigih-play-backend/coverage/index.html).
 3. I already implemented the minimum and bonus requirements.

@@ -9,6 +9,7 @@ export default class VideoCommentMapMock {
   commentMock: CommentMock
   data: VideoCommentMap[]
   aggregatedData: VideoCommentMapAggregate[]
+
   constructor () {
     this.videoMock = new VideoMock()
     this.commentMock = new CommentMock()

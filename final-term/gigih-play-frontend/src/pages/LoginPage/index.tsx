@@ -1,4 +1,3 @@
-import {useEffect} from "react";
 import "./index.scss"
 import authenticationSlice, {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
 import {useDispatch, useSelector} from "react-redux";

@@ -6,11 +6,11 @@ export default class OneClient {
 
     constructor(
         instance: AxiosInstance = applyCaseMiddleware(axios.create({
-            headers: {
-                "Access-Control-Allow-Origin": "*"
-            },
-            baseURL: import.meta.env.VITE_ONE_CLIENT_URL,
-        }),
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
+                baseURL: import.meta.env.VITE_ONE_CLIENT_URL,
+            }),
             {
                 preservedKeys: ["_id"]
             }

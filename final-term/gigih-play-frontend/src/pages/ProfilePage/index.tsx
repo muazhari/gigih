@@ -1,5 +1,5 @@
 import "./index.scss"
-import {Button, FormControl, Heading, Input} from "@chakra-ui/react";
+import {AspectRatio, Button, FormControl, Heading, Image, Input, Text} from "@chakra-ui/react";
 import {useDispatch, useSelector} from "react-redux";
 import authenticationSlice, {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
 import {RootState} from "../../slices/Store.ts";
@@ -84,6 +84,14 @@ export default function ProfilePage() {
             <Heading className="page-name">
                 Profile
             </Heading>
+            <AspectRatio
+                className="picture"
+            >
+                <Image
+                    src={profileFormik.values.pictureUrl}
+                    fallback={<Text>Loading...</Text>}
+                />
+            </AspectRatio>
             <form onSubmit={profileFormik.handleSubmit}>
                 <FormControl>
                     <Input

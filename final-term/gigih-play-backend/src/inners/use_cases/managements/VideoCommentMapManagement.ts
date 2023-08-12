@@ -50,14 +50,14 @@ export default class VideoCommentMapManagement {
 
   patchOneById = async (id: string, item: any): Promise<Result<VideoCommentMap>> => {
     const patchedVideoCommentMap: VideoCommentMap = await this.videoCommentMapRepository.patchOneById(id, item)
-    return new Result<VideoCommentMap >(
+    return new Result<VideoCommentMap>(
       200,
       'VideoCommentMap patch one by id succeed.',
       patchedVideoCommentMap
     )
   }
 
-  deleteOneById = async (id: string): Promise<Result<VideoCommentMap >> => {
+  deleteOneById = async (id: string): Promise<Result<VideoCommentMap>> => {
     const deletedVideoCommentMap: VideoCommentMap = await this.videoCommentMapRepository.deleteOneById(id)
     return new Result<VideoCommentMap>(
       200,

@@ -43,7 +43,10 @@ class UserRepository {
             return foundUser;
         });
         this.readOneByUsernameAndPassword = (username, password) => __awaiter(this, void 0, void 0, function* () {
-            const foundUser = yield UserSchema_1.default.findOne({ username, password });
+            const foundUser = yield UserSchema_1.default.findOne({
+                username,
+                password
+            });
             if (foundUser === null) {
                 throw new Error('Found user is null.');
             }

@@ -40,43 +40,65 @@ export default class RootRoute {
 
     const userRepository: UserRepository = new UserRepository(this.datastoreOne)
     const userManagement: UserManagement = new UserManagement(userRepository)
-    const userControllerRest: UserControllerRest = new UserControllerRest(Router(), userManagement)
+    const userControllerRest: UserControllerRest = new UserControllerRest(
+      Router(),
+      userManagement
+    )
     userControllerRest.registerRoutes()
     routerVersionOne.use('/users', userControllerRest.router)
 
     const videoRepository: VideoRepository = new VideoRepository(this.datastoreOne)
     const videoManagement: VideoManagement = new VideoManagement(videoRepository)
-    const videoControllerRest: VideoControllerRest = new VideoControllerRest(Router(), videoManagement)
+    const videoControllerRest: VideoControllerRest = new VideoControllerRest(
+      Router(),
+      videoManagement
+    )
     videoControllerRest.registerRoutes()
     routerVersionOne.use('/videos', videoControllerRest.router)
 
     const commentRepository: CommentRepository = new CommentRepository(this.datastoreOne)
     const commentManagement: CommentManagement = new CommentManagement(commentRepository, userRepository)
-    const commentControllerRest: CommentControllerRest = new CommentControllerRest(Router(), commentManagement)
+    const commentControllerRest: CommentControllerRest = new CommentControllerRest(
+      Router(),
+      commentManagement
+    )
     commentControllerRest.registerRoutes()
     routerVersionOne.use('/comments', commentControllerRest.router)
 
     const productRepository: ProductRepository = new ProductRepository(this.datastoreOne)
     const productManagement: ProductManagement = new ProductManagement(productRepository)
-    const productControllerRest: ProductControllerRest = new ProductControllerRest(Router(), productManagement)
+    const productControllerRest: ProductControllerRest = new ProductControllerRest(
+      Router(),
+      productManagement
+    )
     productControllerRest.registerRoutes()
     routerVersionOne.use('/products', productControllerRest.router)
 
     const videoCommentMapRepository: VideoCommentMapRepository = new VideoCommentMapRepository(this.datastoreOne)
     const videoCommentMapManagement: VideoCommentMapManagement = new VideoCommentMapManagement(videoCommentMapRepository)
-    const videoCommentMapControllerRest: VideoCommentMapController = new VideoCommentMapController(Router(), videoCommentMapManagement)
+    const videoCommentMapControllerRest: VideoCommentMapController = new VideoCommentMapController(
+      Router(),
+      videoCommentMapManagement
+    )
     videoCommentMapControllerRest.registerRoutes()
     routerVersionOne.use('/video-comment-maps', videoCommentMapControllerRest.router)
 
     const videoProductMapRepository: VideoProductMapRepository = new VideoProductMapRepository(this.datastoreOne)
     const videoProductMapManagement: VideoProductMapManagement = new VideoProductMapManagement(videoProductMapRepository)
-    const videoProductMapControllerRest: VideoProductMapControllerRest = new VideoProductMapControllerRest(Router(), videoProductMapManagement)
+    const videoProductMapControllerRest: VideoProductMapControllerRest = new VideoProductMapControllerRest(
+      Router(),
+      videoProductMapManagement
+    )
     videoProductMapControllerRest.registerRoutes()
     routerVersionOne.use('/video-product-maps', videoProductMapControllerRest.router)
 
     const loginAuthentication: LoginAuthentication = new LoginAuthentication(userManagement)
     const registerAuthentication: RegisterAuthentication = new RegisterAuthentication(userManagement)
-    const authenticationControllerRest: AuthenticationControllerRest = new AuthenticationControllerRest(Router(), loginAuthentication, registerAuthentication)
+    const authenticationControllerRest: AuthenticationControllerRest = new AuthenticationControllerRest(
+      Router(),
+      loginAuthentication,
+      registerAuthentication
+    )
     authenticationControllerRest.registerRoutes()
     routerVersionOne.use('/authentications', authenticationControllerRest.router)
 
@@ -86,9 +108,16 @@ export default class RootRoute {
   registerSockets = async (): Promise<void> => {
     const userRepository: UserRepository = new UserRepository(this.datastoreOne)
     const commentRepository: CommentRepository = new CommentRepository(this.datastoreOne)
+    const videoCommentMapRepository: VideoCommentMapRepository = new VideoCommentMapRepository(this.datastoreOne)
     const userManagement: UserManagement = new UserManagement(userRepository)
     const commentManagement: CommentManagement = new CommentManagement(commentRepository, userRepository)
-    const roomControllerWebSocket: RoomControllerWebSocket = new RoomControllerWebSocket(this.io, commentManagement, userManagement)
+    const videoCommentMapManagement: VideoCommentMapManagement = new VideoCommentMapManagement(videoCommentMapRepository)
+    const roomControllerWebSocket: RoomControllerWebSocket = new RoomControllerWebSocket(
+      this.io,
+      commentManagement,
+      userManagement,
+      videoCommentMapManagement
+    )
     roomControllerWebSocket.registerSockets()
   }
 }

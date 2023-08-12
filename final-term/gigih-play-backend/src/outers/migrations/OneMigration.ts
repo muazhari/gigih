@@ -15,10 +15,7 @@ import VideoProductMap from '../../inners/models/entities/VideoProductMap'
 import _ from 'underscore'
 import type Video from '../../inners/models/entities/Video'
 import type Product from '../../inners/models/entities/Product'
-import VideoCommentMap from '../../inners/models/entities/VideoCommentMap'
-import type Comment from '../../inners/models/entities/Comment'
 import User from '../../inners/models/entities/User'
-import { randomUUID } from 'crypto'
 import { Types } from 'mongoose'
 
 export default class OneMigration {

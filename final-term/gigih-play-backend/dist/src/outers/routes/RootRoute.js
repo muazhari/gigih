@@ -79,9 +79,11 @@ class RootRoute {
         this.registerSockets = () => __awaiter(this, void 0, void 0, function* () {
             const userRepository = new UserRepository_1.default(this.datastoreOne);
             const commentRepository = new CommentRepository_1.default(this.datastoreOne);
+            const videoCommentMapRepository = new VideoCommentMapRepository_1.default(this.datastoreOne);
             const userManagement = new UserManagement_1.default(userRepository);
             const commentManagement = new CommentManagement_1.default(commentRepository, userRepository);
-            const roomControllerWebSocket = new RoomControllerWebSocket_1.default(this.io, commentManagement, userManagement);
+            const videoCommentMapManagement = new VideoCommentMapManagement_1.default(videoCommentMapRepository);
+            const roomControllerWebSocket = new RoomControllerWebSocket_1.default(this.io, commentManagement, userManagement, videoCommentMapManagement);
             roomControllerWebSocket.registerSockets();
         });
         this.app = app;

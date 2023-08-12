@@ -5,8 +5,9 @@ services:
       - "${APP_PORT}:3000"
     volumes:
       - .:/app
+      - /app/node_modules
     command:
-      - "yarn dev"
+      - "yarn start"
   ds-1:
     image: mongo:latest
     ports:

@@ -15,8 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Result_1 = __importDefault(require("../../../inners/models/value_objects/Result"));
 const CommentAggregate_1 = __importDefault(require("../../../inners/models/aggregates/CommentAggregate"));
 const Comment_1 = __importDefault(require("../../../inners/models/entities/Comment"));
+const VideoCommentMap_1 = __importDefault(require("../../../inners/models/entities/VideoCommentMap"));
 class RoomControllerWebSocket {
-    constructor(io, commentManagement, userManagement) {
+    constructor(io, commentManagement, userManagement, videoCommentMapManagement) {
         this.registerSockets = () => {
             this.io.on('connection', (socket) => {
                 socket.on('joinRoom', this.joinRoom(socket));
@@ -46,12 +47,17 @@ class RoomControllerWebSocket {
             }
             const foundUser = yield this.userManagement.readOneByUsername(submitCommentRequest.username);
             const createdComment = yield this.commentManagement.createOne(new Comment_1.default(foundUser.data._id, submitCommentRequest.content, new Date()));
+            if (createdComment.data === undefined) {
+                throw new Error('CreatedComment is undefined');
+            }
+            yield this.videoCommentMapManagement.createOne(new VideoCommentMap_1.default(submitCommentRequest.videoId, createdComment.data._id));
             const result = new Result_1.default(201, 'SubmittedComment succeed.', new CommentAggregate_1.default(foundUser.data, createdComment.data.content, createdComment.data.timestamp, createdComment.data._id));
             socket.to(submitCommentRequest.videoId).emit('submittedComment', result);
         });
         this.io = io;
         this.commentManagement = commentManagement;
         this.userManagement = userManagement;
+        this.videoCommentMapManagement = videoCommentMapManagement;
     }
 }
 exports.default = RoomControllerWebSocket;

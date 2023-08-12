@@ -28,9 +28,9 @@ export default class ProductManagement {
     )
   }
 
-  readOneById = async (id: string): Promise<Result<Product >> => {
+  readOneById = async (id: string): Promise<Result<Product>> => {
     const foundProduct: Product = await this.productRepository.readOneById(id)
-    return new Result<Product >(
+    return new Result<Product>(
       200,
       'Product read one by id succeed.',
       foundProduct
@@ -48,14 +48,14 @@ export default class ProductManagement {
 
   patchOneById = async (id: string, item: any): Promise<Result<Product>> => {
     const patchedProduct: Product = await this.productRepository.patchOneById(id, item)
-    return new Result<Product >(
+    return new Result<Product>(
       200,
       'Product patch one by id succeed.',
       patchedProduct
     )
   }
 
-  deleteOneById = async (id: string): Promise<Result<Product >> => {
+  deleteOneById = async (id: string): Promise<Result<Product>> => {
     const deletedProduct: Product = await this.productRepository.deleteOneById(id)
     return new Result<Product>(
       200,

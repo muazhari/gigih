@@ -21,7 +21,7 @@ export default createSlice({
             state.isLoggedIn = false;
             state.user = action.payload.user;
         },
-        logout: (state) =>{
+        logout: (state) => {
             console.log("logout", state)
         },
     },

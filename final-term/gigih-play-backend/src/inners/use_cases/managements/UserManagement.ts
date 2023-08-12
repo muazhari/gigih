@@ -18,18 +18,18 @@ export default class UserManagement {
     )
   }
 
-  readOneById = async (id: string): Promise<Result<User >> => {
+  readOneById = async (id: string): Promise<Result<User>> => {
     const foundUser: User = await this.userRepository.readOneById(id)
-    return new Result<User >(
+    return new Result<User>(
       200,
       'User read one by id succeed.',
       foundUser
     )
   }
 
-  readOneByUsername = async (username: string): Promise<Result<User >> => {
+  readOneByUsername = async (username: string): Promise<Result<User>> => {
     const foundUser: User = await this.userRepository.readOneByUsername(username)
-    return new Result<User >(
+    return new Result<User>(
       200,
       'User read one by username succeed.',
       foundUser
@@ -56,7 +56,7 @@ export default class UserManagement {
 
   patchOneById = async (id: string, item: any): Promise<Result<User>> => {
     const patchedUser: User = await this.userRepository.patchOneById(id, item)
-    return new Result<User >(
+    return new Result<User>(
       200,
       'User patch one by id succeed.',
       patchedUser

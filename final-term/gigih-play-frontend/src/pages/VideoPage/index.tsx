@@ -4,7 +4,7 @@ import {RootState} from "../../slices/Store.ts";
 import domainSlice, {DomainState} from "../../slices/DomainSlice.ts";
 import "./index.scss"
 import {Button, Card, CardBody, CardHeader, FormControl, Heading, Input, Text} from "@chakra-ui/react";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 import VideoService from "../../services/VideoService.ts";
 import messageSlice from "../../slices/MessageSlice.ts";
 import {useParams} from "react-router-dom";
@@ -17,6 +17,7 @@ import Result from "../../models/value_objects/Result.ts";
 import SubmitCommentRequest from "../../models/value_objects/requests/comments/SubmitCommentRequest.ts";
 import {useFormik} from "formik";
 import CommentAggregate from "../../models/aggregates/CommentAggregate.ts";
+import Product from "../../models/entities/Product.ts";
 
 export default function VideoPage() {
     const dispatch = useDispatch()
@@ -47,7 +48,15 @@ export default function VideoPage() {
             ) => {
                 dispatch(domainSlice.actions.setVideoDomain({
                     video: video.data,
-                    videoProductMaps: videoProductMaps.data,
+                }))
+                const newProducts = videoProductMaps.data.map((videoProductMap) => {
+                    return (videoProductMap as VideoProductMapAggregate).product!
+                })
+                dispatch(domainSlice.actions.setProductDomain({
+                    products: newProducts
+                }))
+                dispatch(domainSlice.actions.setSearchDomain({
+                    products: newProducts
                 }))
             })
             .catch((error) => {
@@ -59,38 +68,24 @@ export default function VideoPage() {
             })
     }, [])
 
-    const handleClickProduct = (videoProductMap: VideoProductMapAggregate) => {
-        window.open(videoProductMap.product!.linkUrl!, "_blank")
+    const handleClickProduct = (product: Product) => {
+        window.open(product.linkUrl!, "_blank")
     }
 
     const oneSocket = new OneSocket()
-    const socket = useSocket(
+    useSocket(
         oneSocket.instance,
         (socket) => {
+            socket.connect()
             socket.on("joinedRoom", (result: Result<CommentAggregate[]>) => {
                 dispatch(domainSlice.actions.setCommentDomain({
-                    comments: result.data.sort((a, b) => {
-                        return new Date(a.timestamp!).getTime() - new Date(b.timestamp!).getTime()
-                    })
+                    comments: result.data
                 }))
             })
             socket.emit("joinRoom", new JoinRoomRequest(
                 params.id!,
                 true
             ))
-
-            socket.on("submittedComment", (result: Result<CommentAggregate>) => {
-                dispatch(domainSlice.actions.setCommentDomain({
-                    comments: [
-                        ...domainState.commentDomain!.comments!,
-                        result.data
-                    ].sort((a, b) => {
-                        return new Date(a.timestamp!).getTime() - new Date(b.timestamp!).getTime()
-                    })
-                }))
-            })
-        },
-        (socket) => {
             socket.on("leftRoom", (result: Result<string>) => {
                 if (result.data === params.id!) {
                     dispatch(domainSlice.actions.setCommentDomain({
@@ -98,9 +93,16 @@ export default function VideoPage() {
                     }))
                 }
             })
+            socket.on("submittedComment", (result: Result<CommentAggregate>) => {
+                dispatch(domainSlice.actions.commentDomainAddComment(result.data))
+            })
+        },
+        (socket) => {
             socket.emit("leaveRoom", params.id!)
-        }
-    )
+            socket.off("joinedRoom")
+            socket.off("submittedComment")
+            socket.disconnect()
+        })
 
     const commentFormik = useFormik({
         initialValues: new SubmitCommentRequest(
@@ -109,7 +111,27 @@ export default function VideoPage() {
             undefined
         ),
         onSubmit: (values) => {
-            socket.emit("submitComment", values)
+            oneSocket.instance.emit("submitComment", values)
+        }
+    })
+
+    const commentListBottomRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        commentListBottomRef.current?.scrollIntoView({behavior: "smooth"})
+    }, [domainState.commentDomain!.comments])
+
+    const searchFormik = useFormik({
+        initialValues: {
+            searchValue: "",
+        },
+        enableReinitialize: true,
+        onSubmit: (values) => {
+            dispatch(domainSlice.actions.setSearchDomain({
+                products: domainState.productDomain!.products!.filter((product) => {
+                    return JSON.stringify(product).toLowerCase().includes(values.searchValue.toLowerCase())
+                }),
+            }))
         }
     })
 
@@ -123,24 +145,33 @@ export default function VideoPage() {
             </Heading>
             <div className="content">
                 <div className="products">
+                    <form className="search" onSubmit={searchFormik.handleSubmit}>
+                        <Input
+                            placeholder="Search"
+                            name="searchValue"
+                            onChange={searchFormik.handleChange}
+                            onBlur={searchFormik.handleBlur}
+                            onKeyUp={() => searchFormik.submitForm()}
+                        />
+                    </form>
                     <div className="list">
                         {
-                            domainState.videoDomain!.videoProductMaps!.length > 0 ?
-                                domainState.videoDomain!.videoProductMaps!.map((videoProductMap) => {
+                            domainState.searchDomain!.products!.length > 0 ?
+                                domainState.searchDomain!.products!.map((product) => {
                                     return (
                                         <Card
-                                            key={videoProductMap._id}
+                                            key={product._id}
                                             className="product"
-                                            onClick={() => handleClickProduct(videoProductMap)}
+                                            onClick={() => handleClickProduct(product)}
                                         >
                                             <CardHeader className="header">
                                                 <Heading as="h4" size="md">
-                                                    {videoProductMap.product!.title}
+                                                    {product.title}
                                                 </Heading>
                                             </CardHeader>
                                             <CardBody className="body">
                                                 <Text>
-                                                    Rp. {videoProductMap.product!.price}
+                                                    Rp. {product.price}
                                                 </Text>
                                             </CardBody>
                                         </Card>
@@ -163,31 +194,37 @@ export default function VideoPage() {
                     <div className="list">
                         {
                             domainState.commentDomain!.comments!.length > 0 ?
-                                domainState.commentDomain!.comments!.map((comment) => {
-                                    return (
-                                        <Card
-                                            key={comment._id}
-                                            className="comment"
-                                        >
-                                            <CardBody className="body">
-                                                <Text className="username">
-                                                    {comment.user!.username}
-                                                </Text>
-                                                <Text className="content">
-                                                    {comment.content}
-                                                </Text>
-                                                <Text className="timestamp">
-                                                    {new Date(comment.timestamp!).toLocaleString()}
-                                                </Text>
-                                            </CardBody>
-                                        </Card>
-                                    )
-                                })
+                                domainState.commentDomain!.comments!
+                                    .slice()
+                                    .sort((a, b) => {
+                                        return new Date(a.timestamp!).getTime() - new Date(b.timestamp!).getTime()
+                                    })
+                                    .map((comment) => {
+                                        return (
+                                            <Card
+                                                key={comment._id}
+                                                className="comment"
+                                            >
+                                                <CardBody className="body">
+                                                    <Text className="username">
+                                                        {comment.user!.username}
+                                                    </Text>
+                                                    <Text className="content">
+                                                        {comment.content}
+                                                    </Text>
+                                                    <Text className="timestamp">
+                                                        {new Date(comment.timestamp!).toLocaleString()}
+                                                    </Text>
+                                                </CardBody>
+                                            </Card>
+                                        )
+                                    })
                                 :
                                 <Heading as="h4" size="md">
                                     No comments
                                 </Heading>
                         }
+                        <div ref={commentListBottomRef} className="bottom"/>
                     </div>
                     <div className="submission">
                         <form onSubmit={commentFormik.handleSubmit}>

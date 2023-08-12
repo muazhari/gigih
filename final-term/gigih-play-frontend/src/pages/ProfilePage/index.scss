@@ -4,15 +4,42 @@
   align-items: center;
 }
 
+.page.profile .page-name {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 3% 0;
+}
+
+.page.profile .picture {
+  display: flex;
+  flex: 1 1 0;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  height: auto;
+  margin: 0 0 3% 0;
+  padding: 0;
+}
+
+.page.profile .picture img, .page.profile .picture div {
+  width: 100%;
+  height: auto;
+}
+
 .page.profile form {
   display: flex;
   flex: 1 1 auto;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  width: 200%;
+  width: 45%;
+  margin: 0 0 3% 0;
 }
 
 .page.profile form div {
-  margin: 0 0 10% 0;
+  margin: 0 0 3% 0;
 }

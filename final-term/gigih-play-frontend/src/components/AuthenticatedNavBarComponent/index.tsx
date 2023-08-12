@@ -1,8 +1,7 @@
 import {Button,} from '@chakra-ui/react'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../slices/Store.ts";
-import {MessageState} from "../../slices/MessageSlice.ts";
-import React, {useEffect} from "react";
+import React from "react";
 import authenticationSlice, {AuthenticationState} from "../../slices/AuthenticationSlice.ts";
 import {useNavigate} from "react-router-dom";
 import "./index.scss"

@@ -41,8 +41,8 @@ export default class AuthenticationControllerRest {
           response.status(500).json(
             new Result<null>(
               500,
-                    `Login by method ${method} failed: ${error.message}`,
-                    null
+                            `Login by method ${method} failed: ${error.message}`,
+                            null
             )
           )
         })
@@ -69,8 +69,8 @@ export default class AuthenticationControllerRest {
           response.status(500).json(
             new Result<null>(
               500,
-                    `Register by method ${method} failed: ${error.message}`,
-                    null
+                            `Register by method ${method} failed: ${error.message}`,
+                            null
             )
           )
         })
@@ -78,8 +78,8 @@ export default class AuthenticationControllerRest {
       response.status(400).json(
         new Result<null>(
           400,
-                `Register by method ${method as string} failed, unknown method.`,
-                null
+                    `Register by method ${method as string} failed, unknown method.`,
+                    null
         )
       )
     }

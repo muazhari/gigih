@@ -20,7 +20,7 @@ export default class VideoManagement {
 
   readOneById = async (id: string): Promise<Result<Video>> => {
     const foundVideo: Video = await this.videoRepository.readOneById(id)
-    return new Result<Video >(
+    return new Result<Video>(
       200,
       'Video read one by id succeed.',
       foundVideo
@@ -36,16 +36,16 @@ export default class VideoManagement {
     )
   }
 
-  patchOneById = async (id: string, item: any): Promise<Result<Video >> => {
+  patchOneById = async (id: string, item: any): Promise<Result<Video>> => {
     const patchedVideo: Video = await this.videoRepository.patchOneById(id, item)
-    return new Result<Video >(
+    return new Result<Video>(
       200,
       'Video patch one by id succeed.',
       patchedVideo
     )
   }
 
-  deleteOneById = async (id: string): Promise<Result<Video >> => {
+  deleteOneById = async (id: string): Promise<Result<Video>> => {
     const deletedVideo: Video = await this.videoRepository.deleteOneById(id)
     return new Result<Video>(
       200,
