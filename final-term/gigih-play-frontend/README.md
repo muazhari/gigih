@@ -1,5 +1,8 @@
 # gigih-play-frontend
 
+## Test User
+- Username: `admin`
+- Password: `admin`
 
 ## How to Run the App
 ### Prerequisites
