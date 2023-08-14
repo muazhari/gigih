@@ -1,5 +1,8 @@
 # gigih-play-backend
 
+## Description
+Tokopedia Play Clone App.
+
 ## Database Structure
 I'm using MongoDB for the DBMS. I'm implementing the database schema with BCNF/3.5 normal form technique for storage efficiency and source code easy compatibility.  
 ![img.png](assets/erd.png)
@@ -228,4 +231,4 @@ I'm using Clean Architecture for the folder structure. The Folder structure is d
 ## Notes
 1. Typescript transpile needs time, so wait for a few seconds/minutes after running the App.
 2. You can observe the test coverage in this [link](https://muazhari.github.io/gigih-play-backend/coverage/index.html).
-3. I already implemented the minimum and bonus requirements.
+3. I already implemented the minimum (video, product, & comment) and bonus (profile, realtime comment, & search) requirements.

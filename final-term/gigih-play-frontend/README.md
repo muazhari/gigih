@@ -1,5 +1,21 @@
 # gigih-play-frontend
 
+## Description
+Tokopedia Play Clone App.
+
+## Features
+- Login.
+- Register.
+- Logout.
+- Profile.
+- Video list.
+- Video search.
+- Video detail.
+- Video detail - product list.
+- Video detail - product search.
+- Video detail - comment list.
+- Video detail - comment submission.
+
 ## Test User
 - Username: `admin`
 - Password: `admin`
@@ -34,4 +50,4 @@
 
 ## Notes
 1. Typescript transpile needs time, so wait for a few seconds/minutes after running the App.
-2. I already implemented the minimum and bonus requirements.
+2. I already implemented the minimum (video, product, & comment) and bonus (profile, realtime comment, & search) requirements.
